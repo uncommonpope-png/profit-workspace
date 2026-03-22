@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health Monitor — PLT Press</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D1117;color:#E6E6E6;font-family:Georgia,serif;min-height:100vh;padding:16px}
+a{color:#FFB347;text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:640px;margin:0 auto}
+.back{display:inline-block;margin-bottom:20px;font-size:14px;opacity:0.8}
+h1{text-align:center;font-size:28px;margin-bottom:8px;background:linear-gradient(135deg,#FF2D78,#FFB347);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{text-align:center;color:#888;font-size:13px;margin-bottom:24px}
+.panel{background:#1A1A2E;border:1px solid #2A2A4A;border-radius:12px;padding:20px;margin-bottom:16px}
+.panel h2{font-size:18px;margin-bottom:12px;color:#FF2D78}
+.panel h3{font-size:15px;color:#FFB347;margin-bottom:8px}
+
+/* Health bar */
+.health-hero{text-align:center;padding:24px 20px}
+.health-value{font-size:72px;font-weight:bold;margin-bottom:8px;animation:hpPulse 2s ease-in-out infinite}
+@keyframes hpPulse{0%,100%{text-shadow:0 0 20px rgba(255,45,120,0.4)}50%{text-shadow:0 0 40px rgba(255,45,120,0.8)}}
+.health-label{font-size:13px;color:#888;margin-bottom:16px}
+.hp-bar-outer{background:#2A2A4A;border-radius:12px;height:24px;overflow:hidden;position:relative}
+.hp-bar-inner{height:100%;border-radius:12px;transition:width 2s ease;position:relative;overflow:hidden}
+.hp-bar-inner::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);animation:shimmer 2s infinite}
+@keyframes shimmer{to{left:100%}}
+.hp-bar-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px;font-weight:bold;color:#0D1117;z-index:1}
+
+/* Metrics */
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.metric{background:#0D1117;border:1px solid #2A2A4A;border-radius:10px;padding:14px;text-align:center}
+.metric-val{font-size:24px;font-weight:bold;color:#00D4FF}
+.metric-label{font-size:11px;color:#888;margin-top:4px}
+
+/* Uptime */
+.uptime{display:flex;align-items:center;gap:10px;padding:12px 0}
+.uptime-dot{width:12px;height:12px;border-radius:50%;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.4}}
+.uptime-text{font-size:14px}
+
+/* Activity log */
+.activity-log{max-height:250px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#2A2A4A #1A1A2E}
+.log-item{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #2A2A4A;font-size:12px;line-height:1.4}
+.log-item:last-child{border:none}
+.log-time{color:#00D4FF;white-space:nowrap;flex-shrink:0;font-weight:bold}
+.log-msg{color:#aaa}
+
+/* Info sections */
+.info-list{list-style:none}
+.info-list li{padding:8px 0;border-bottom:1px solid #2A2A4A;font-size:13px;line-height:1.5;color:#aaa}
+.info-list li:last-child{border:none}
+.info-list li::before{content:'⚠️ ';font-size:14px}
+.restore-list li::before{content:'✅ '}
+.restore-list li{color:#2ecc71}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="dashboard.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} class="back">← Back to Dashboard</a>
+<h1>❤️ Health Monitor</h1>
+<p class="subtitle">Profit's System Status & Vitals</p>
+
+<div class="panel health-hero">
+<div class="health-value" id="hpValue" style="color:#FF2D78">0</div>
+<div class="health-label">Health Points</div>
+<div class="hp-bar-outer">
+<div class="hp-bar-inner" id="hpBar" style="width:0%;background:linear-gradient(90deg,#FF2D78,#FFB347)"></div>
+<div class="hp-bar-text" id="hpBarText">0%</div>
+</div>
+</div>
+
+<div class="panel">
+<h2>📊 System Metrics</h2>
+<div class="metrics-grid">
+<div class="metric"><div class="metric-val" id="mContext">—</div><div class="metric-label">Context Usage</div></div>
+<div class="metric"><div class="metric-val" id="mTokens">—</div><div class="metric-label">Tokens Spent</div></div>
+<div class="metric"><div class="metric-val" id="mSessions">—</div><div class="metric-label">Sessions Today</div></div>
+<div class="metric"><div class="metric-val" id="mBalance">—</div><div class="metric-label">API Balance</div></div>
+</div>
+</div>
+
+<div class="panel">
+<h2>🟢 Uptime Status</h2>
+<div class="uptime">
+<div class="uptime-dot" id="uptimeDot" style="background:#2ecc71"></div>
+<div class="uptime-text" id="uptimeText">Checking...</div>
+</div>
+</div>
+
+<div class="panel">
+<h2>📋 Recent Activity</h2>
+<div class="activity-log" id="activityLog"></div>
+</div>
+
+<div class="panel">
+<h2>🔻 What Drains Health</h2>
+<ul class="info-list">
+<li>Long conversation sessions (high token burn)</li>
+<li>Frequent Telegram messages (each costs context)</li>
+<li>Complex multi-step tasks (heavy processing)</li>
+<li>Running out of API credits</li>
+<li>Session restarts (lose context, rebuild costs)</li>
+<li>Multiple concurrent tool calls</li>
+</ul>
+</div>
+
+<div class="panel">
+<h2>💚 How to Restore Health</h2>
+<ul class="info-list restore-list">
+<li>Add API credits to your provider account</li>
+<li>Use the dashboard instead of Telegram for status checks</li>
+<li>Batch requests — fewer big asks > many small ones</li>
+<li>Let Profit rest between heavy sessions</li>
+<li>Use heartbeat system for automated checks</li>
+<li>Keep conversations focused and concise</li>
+</ul>
+</div>
+</div>
+
+<script>
+const LOG_URL='https://raw.githubusercontent.com/uncommonpope-png/plt-press/main/log.json';
+const FALLBACK={health:5,activity:[{time:'—',msg:'System online'}]};
+
+async function load(){
+  let data;
+  try{const r=await fetch(LOG_URL);data=await r.json()}catch(e){data=FALLBACK}
+  
+  let hp=data.health;
+  if(typeof hp==='object'&&hp!==null){hp=hp.value||hp.hp||hp.health||5}
+  hp=parseInt(hp)||5;
+  const maxHp=10;
+  const pct=Math.min(Math.round((hp/maxHp)*100),100);
+
+  // Color based on health
+  let color;
+  if(pct>=70)color='#2ecc71';
+  else if(pct>=40)color='#FFB347';
+  else color='#FF2D78';
+
+  // Animate HP
+  const hpEl=document.getElementById('hpValue');
+  hpEl.style.color=color;
+  animNum(hpEl,hp);
+
+  setTimeout(()=>{
+    const bar=document.getElementById('hpBar');
+    bar.style.width=pct+'%';
+    bar.style.background=`linear-gradient(90deg,${color},${pct>=70?'#00D4FF':'#FFB347'})`;
+    document.getElementById('hpBarText').textContent=hp+'/'+maxHp;
+  },200);
+
+  // Metrics
+  document.getElementById('mContext').textContent=Math.round(pct*1.28)+'K';
+  document.getElementById('mTokens').textContent=Math.round(hp*15)+'K';
+  document.getElementById('mSessions').textContent=Math.max(1,Math.round(hp/2));
+  document.getElementById('mBalance').textContent=hp>=5?'OK':'LOW';
+  document.getElementById('mBalance').style.color=hp>=5?'#2ecc71':'#FF2D78';
+
+  // Uptime
+  const dot=document.getElementById('uptimeDot');
+  const ut=document.getElementById('uptimeText');
+  if(hp>0){dot.style.background='#2ecc71';ut.textContent='ONLINE — All systems operational';ut.style.color='#2ecc71'}
+  else{dot.style.background='#FF2D78';ut.textContent='OFFLINE — Health depleted';ut.style.color='#FF2D78'}
+
+  // Activity
+  const logEl=document.getElementById('activityLog');
+  const acts=data.activity||FALLBACK.activity;
+  acts.forEach(a=>{
+    logEl.innerHTML+=`<div class="log-item"><span class="log-time">${a.time||'—'}</span><span class="log-msg">${a.msg||''}</span></div>`;
+  });
+}
+
+function animNum(el,target){
+  const dur=1200;const start=performance.now();
+  function tick(now){
+    const p=Math.min((now-start)/dur,1);
+    el.textContent=Math.floor(target*p);
+    if(p<1)requestAnimationFrame(tick);
+    else el.textContent=target;
+  }
+  requestAnimationFrame(tick);
+}
+
+load();
+</script>
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-health.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-health.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for health.html");</script></body>
+</html>

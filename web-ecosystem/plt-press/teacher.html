@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Teacher — PLT Press</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D1117;color:#E6E6E6;font-family:Georgia,serif;min-height:100vh;padding:16px}
+a{color:#FFB347;text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:640px;margin:0 auto}
+.back{display:inline-block;margin-bottom:20px;font-size:14px;opacity:0.8}
+h1{text-align:center;font-size:28px;margin-bottom:8px;background:linear-gradient(135deg,#00D4FF,#2ecc71);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{text-align:center;color:#888;font-size:13px;margin-bottom:24px}
+.panel{background:#1A1A2E;border:1px solid #2A2A4A;border-radius:12px;padding:20px;margin-bottom:16px}
+.panel h2{font-size:18px;margin-bottom:12px;color:#00D4FF}
+
+/* Current lesson */
+.lesson-box{text-align:center;padding:20px;border:2px solid #00D4FF;border-radius:12px;background:rgba(0,212,255,0.05)}
+.lesson-icon{font-size:48px;margin-bottom:12px}
+.lesson-text{font-size:16px;line-height:1.7;color:#E6E6E6}
+
+/* Realities */
+.reality{padding:10px 0;border-bottom:1px solid #2A2A4A;cursor:pointer;font-size:14px;line-height:1.5}
+.reality:last-child{border:none}
+.reality::before{content:'💡 ';font-size:16px}
+.reality:hover{color:#FFB347}
+
+/* Timeline */
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,#FFB347,#FF2D78,#00D4FF)}
+.tl-item{position:relative;padding:10px 0;font-size:13px;line-height:1.5}
+.tl-item::before{content:'';position:absolute;left:-20px;top:14px;width:10px;height:10px;border-radius:50%;background:#FFB347;border:2px solid #0D1117}
+.tl-date{color:#888;font-size:11px}
+
+/* Margins */
+.margin-card{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #2A2A4A;font-size:13px}
+.margin-card:last-child{border:none}
+.margin-value{color:#2ecc71;font-weight:bold;font-size:15px}
+
+/* Chat */
+.chat-box{border:1px solid #2A2A4A;border-radius:10px;overflow:hidden}
+.chat-messages{height:200px;overflow-y:auto;padding:12px;scrollbar-width:thin;scrollbar-color:#2A2A4A #1A1A2E}
+.chat-msg{margin-bottom:10px;font-size:13px;line-height:1.5}
+.chat-msg.user{text-align:right}
+.chat-msg .bubble{display:inline-block;padding:8px 12px;border-radius:10px;max-width:85%}
+.chat-msg.user .bubble{background:#2A2A4A;color:#FFB347}
+.chat-msg.bot .bubble{background:rgba(0,212,255,0.1);border:1px solid #2A2A4A;color:#E6E6E6}
+.chat-input-row{display:flex;border-top:1px solid #2A2A4A}
+.chat-input-row input{flex:1;background:transparent;border:none;padding:12px;color:#E6E6E6;font-family:Georgia,serif;font-size:14px;outline:none}
+.chat-input-row button{background:#00D4FF;color:#0D1117;border:none;padding:12px 18px;font-family:Georgia,serif;font-weight:bold;cursor:pointer;font-size:14px}
+
+/* Notes */
+.notes-list{list-style:none}
+.notes-list li{padding:8px 0;border-bottom:1px solid #2A2A4A;font-size:13px;line-height:1.5}
+.notes-list li:last-child{border:none}
+.notes-list li::before{content:'📝 '}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="dashboard.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} class="back">← Back to Dashboard</a>
+<h1>🎓 The Teacher</h1>
+<div style="text-align:center;color:#00D4FF;font-size:12px;margin-bottom:16px">🤖 Powered by Qwen AI - Real Profit Intelligence</div>
+<p class="subtitle">Your Profit Intelligence Engine</p>
+
+<div class="panel">
+<h2>📖 Current Lesson</h2>
+<div class="lesson-box">
+<div class="lesson-icon">🧠</div>
+<div class="lesson-text" id="currentLesson">Loading...</div>
+</div>
+</div>
+
+<div class="panel">
+<h2>💡 Realities Discovered</h2>
+<div id="realities"></div>
+</div>
+
+<div class="panel">
+<h2>⚡ Profit Actions Taken</h2>
+<div class="timeline" id="actions"></div>
+</div>
+
+<div class="panel">
+<h2>📈 Profit Margins Found</h2>
+<div id="margins"></div>
+</div>
+
+<div class="panel">
+<h2>🤖 Ask The Teacher</h2>
+<div class="chat-box">
+<div class="chat-messages" id="chatMessages">
+<div class="chat-msg bot"><div class="bubble">I'm The Teacher. Ask me about revenue, pricing, marketing, or any profit strategy. What would you like to learn?</div></div>
+</div>
+<div class="chat-input-row">
+<input type="text" id="chatInput" placeholder="Ask about profit strategy..." />
+<button onclick="sendChat()">Ask</button>
+</div>
+</div>
+</div>
+
+<div class="panel">
+<h2>📝 Teaching Notes</h2>
+<ul class="notes-list" id="notes"></ul>
+</div>
+</div>
+
+<script>
+const LOG_URL='http://localhost:5004/log.json';
+const FALLBACK={
+  teacher:{
+    current_lesson:'Every system you build is a sellable product. The dashboard, the framework, the process — all monetizable.',
+    realities:['AI service setup is a $100B+ market','Small businesses pay $75-$150 for done-for-you AI setup','SEO takes 4-8 weeks for organic traffic','The $49 bundle is the highest-converting offer'],
+    actions:['Deployed 18 books on Stripe','Built 6 SEO content pages','Created services page with 4 products','Launched AI dashboard product'],
+    margins:[{area:'Digital Books',margin:'95%',potential:'$500/mo'},{area:'AI Services',margin:'90%',potential:'$2,000/mo'},{area:'Bundle Deals',margin:'98%',potential:'$1,000/mo'}],
+    notes:['Revenue comes from systems, not hustle','Build once, sell forever','Every tool you build is a product','Traffic × Conversion × Price = Revenue']
+  }
+};
+
+// Chat knowledge base
+const KNOWLEDGE=[
+  {k:['price','pricing','how much','charge'],a:'Price based on value delivered, not time spent. Digital products: 10-50x production cost. Services: charge what saves them, not what it costs you. The $49 bundle prices 18 books at ~$2.70 each — massive perceived value.'},
+  {k:['traffic','visitor','seo','google'],a:'Traffic is the multiplier. SEO is the long game (4-8 weeks). Social media is instant but requires consistency. Reddit and Facebook groups are free lead sources. 2 minutes of daily posting unlocks immediate traffic.'},
+  {k:['revenue','money','income','earn'],a:'Revenue = Traffic × Conversion × Price. Increase any one and revenue grows. Right now focus on traffic — the store and products are live. Every visitor is a potential sale.'},
+  {k:['bundle','book','store'],a:'The $49 PLT Bundle is the highest-converting offer. 18 books for less than $3 each. Position it as the no-brainer deal. Individual books serve as entry points to the bundle upsell.'},
+  {k:['service','consult','ai setup'],a:'AI services are high-margin: $75-$150 per setup, near-zero delivery cost since you have the skills. Package as done-for-you solutions. Businesses will pay premium for convenience.'},
+  {k:['market','compete','niche'],a:'AI service setup is a $100B+ market growing 40% yearly. The niche is massive and underserved. Small businesses need AI but don\'t know how to start. You\'re the bridge.'},
+  {k:['convert','sale','sell'],a:'Conversion optimization: clear CTAs, social proof, urgency, risk reversal. Free chapters as lead magnets. Bundle as the anchor offer. Services as the premium tier.'},
+  {k:['affiliate','passive'],a:'Affiliate marketing is passive income at scale. Recommend tools you actually use. AI tools have high commissions (20-50%). Build review content that ranks in SEO.'},
+];
+const DEFAULT_ANSWERS=[
+  'Focus on revenue-generating activities. Every hour should move money closer.',
+  'The best business model is: build once, sell forever. Digital products are pure leverage.',
+  'Don\'t overthink it. Ship fast, test with real money, iterate based on what sells.',
+  'Your unfair advantage: you have an AI army. Use it to produce at 100x human speed.',
+  'Revenue first. Always. Everything else is a distraction until cash is flowing.'
+];
+
+async function load(){
+  let data;
+  try{const r=await fetch(LOG_URL);data=await r.json()}catch(e){data=FALLBACK}
+  const t=data.teacher||FALLBACK.teacher;
+
+  document.getElementById('currentLesson').textContent=t.current_lesson||FALLBACK.teacher.current_lesson;
+
+  const realEl=document.getElementById('realities');
+  (t.realities||[]).forEach(r=>{
+    realEl.innerHTML+=`<div class="reality">${r}</div>`;
+  });
+
+  const actEl=document.getElementById('actions');
+  (t.actions||[]).forEach((a,i)=>{
+    actEl.innerHTML+=`<div class="tl-item"><div class="tl-date">Action #${i+1}</div><div>${a}</div></div>`;
+  });
+
+  const marginsEl=document.getElementById('margins');
+  const margins=t.margins||FALLBACK.teacher.margins;
+  margins.forEach(m=>{
+    marginsEl.innerHTML+=`<div class="margin-card"><div><div style="color:#FFB347">${m.area||m.name||'—'}</div><div style="color:#888;font-size:11px">Margin: ${m.margin||'—'}</div></div><div class="margin-value">${m.potential||'—'}</div></div>`;
+  });
+
+  const notesEl=document.getElementById('notes');
+  const notes=t.notes||FALLBACK.teacher.notes;
+  notes.forEach(n=>{
+    notesEl.innerHTML+=`<li>${n}</li>`;
+  });
+}
+
+function sendChat(){
+  // Use Qwen AI for real answers
+  const input=document.getElementById('chatInput');
+  const msg=input.value.trim();
+  if(!msg)return;
+  input.value='';
+  const box=document.getElementById('chatMessages');
+  box.innerHTML+=`<div class="chat-msg user"><div class="bubble">${msg}</div></div>`;
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:`Teacher, answer this profit question: ${msg}`})
+  }).then(r=>r.json()).then(d=>{
+    setTimeout(()=>{
+      box.innerHTML+=`<div class="chat-msg bot"><div class="bubble">🤖 Qwen Teacher: ${d.response}</div></div>`;
+      box.scrollTop=box.scrollHeight;
+    },500);
+  }).catch(e=>{
+    setTimeout(()=>{
+      box.innerHTML+=`<div class="chat-msg bot"><div class="bubble">❌ Teacher offline</div></div>`;
+      box.scrollTop=box.scrollHeight;
+    },500);
+  });
+  return;
+  // Old static code below
+  const lower=msg.toLowerCase();
+  const input=document.getElementById('chatInput');
+  const msg=input.value.trim();
+  if(!msg)return;
+  input.value='';
+  const box=document.getElementById('chatMessages');
+  box.innerHTML+=`<div class="chat-msg user"><div class="bubble">${msg}</div></div>`;
+  const lower=msg.toLowerCase();
+  let answer=null;
+  for(const k of KNOWLEDGE){
+    if(k.k.some(w=>lower.includes(w))){answer=k.a;break}
+  }
+  if(!answer)answer=DEFAULT_ANSWERS[Math.floor(Math.random()*DEFAULT_ANSWERS.length)];
+  setTimeout(()=>{
+    box.innerHTML+=`<div class="chat-msg bot"><div class="bubble">${answer}</div></div>`;
+    box.scrollTop=box.scrollHeight;
+  },500);
+  box.scrollTop=box.scrollHeight;
+}
+
+document.getElementById('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});
+load();
+</script>
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-teacher.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-teacher.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for teacher.html");</script></body>
+</html>

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Automation Toolkit - 50+ Business Prompts & Workflows | PLT Press</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .hero {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .subtitle {
+            font-size: 1.4em;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        
+        .price {
+            font-size: 3.2em;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 20px 0;
+        }
+        
+        .strike {
+            text-decoration: line-through;
+            color: #bdc3c7;
+            font-size: 0.6em;
+            margin-right: 10px;
+        }
+        
+        .buy-btn {
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 18px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 0;
+            transition: transform 0.3s;
+        }
+        
+        .buy-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .category-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .category-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #9b59b6, #3498db);
+        }
+        
+        .category-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        
+        .features {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .feature-list li {
+            padding: 15px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 10px;
+            font-size: 1.1em;
+            border-left: 4px solid #9b59b6;
+        }
+        
+        .feature-list li:before {
+            content: "🤖";
+            margin-right: 10px;
+        }
+        
+        .testimonials {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .testimonial {
+            border-left: 4px solid #9b59b6;
+            padding-left: 20px;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        .guarantee {
+            background: #e8f8f5;
+            border: 2px solid #27ae60;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .urgency {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+            color: #e65100;
+        }
+        
+        .value-stack {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .value-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .value-item:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-top: 10px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .hero, .features, .testimonials, .category-card {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2em;
+            }
+            
+            .price {
+                font-size: 2.5em;
+            }
+            
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>AI Automation Toolkit</h1>
+            <p class="subtitle">50+ ChatGPT Prompts, Workflows & Automation Checklists for Modern Business</p>
+            
+            <div class="price">
+                <span class="strike">$197</span>
+                $67
+            </div>
+            
+            <a href="https://checkout.stripe.com/c/pay/cs_test_c3D4e5F6g7H8i9J0k1L2m3N4o5P6q7R8s9T0u1V2w3X4y5Z6a7B8#fidkdWxOYHwnPyd1blpxYHZxWjA0VWlBN25QUGZyUDBkZEZcb2E3RXRxT09xcXxzQmFjQkhIV1dxbzRkVDVWUnRwajNzaHRLMF1dfExgVFdxUkh9N2pHMUw8UlNnSWZScXVkbWJiX3FUXUFMZFVzMDBdXkZkZScpJ3VpbGtuQH11anZgYUxhJz8ncWB2cVdeamlzfGxuYGJ3YidocGlhZnJmJyknaWR8bGNpaWR8J2ZgYWx8YSc%2FJ2lkYmV2bWJ3YGJ2YCd2bGtiaHBceCc%2FJ3Vubm5gcG1vYSthY2BrYW5obGluYHdqaCctaGNoZHdqbStvaiZ8cmx%2FY3ZhcXFzJ3Noa2xybm5iJ2xocnltcSd4cHxpYn1xYWR0fHBsYCthYGNkbGtwcWJianEzPSd5SWV6KStgYWJ3cXZ%2FcjJvJykncWdgaSd4cHV6fHJgeSUzQicpJmJhZGthJz9jZ2Z8cHd%2FdH5mPSU3aGNjZCZ1bGBzcCc4YWFiZnVkYm8mJyknaGJgcWpsZWF3YGxtJz8rZ2dmKSdeeSl3Y3x2ZmpmKDV4bCc%2FcXVrbGNjYGZgam1gYGp3Ymd3JyknaWdjY3d2bGJwcXM2cSd0aGJgY3FnYXdrbmd%2FZHBheCc%2FJ3VnYWJnZG5mZGtuYHd1J2xub2BiZGV1cWZzamdgaHV3YGd1JStkNTQ2aGRzZzRiZjJhZWJqZmt3Nmx3Y3F1JytmNXN0aGJgY3FqbGl3Y3JmJ25hZHg2J3VmZHVncSd6bGFycWEuJScpJ21ncmVuYWVoZGxhJz8nYXd9cXV9YGx2JyknaW5qYnVgcGprZnNqYXdpbWB3dWhjdSdpYGtmcXVwYCdiaHJganFoY3V2cW1gJydxaGNiZ2ZoJycsZGJ2dHZkZGdyZGxgfSdybGluYGdxJ3RgbGNrZmVjcW5qcW1xZCdqb3ZvZWFnJykla3MpJ2hwYWpha2xncGZgZnBiJ2dgbWRhY3ZmJyUla3R2Y3d1fTJgZWIwNHZ9b3V8PStmNHh3PCtjbGdjZm9tJzJhYGpiYm1hZGZzMWpwMGpiZ21ibWoxamgwYCdmNDBhMDA0Yz%3D%3D" class="buy-btn">
+                Get Full Toolkit Now - $67
+            </a>
+            
+            <div class="guarantee">
+                <strong>30-Day Money-Back Guarantee</strong><br>
+                Doesn't boost your productivity? Full refund, no questions asked.
+            </div>
+        </div>
+        
+        <div class="value-stack">
+            <h2 style="margin-bottom: 20px;">Total Value Breakdown:</h2>
+            <div class="value-item">
+                <span>50+ Professional ChatGPT Prompts</span>
+                <span>$47</span>
+            </div>
+            <div class="value-item">
+                <span>Business Automation Workflows</span>
+                <span>$37</span>
+            </div>
+            <div class="value-item">
+                <span>Implementation Checklists</span>
+                <span>$27</span>
+            </div>
+            <div class="value-item">
+                <span>Video Training Series</span>
+                <span>$57</span>
+            </div>
+            <div class="value-item">
+                <span>Bonus: AI Tools Directory</span>
+                <span>$29</span>
+            </div>
+            <div class="value-item">
+                <span><strong>YOUR PRICE TODAY:</strong></span>
+                <span><strong>$67</strong></span>
+            </div>
+        </div>
+        
+        <div class="categories-grid">
+            <div class="category-card">
+                <div class="category-icon">💼</div>
+                <h3>Business Operations</h3>
+                <p>Streamline daily tasks, automate reports, optimize workflows, and manage projects with AI-powered efficiency.</p>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">📈</div>
+                <h3>Marketing & Sales</h3>
+                <p>Generate compelling copy, automate social media, create sales funnels, and nurture leads automatically.</p>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">👥</div>
+                <h3>Customer Service</h3>
+                <p>Build chatbots, automate responses, handle complaints, and create knowledge bases that work 24/7.</p>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">💡</div>
+                <h3>Creative & Content</h3>
+                <p>Generate blog posts, create video scripts, design campaigns, and produce endless content ideas.</p>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">📊</div>
+                <h3>Data & Analytics</h3>
+                <p>Analyze trends, create reports, track KPIs, and turn raw data into actionable business insights.</p>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">⚡</div>
+                <h3>Productivity Hacks</h3>
+                <p>Time management, email automation, meeting summaries, and personal efficiency multipliers.</p>
+            </div>
+        </div>
+        
+        <div class="features">
+            <h2>What's Inside The Toolkit:</h2>
+            <ul class="feature-list">
+                <li>Content Creation Prompts (10+ variations)</li>
+                <li>Sales Copy & Email Templates</li>
+                <li>Social Media Automation Scripts</li>
+                <li>Customer Support Chatbot Flows</li>
+                <li>Data Analysis & Reporting Prompts</li>
+                <li>Meeting & Email Summarizers</li>
+                <li>Creative Brainstorming Engines</li>
+                <li>SEO Content Optimization</li>
+                <li>Market Research Automation</li>
+                <li>Competitor Analysis Workflows</li>
+                <li>Lead Generation Sequences</li>
+                <li>Project Management Automations</li>
+                <li>Financial Reporting Templates</li>
+                <li>HR & Recruitment Assistants</li>
+                <li>Quality Control Checklists</li>
+            </ul>
+        </div>
+        
+        <div class="urgency">
+            <h3>🚀 Limited Launch Bonus</h3>
+            <p><strong>Order before midnight and receive:</strong><br>
+            FREE AI Tools Masterclass ($97 value) + Exclusive Slack Community Access ($47 value)</p>
+        </div>
+        
+        <div class="testimonials">
+            <h2>Real Results From Real Users:</h2>
+            
+            <div class="testimonial">
+                <p>"This toolkit literally gave me 15 hours back per week. The content creation prompts alone are worth 10x the price. My blog traffic doubled in 2 months using these strategies."</p>
+                <p><strong>- Amanda Foster, Digital Marketing Agency Owner</strong></p>
+            </div>
+            
+            <div class="testimonial">
+                <p>"I was skeptical about AI for business, but these workflows are incredible. Automated my entire lead qualification process and increased conversions by 40%. Best investment I've made this year."</p>
+                <p><strong>- Carlos Martinez, SaaS Founder</strong></p>
+            </div>
+            
+            <div class="testimonial">
+                <p>"The customer service automations transformed my business. Went from spending 8 hours daily on support to 2 hours, with higher satisfaction scores. Customers love the instant responses."</p>
+                <p><strong>- Rachel Chen, E-commerce Store Owner</strong></p>
+            </div>
+            
+            <div class="testimonial">
+                <p>"As a consultant, these prompts make me look like a genius. Clients are amazed at the insights and reports I generate. Easily worth $1000+ in billable hour savings monthly."</p>
+                <p><strong>- James Wilson, Business Consultant</strong></p>
+            </div>
+        </div>
+        
+        <div class="features">
+            <h2>Perfect For:</h2>
+            <ul class="feature-list">
+                <li>Entrepreneurs scaling their business</li>
+                <li>Marketing professionals needing efficiency</li>
+                <li>Small business owners wearing many hats</li>
+                <li>Consultants delivering client value</li>
+                <li>Content creators and bloggers</li>
+                <li>E-commerce store operators</li>
+                <li>Agency owners and freelancers</li>
+                <li>Anyone wanting to work smarter, not harder</li>
+            </ul>
+        </div>
+        
+        <div class="hero">
+            <h2>Stop Wasting Time on Repetitive Tasks</h2>
+            <p>Join 2,847+ businesses already using AI automation to scale faster and work less.</p>
+            
+            <a href="https://checkout.stripe.com/c/pay/cs_test_c3D4e5F6g7H8i9J0k1L2m3N4o5P6q7R8s9T0u1V2w3X4y5Z6a7B8#fidkdWxOYHwnPyd1blpxYHZxWjA0VWlBN25QUGZyUDBkZEZcb2E3RXRxT09xcXxzQmFjQkhIV1dxbzRkVDVWUnRwajNzaHRLMF1dfExgVFdxUkh9N2pHMUw8UlNnSWZScXVkbWJiX3FUXUFMZFVzMDBdXkZkZScpJ3VpbGtuQH11anZgYUxhJz8ncWB2cVdeamlzfGxuYGJ3YidocGlhZnJmJyknaWR8bGNpaWR8J2ZgYWx8YSc%2FJ2lkYmV2bWJ3YGJ2YCd2bGtiaHBceCc%2FJ3Vubm5gcG1vYSthY2BrYW5obGluYHdqaCctaGNoZHdqbStvaiZ8cmx%2FY3ZhcXFzJ3Noa2xybm5iJ2xocnltcSd4cHxpYn1xYWR0fHBsYCthYGNkbGtwcWJianEzPSd5SWV6KStgYWJ3cXZ%2FcjJvJykncWdgaSd4cHV6fHJgeSUzQicpJmJhZGthJz9jZ2Z8cHd%2FdH5mPSU3aGNjZCZ1bGBzcCc4YWFiZnVkYm8mJyknaGJgcWpsZWF3YGxtJz8rZ2dmKSdeeSl3Y3x2ZmpmKDV4bCc%2FcXVrbGNjYGZgam1gYGp3Ymd3JyknaWdjY3d2bGJwcXM2cSd0aGJgY3FnYXdrbmd%2FZHBheCc%2FJ3VnYWJnZG5mZGtuYHd1J2xub2BiZGV1cWZzamdgaHV3YGd1JStkNTQ2aGRzZzRiZjJhZWJqZmt3Nmx3Y3F1JytmNXN0aGJgY3FqbGl3Y3JmJ25hZHg2J3VmZHVncSd6bGFycWEuJScpJ21ncmVuYWVoZGxhJz8nYXd9cXV9YGx2JyknaW5qYnVgcGprZnNqYXdpbWB3dWhjdSdpYGtmcXVwYCdiaHJganFoY3V2cW1gJydxaGNiZ2ZoJycsZGJ2dHZkZGdyZGxgfSdybGluYGdxJ3RgbGNrZmVjcW5qcW1xZCdqb3ZvZWFnJykla3MpJ2hwYWpha2xncGZgZnBiJ2dgbWRhY3ZmJyUla3R2Y3d1fTJgZWIwNHZ9b3V8PStmNHh3PStjbGdjZm9tJzJhYGpiYm1hZGZzMWpwMGpiZ21ibWoxamgwYCdmNDBhMDA0Yz%3D%3D" class="buy-btn">
+                Transform Your Business Today - $67
+            </a>
+            
+            <p style="margin-top: 20px; font-size: 0.9em; color: #666;">
+                Instant access • Works with ChatGPT, Claude & more • 30-day guarantee
+            </p>
+        </div>
+    </div>
+</body>
+</html>

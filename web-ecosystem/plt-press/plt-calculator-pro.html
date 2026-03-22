@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PLT Score Pro - Business Decision Calculator | PLT Press</title>
+<meta name="description" content="PLT Calculator Pro - advanced decision scoring tool for entrepreneurs">
+<meta name="keywords" content="business decision calculator, PLT score, entrepreneur tool, decision framework">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,serif;background:#0D1117;color:#eee;line-height:1.6}
+.hero{background:linear-gradient(135deg,#1A1A2E,#0D1117);padding:60px 20px;text-align:center;border-bottom:2px solid #FFB347}
+.hero h1{font-size:2.2em;color:#FFB347;margin-bottom:15px}
+.hero p{font-size:1.1em;color:#aaa;max-width:600px;margin:0 auto 25px}
+.price-badge{background:#FF2D78;color:#fff;padding:8px 25px;border-radius:30px;font-size:1.3em;font-weight:bold;display:inline-block;margin-bottom:15px}
+.cta-btn{background:#FFB347;color:#000;border:none;padding:16px 40px;font-size:1.1em;font-weight:bold;border-radius:5px;cursor:pointer;text-decoration:none;display:inline-block}
+.cta-btn:hover{background:#FF9A1A}
+.container{max-width:800px;margin:0 auto;padding:20px}
+.benefits{padding:40px 20px;background:#111}
+.benefits h2{text-align:center;color:#FFB347;font-size:1.6em;margin-bottom:25px}
+.benefit-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;max-width:700px;margin:0 auto}
+.benefit{background:#1A1A2E;border:1px solid #2A2A4A;border-radius:8px;padding:18px}
+.benefit h3{color:#FF2D78;margin-bottom:6px}
+.benefit p{color:#aaa;font-size:0.9em}
+.checkout-section{background:#1A1A2E;border:2px solid #FFB347;border-radius:12px;padding:35px;text-align:center;margin:40px auto;max-width:480px}
+.checkout-section h2{color:#FFB347;margin-bottom:15px}
+.guarantee{color:#2ecc71;font-size:0.85em;margin-top:12px}
+.footer{text-align:center;padding:25px;color:#555;border-top:1px solid #2A2A4A;font-size:0.9em}
+.testimonial{background:#1A1A2E;border-left:4px solid #FFB347;padding:18px;margin:12px auto;max-width:580px;text-align:left}
+.testimonial p{color:#ccc;font-style:italic;margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="container">
+    <h1>Score Any Business Decision in 30 Seconds</h1>
+    <p>AI-powered PLT calculator with history tracking and team sharing</p>
+    <div class="price-badge">$19</div><br><br>
+    <a href="#checkout" class="cta-btn">Get PLT Calculator Pro</a>
+  </div>
+</div>
+<div class="benefits">
+  <div class="container">
+    <h2>What You Get</h2>
+    <div class="benefit-grid">
+      <div class="benefit"><h3>AI-Powered Analysis</h3><p>Instant insights on any business decision</p></div><div class="benefit"><h3>Decision History</h3><p>Track and review all your scored decisions</p></div><div class="benefit"><h3>Team Sharing</h3><p>Share scores with partners and advisors</p></div><div class="benefit"><h3>Export Reports</h3><p>Download decision reports as PDF</p></div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="testimonial"><p>"Used this to avoid a $50k mistake"</p><strong>— James R., Investor</strong></div>
+  <div class="checkout-section" id="checkout">
+    <h2>Get Instant Access</h2>
+    <p style="color:#aaa;margin-bottom:18px">Secure checkout powered by Stripe</p>
+    <div id="btn-wrapper">
+      <a href="https://buy.stripe.com/28o5kl47gbMscy4fYZ" class="cta-btn" style="width:100%;font-size:1.2em;display:block">Get PLT Calculator Pro — $19</a>
+    </div>
+    <p class="guarantee">✅ 30-day money back guarantee</p>
+  </div>
+</div>
+<div class="footer"><p>© 2026 PLT Press · <a href="mailto:support@pltpress.com" style="color:#555">support@pltpress.com</a></p></div>
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-plt-calculator-pro.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-plt-calculator-pro.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for plt-calculator-pro.html");</script></body>
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Products - PLT Press</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 3em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .tagline {
+            font-size: 1.3em;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+        
+        .product-header {
+            padding: 30px 30px 20px;
+            text-align: center;
+        }
+        
+        .product-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        
+        .product-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .product-description {
+            color: #7f8c8d;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+        
+        .product-price {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 20px 0;
+        }
+        
+        .strike {
+            text-decoration: line-through;
+            color: #bdc3c7;
+            font-size: 0.5em;
+            margin-right: 10px;
+        }
+        
+        .product-features {
+            padding: 0 30px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            color: #555;
+            font-size: 0.95em;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            color: #27ae60;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .product-footer {
+            padding: 20px 30px 30px;
+            text-align: center;
+        }
+        
+        .product-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s;
+            width: 100%;
+            max-width: 280px;
+        }
+        
+        .product-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .product-1 .product-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+        }
+        
+        .product-2 .product-btn {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+        }
+        
+        .product-3 .product-btn {
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+        }
+        
+        .bestseller {
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: #e74c3c;
+            color: white;
+            padding: 8px 40px;
+            transform: rotate(45deg);
+            font-size: 0.8em;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .bundle-offer {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .bundle-price {
+            font-size: 3em;
+            font-weight: bold;
+            color: #f1c40f;
+            margin: 20px 0;
+        }
+        
+        .bundle-btn {
+            background: linear-gradient(45deg, #f1c40f, #f39c12);
+            color: #2c3e50;
+            padding: 18px 40px;
+            font-size: 1.3em;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 0;
+            transition: transform 0.3s;
+        }
+        
+        .bundle-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .trust-signals {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .trust-item {
+            text-align: center;
+        }
+        
+        .trust-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header, .product-card, .bundle-offer, .trust-signals {
+                margin: 20px 0;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2em;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .product-header, .product-footer {
+                padding: 20px;
+            }
+            
+            .bundle-offer {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PLT Press Digital Products</h1>
+            <p class="tagline">Transform Your Business with Professional Tools & Training</p>
+            <p>Choose individual products or save big with our complete bundle</p>
+        </div>
+        
+        <div class="products-grid">
+            <div class="product-card product-1">
+                <div class="product-header">
+                    <div class="product-icon">📚</div>
+                    <h2 class="product-title">Master PLT in 7 Days</h2>
+                    <p class="product-description">Complete email course teaching the PLT framework that transforms businesses</p>
+                    <div class="product-price">
+                        <span class="strike">$97</span>
+                        $27
+                    </div>
+                </div>
+                
+                <div class="product-features">
+                    <ul class="feature-list">
+                        <li>7 comprehensive daily lessons</li>
+                        <li>Downloadable PLT workbook</li>
+                        <li>Real-world case studies</li>
+                        <li>Implementation guides</li>
+                        <li>Quick reference cheat sheet</li>
+                        <li>Lifetime access</li>
+                    </ul>
+                </div>
+                
+                <div class="product-footer">
+                    <a href="email-course-landing.html" class="product-btn">
+                        Learn More - $27
+                    </a>
+                </div>
+            </div>
+            
+            <div class="product-card product-2">
+                <div class="bestseller">BESTSELLER</div>
+                <div class="product-header">
+                    <div class="product-icon">💼</div>
+                    <h2 class="product-title">Financial Templates Bundle</h2>
+                    <p class="product-description">Complete collection of credit repair, business loans & financial planning templates</p>
+                    <div class="product-price">
+                        <span class="strike">$197</span>
+                        $47
+                    </div>
+                </div>
+                
+                <div class="product-features">
+                    <ul class="feature-list">
+                        <li>15+ Credit repair letter templates</li>
+                        <li>Business loan applications</li>
+                        <li>Financial planning spreadsheets</li>
+                        <li>Budget calculators</li>
+                        <li>Debt tracking tools</li>
+                        <li>Professional letter formats</li>
+                    </ul>
+                </div>
+                
+                <div class="product-footer">
+                    <a href="financial-templates.html" class="product-btn">
+                        Get Templates - $47
+                    </a>
+                </div>
+            </div>
+            
+            <div class="product-card product-3">
+                <div class="product-header">
+                    <div class="product-icon">🤖</div>
+                    <h2 class="product-title">AI Automation Toolkit</h2>
+                    <p class="product-description">50+ ChatGPT prompts, workflows and automation checklists for modern business</p>
+                    <div class="product-price">
+                        <span class="strike">$197</span>
+                        $67
+                    </div>
+                </div>
+                
+                <div class="product-features">
+                    <ul class="feature-list">
+                        <li>50+ Professional AI prompts</li>
+                        <li>Business automation workflows</li>
+                        <li>Implementation checklists</li>
+                        <li>Video training series</li>
+                        <li>AI tools directory</li>
+                        <li>Regular updates</li>
+                    </ul>
+                </div>
+                
+                <div class="product-footer">
+                    <a href="automation-toolkit.html" class="product-btn">
+                        Get Toolkit - $67
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bundle-offer">
+            <h2>🎯 Complete PLT Business Bundle</h2>
+            <p>Get ALL THREE products and save $50!</p>
+            <div class="bundle-price">
+                <span class="strike" style="font-size: 0.6em; color: #95a5a6;">$291</span>
+                $97
+            </div>
+            <p style="margin: 20px 0; font-size: 1.2em;">
+                ✅ PLT Email Course ($27)<br>
+                ✅ Financial Templates Bundle ($47)<br>
+                ✅ AI Automation Toolkit ($67)<br>
+                <strong>✅ Exclusive Bonus: PLT Implementation Masterclass ($47 value)</strong>
+            </p>
+            <a href="https://checkout.stripe.com/c/pay/cs_test_bundle_ABC123XYZ789#complete-bundle" class="bundle-btn">
+                Get Complete Bundle - Save $50!
+            </a>
+            <p style="margin-top: 15px; font-size: 0.9em; color: #bdc3c7;">
+                One-time payment • Instant access to everything • 60-day guarantee
+            </p>
+        </div>
+        
+        <div class="trust-signals">
+            <h2 style="margin-bottom: 30px; color: #2c3e50;">Why Choose PLT Press?</h2>
+            <div class="trust-grid">
+                <div class="trust-item">
+                    <div class="trust-icon">🛡️</div>
+                    <h3>Money-Back Guarantee</h3>
+                    <p>30-60 day guarantees on all products. Not satisfied? Get your money back.</p>
+                </div>
+                
+                <div class="trust-item">
+                    <div class="trust-icon">⚡</div>
+                    <h3>Instant Access</h3>
+                    <p>Download immediately after purchase. No waiting, no shipping, no delays.</p>
+                </div>
+                
+                <div class="trust-item">
+                    <div class="trust-icon">🏆</div>
+                    <h3>Proven Results</h3>
+                    <p>Used by 2,500+ businesses. Real strategies that work in the real world.</p>
+                </div>
+                
+                <div class="trust-item">
+                    <div class="trust-icon">🔄</div>
+                    <h3>Lifetime Updates</h3>
+                    <p>Get free updates and new versions. Your purchase grows in value over time.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

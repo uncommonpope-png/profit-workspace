@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>⚙️ System Control Center | PLT Press</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D1117;color:#ddd;font-family:Georgia,serif;max-width:800px;margin:0 auto;padding:20px}
+.panel{background:#1A1A2E;border:1px solid #2A2A4A;border-radius:8px;padding:16px;margin-bottom:16px}
+h1{color:#FFB347;text-align:center;margin-bottom:20px}
+h2{color:#00D4FF;font-size:16px;margin-bottom:12px;border-bottom:1px solid #2A2A4A;padding-bottom:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.card{background:#0a0a14;border:1px solid #2A2A4A;border-radius:6px;padding:12px;text-align:center}
+.card.ok{border-color:#2ecc71}
+.card.err{border-color:#e74c3c}
+.card.warn{border-color:#FFB347}
+.status{font-size:24px;margin-bottom:8px}
+.label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px}
+.value{font-size:18px;font-weight:bold;margin-top:8px}
+.ok{color:#2ecc71}
+.err{color:#e74c3c}
+.warn{color:#FFB347}
+button{background:#1A1A2E;color:#FFB347;border:1px solid #FFB347;padding:10px 20px;border-radius:6px;cursor:pointer;margin:5px;font-family:Georgia,serif;transition:all 0.3s}
+button:hover{background:#FFB347;color:#000}
+button:disabled{opacity:0.5;cursor:not-allowed}
+.log{background:#0a0a14;border:1px solid #2A2A4A;border-radius:6px;padding:12px;max-height:200px;overflow-y:auto;font-family:monospace;font-size:12px}
+.log-line{margin:4px 0;padding:4px;border-left:2px solid #2A2A4A;padding-left:8px}
+.refresh{animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+</style>
+</head>
+<body>
+<h1>⚙️ PLT System Control Center</h1>
+
+<div class="panel">
+  <h2>📊 System Status</h2>
+  <div class="grid">
+    <div class="card" id="card-backend">
+      <div class="status">⏳</div>
+      <div class="label">Backend API</div>
+      <div class="value" id="val-backend">Checking...</div>
+    </div>
+    <div class="card" id="card-ollama">
+      <div class="status">⏳</div>
+      <div class="label">Ollama AI</div>
+      <div class="value" id="val-ollama">Checking...</div>
+    </div>
+    <div class="card" id="card-telegram">
+      <div class="status">⏳</div>
+      <div class="label">Telegram Bot</div>
+      <div class="value" id="val-telegram">Checking...</div>
+    </div>
+    <div class="card" id="card-soul">
+      <div class="status">⏳</div>
+      <div class="label">Live Soul</div>
+      <div class="value" id="val-soul">Checking...</div>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>🤖 Bot Control</h2>
+  <div id="bot-list" class="grid"></div>
+  <div style="margin-top:12px">
+    <button onclick="startAllBots()">🚀 Start All Bots</button>
+    <button onclick="stopAllBots()">⏹️ Stop All Bots</button>
+    <button onclick="refreshStatus()" class="refresh">🔄 Refresh</button>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>📈 Live Metrics</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="label">Page Views</div>
+      <div class="value ok" id="metric-views">-</div>
+    </div>
+    <div class="card">
+      <div class="label">Revenue</div>
+      <div class="value ok" id="metric-revenue">-</div>
+    </div>
+    <div class="card">
+      <div class="label">Leads</div>
+      <div class="value ok" id="metric-leads">-</div>
+    </div>
+    <div class="card">
+      <div class="label">Conversations</div>
+      <div class="value ok" id="metric-conv">-</div>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>🎮 Command Center</h2>
+  <input type="text" id="cmd-input" placeholder="Enter system command..." style="width:100%;background:#0a0a14;border:1px solid #2A2A4A;color:#fff;padding:10px;border-radius:6px;margin-bottom:10px">
+  <div>
+    <button onclick="sendCommand()">Execute</button>
+    <button onclick="queueCommand()">Queue</button>
+    <button onclick="checkOllama()">Test AI</button>
+  </div>
+  <div id="cmd-result" class="log" style="margin-top:10px;display:none"></div>
+</div>
+
+<div class="panel">
+  <h2>📋 System Log</h2>
+  <div id="system-log" class="log">
+    <div class="log-line">System Control Center initialized...</div>
+  </div>
+</div>
+
+<script>
+const API = 'http://localhost:5004';
+
+function log(msg, type='info'){
+  const log = document.getElementById('system-log');
+  const colors = {info:'#00D4FF',success:'#2ecc71',error:'#e74c3c',warn:'#FFB347'};
+  log.innerHTML = `<div class="log-line" style="border-color:${colors[type]||colors.info};color:${colors[type]}">${new Date().toLocaleTimeString()} - ${msg}</div>` + log.innerHTML;
+}
+
+async function api(endpoint){
+  try{
+    const r = await fetch(API + endpoint);
+    return await r.json();
+  }catch(e){
+    log('API Error: '+e.message, 'error');
+    return null;
+  }
+}
+
+async function refreshStatus(){
+  log('Refreshing status...');
+  
+  // Backend
+  const status = await api('/api/status');
+  if(status){
+    document.getElementById('val-backend').innerHTML = '✓ Running';
+    document.getElementById('val-backend').className = 'value ok';
+    document.getElementById('card-backend').className = 'card ok';
+    document.querySelector('#card-backend .status').innerHTML = '✅';
+    log('Backend: '+status.status, 'success');
+    
+    // Ollama
+    const ollama = status.ollama;
+    if(ollama.status === 'online'){
+      document.getElementById('val-ollama').innerHTML = ollama.models+' models';
+      document.getElementById('val-ollama').className = 'value ok';
+      document.getElementById('card-ollama').className = 'card ok';
+      document.querySelector('#card-ollama .status').innerHTML = '✅';
+    }else{
+      document.getElementById('val-ollama').innerHTML = 'Offline';
+      document.getElementById('val-ollama').className = 'value err';
+      document.getElementById('card-ollama').className = 'card err';
+      document.querySelector('#card-ollama .status').innerHTML = '❌';
+    }
+    
+    // Bots
+    const bots = status.bots || {};
+    const botList = document.getElementById('bot-list');
+    botList.innerHTML = '';
+    let telegramRunning = false, soulRunning = false;
+    
+    for(const [bot, state] of Object.entries(bots)){
+      const isRunning = state === 'running';
+      if(bot.includes('telegram')) telegramRunning = isRunning;
+      if(bot.includes('soul')) soulRunning = isRunning;
+      
+      botList.innerHTML += `
+        <div class="card ${isRunning?'ok':'err'}">
+          <div class="status">${isRunning?'✅':'❌'}</div>
+          <div class="label">${bot}</div>
+          <div class="value" style="font-size:12px">${isRunning?'Running':'Stopped'}</div>
+          <button onclick="controlBot('${bot}','${isRunning?'stop':'start'}')" style="margin-top:8px;font-size:11px;padding:5px 10px">
+            ${isRunning?'Stop':'Start'}
+          </button>
+        </div>
+      `;
+    }
+    
+    document.getElementById('val-telegram').innerHTML = telegramRunning ? '✓ Running' : '✗ Stopped';
+    document.getElementById('val-telegram').className = 'value '+(telegramRunning?'ok':'err');
+    document.getElementById('card-telegram').className = 'card '+(telegramRunning?'ok':'err');
+    document.querySelector('#card-telegram .status').innerHTML = telegramRunning ? '✅' : '❌';
+    
+    document.getElementById('val-soul').innerHTML = soulRunning ? '✓ Running' : '✗ Stopped';
+    document.getElementById('val-soul').className = 'value '+(soulRunning?'ok':'err');
+    document.getElementById('card-soul').className = 'card '+(soulRunning?'ok':'err');
+    document.querySelector('#card-soul .status').innerHTML = soulRunning ? '✅' : '❌';
+  }else{
+    document.getElementById('val-backend').innerHTML = '✗ Offline';
+    document.getElementById('val-backend').className = 'value err';
+    document.getElementById('card-backend').className = 'card err';
+    document.querySelector('#card-backend .status').innerHTML = '❌';
+  }
+  
+  // Metrics
+  const data = await api('/log.json');
+  if(data && data.counters){
+    document.getElementById('metric-views').innerHTML = (data.counters.page_views||0).toLocaleString();
+    document.getElementById('metric-revenue').innerHTML = '$'+((data.counters.revenue_cents||0)/100).toFixed(2);
+    document.getElementById('metric-leads').innerHTML = (data.counters.leads_generated||0).toLocaleString();
+    document.getElementById('metric-conv').innerHTML = (data.counters.conversations_scored||0).toLocaleString();
+  }
+  
+  log('Status refresh complete', 'success');
+}
+
+async function controlBot(bot, action){
+  log(`${action}ing ${bot}...`);
+  const result = await api('/api/bot', {
+    method: 'POST',
+    body: JSON.stringify({bot: bot.replace('.sh',''), action: action})
+  });
+  if(result){
+    log(`Bot ${bot}: ${result.status||'done'}`, result.status==='started'?'success':'warn');
+    setTimeout(refreshStatus, 2000);
+  }
+}
+
+async function startAllBots(){
+  log('Starting all bots...');
+  const bots = ['telegram_bot', 'live-soul-master', 'bot-commander', 'djinie', 'deerg-bot', 'doctor-buht-buht'];
+  for(const bot of bots){
+    await api('/api/bot', {method:'POST', body:JSON.stringify({bot:bot, action:'start'})});
+    log(`Started ${bot}`, 'success');
+  }
+  setTimeout(refreshStatus, 3000);
+}
+
+async function stopAllBots(){
+  log('Stopping all bots...');
+  const bots = ['telegram_bot', 'live-soul-master', 'bot-commander', 'djinie', 'deerg-bot', 'doctor-buht-buht'];
+  for(const bot of bots){
+    await api('/api/bot', {method:'POST', body:JSON.stringify({bot:bot, action:'stop'})});
+    log(`Stopped ${bot}`, 'warn');
+  }
+  setTimeout(refreshStatus, 3000);
+}
+
+async function sendCommand(){
+  const input = document.getElementById('cmd-input');
+  const resultDiv = document.getElementById('cmd-result');
+  const cmd = input.value.trim();
+  if(!cmd) return;
+  
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = '<div class="log-line">Executing: '+cmd+'</div>';
+  
+  const result = await api('/api/command', {
+    method: 'POST',
+    body: JSON.stringify({command: cmd})
+  });
+  
+  if(result){
+    resultDiv.innerHTML = '<div class="log-line" style="color:#2ecc71">✓ Result:</div>'+
+      '<div class="log-line" style="white-space:pre-wrap;font-family:monospace">'+(result.result||'Done')+'</div>';
+  }
+  input.value = '';
+}
+
+async function queueCommand(){
+  const input = document.getElementById('cmd-input');
+  const cmd = input.value.trim();
+  if(!cmd) return;
+  
+  const result = await api('/api/queue', {
+    method: 'POST',
+    body: JSON.stringify({command: cmd})
+  });
+  
+  if(result){
+    log('Command queued: '+cmd, 'success');
+    alert('✓ Command queued for execution');
+  }
+  input.value = '';
+}
+
+async function checkOllama(){
+  log('Testing Ollama AI...');
+  const result = await api('/api/chat', {
+    method: 'POST',
+    body: JSON.stringify({message: 'System health check - respond with "AI OK"'})
+  });
+  
+  if(result && result.response){
+    log('AI Response: '+result.response, 'success');
+    alert('🤖 AI says: '+result.response);
+  }else{
+    log('AI test failed', 'error');
+    alert('❌ AI not responding');
+  }
+}
+
+// Auto-refresh every 10 seconds
+setInterval(refreshStatus, 10000);
+
+// Initial load
+refreshStatus();
+log('System Control Center ready', 'success');
+</script>
+</body>
+</html>

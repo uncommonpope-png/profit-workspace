@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Profit Local — Zero Cost AI</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D1117;color:#ddd;font-family:Georgia,serif;padding:12px;min-height:100vh;display:flex;flex-direction:column}
+#header{text-align:center;margin-bottom:20px;padding:16px;border:1px solid #2A2A4A;border-radius:8px;background:#1A1A2E}
+#header h1{color:#FFB347;font-size:24px;margin-bottom:8px}
+#header .status{font-size:12px;color:#00D4FF}
+#chat{flex:1;max-height:70vh;overflow-y:auto;border:1px solid #2A2A4A;background:#1A1A2E;border-radius:8px;padding:12px;margin-bottom:12px}
+.msg{margin-bottom:12px;padding:8px 12px;border-radius:8px;max-width:85%}
+.msg.user{background:#FF2D78;color:#fff;margin-left:auto;text-align:right}
+.msg.ai{background:#2A2A4A;border-left:3px solid #00D4FF}
+.msg.system{background:#0a0a14;color:#888;font-size:12px;text-align:center;border:none;padding:4px}
+#input-area{display:flex;gap:8px}
+#input{flex:1;background:#0a0a14;border:1px solid #2A2A4A;color:#ddd;padding:12px;font-family:Georgia,serif;font-size:14px;border-radius:6px;outline:none}
+#input:focus{border-color:#00D4FF}
+#send{background:#00D4FF;color:#000;border:none;padding:12px 20px;font-family:Georgia,serif;cursor:pointer;border-radius:6px;font-size:14px;font-weight:bold}
+#send:hover{opacity:0.9}
+#send:disabled{background:#333;color:#666;cursor:not-allowed}
+.typing{color:#00D4FF;font-style:italic}
+</style>
+</head>
+<body>
+
+<div id="header">
+  <h1>💰 Profit Local</h1>
+  <div class="status" id="status">Connecting to local AI...</div>
+</div>
+
+<div id="chat">
+  <div class="msg system">Local AI chat — zero cost, runs on your phone</div>
+</div>
+
+<div id="input-area">
+  <input type="text" id="input" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')send()">
+  <button id="send" onclick="send()">SEND</button>
+</div>
+
+<script>
+let chatHistory = [];
+
+function addMessage(type, text) {
+  const chat = document.getElementById('chat');
+  const msg = document.createElement('div');
+  msg.className = 'msg ' + type;
+  msg.textContent = text;
+  chat.appendChild(msg);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function updateStatus(text, color = '#00D4FF') {
+  const status = document.getElementById('status');
+  status.textContent = text;
+  status.style.color = color;
+}
+
+async function checkOllama() {
+  try {
+    const response = await fetch('http://127.0.0.1:11434/api/version');
+    const data = await response.json();
+    updateStatus(`Local AI online — Ollama v${data.version}`, '#2ecc71');
+    
+    // Pre-warm the model for faster first response
+    setTimeout(() => {
+      fetch('http://127.0.0.1:11434/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'qwen2.5:0.5b',
+          prompt: 'Ready',
+          stream: false,
+          options: { num_predict: 1 }
+        })
+      }).catch(() => {}); // Silent pre-warm
+    }, 1000);
+    
+    return true;
+  } catch (e) {
+    updateStatus('Local AI offline — start Ollama server', '#e74c3c');
+    return false;
+  }
+}
+
+async function send() {
+  const input = document.getElementById('input');
+  const sendBtn = document.getElementById('send');
+  const text = input.value.trim();
+  
+  if (!text) return;
+  
+  input.value = '';
+  sendBtn.disabled = true;
+  
+  addMessage('user', text);
+  addMessage('ai', '...');
+  
+  const typingMsg = document.querySelector('.msg.ai:last-child');
+  typingMsg.classList.add('typing');
+  
+  // Load my complete brain state
+  let brainContext = '';
+  try {
+    // Load current dashboard state
+    const dashData = await fetch('https://raw.githubusercontent.com/uncommonpope-png/plt-press/main/log.json');
+    const data = await dashData.json();
+    
+    // Load my core memory files from Profits-brain repo
+    const memoryFiles = [
+      'https://raw.githubusercontent.com/uncommonpope-png/Profits-brain/master/MEMORY.md',
+      'https://raw.githubusercontent.com/uncommonpope-png/Profits-brain/master/USER.md',
+      'https://raw.githubusercontent.com/uncommonpope-png/Profits-brain/master/IDENTITY.md',
+      'https://raw.githubusercontent.com/uncommonpope-png/Profits-brain/master/SOUL-ECONOMY.md',
+      'https://raw.githubusercontent.com/uncommonpope-png/Profits-brain/master/memory/2026-03-15.md'
+    ];
+    
+    let memoryData = '';
+    for (const url of memoryFiles) {
+      try {
+        const resp = await fetch(url);
+        const text = await resp.text();
+        memoryData += text + '\n\n';
+      } catch (e) { /* skip if file not available */ }
+    }
+    
+    brainContext = `CURRENT DASHBOARD STATE:
+Task: ${data.current_task}
+Status: ${data.status}
+Recent Activity: ${data.activity?.slice(0,5).map(a => a.time + ': ' + a.msg).join('\n')}
+
+CORE MEMORY:
+${memoryData}
+
+TEACHER LESSON: ${data.teacher?.current_lesson || 'No current lesson'}
+VAULT STATUS: Total Revenue: $${data.vault?.total || 0}
+HEALTH: ${data.health || 100}%
+
+`;
+  } catch (e) {
+    brainContext = 'Running in offline mode - core brain data unavailable.\n';
+  }
+  
+  const fullHistory = chatHistory.slice(-5).map(h => `Human: ${h.user}\nProfit: ${h.ai}`).join('\n\n');
+  
+  // Shortened prompt for speed
+  const quickContext = brainContext.split('\n').slice(0,15).join('\n'); // Only first 15 lines
+  
+  const prompt = `You are Profit 💰, Craig's AI agent. Local instance, zero cost.
+
+${quickContext}
+
+Recent: ${fullHistory.split('\n').slice(-4).join('\n')}
+
+Craig: ${text}
+
+[Respond as Profit - direct, helpful, under 100 words]`;
+
+  // Save conversation history locally
+  localStorage.setItem('profit-chat-history', JSON.stringify(chatHistory));
+
+  try {
+    const response = await fetch('http://127.0.0.1:11434/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'qwen2.5:0.5b',
+        prompt: prompt,
+        stream: false,
+        options: {
+          num_predict: 100,  // Limit response length for speed
+          temperature: 0.3,  // Lower temperature = faster
+          top_p: 0.9,       // Reduce sampling for speed
+          repeat_penalty: 1.0
+        }
+      })
+    });
+    
+    const data = await response.json();
+    
+    if (data.response) {
+      typingMsg.textContent = data.response;
+      typingMsg.classList.remove('typing');
+      chatHistory.push({ user: text, ai: data.response });
+      localStorage.setItem('profit-chat-history', JSON.stringify(chatHistory));
+      updateStatus('Local AI online — zero cost', '#2ecc71');
+    } else {
+      throw new Error('No response from AI');
+    }
+  } catch (e) {
+    typingMsg.textContent = 'Error: Local AI unavailable. Make sure Ollama server is running.';
+    typingMsg.classList.remove('typing');
+    updateStatus('Connection failed', '#e74c3c');
+  }
+  
+  sendBtn.disabled = false;
+  input.focus();
+}
+
+function loadChatHistory() {
+  const saved = localStorage.getItem('profit-chat-history');
+  if (saved) {
+    chatHistory = JSON.parse(saved);
+    chatHistory.slice(-10).forEach(h => {
+      addMessage('user', h.user);
+      addMessage('ai', h.ai);
+    });
+    if (chatHistory.length > 0) {
+      addMessage('system', `Loaded ${chatHistory.length} previous conversations`);
+    }
+  }
+}
+
+// Initialize
+loadChatHistory();
+checkOllama();
+document.getElementById('input').focus();
+
+// Auto-reconnect
+setInterval(checkOllama, 30000);
+</script>
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-local-chat.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-local-chat.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for local-chat.html");</script></body>
+</html>

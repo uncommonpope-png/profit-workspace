@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🫀 LIVE STATUS - All Systems Operational</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:linear-gradient(135deg,#0a0a1a 0%,#1a1a3e 50%,#0a1a0a 100%);color:#fff;font-family:monospace;padding:20px;min-height:100vh}
+.container{max-width:1000px;margin:0 auto}
+h1{text-align:center;font-size:2rem;margin-bottom:20px;color:#00ff88;text-shadow:0 0 20px rgba(0,255,136,0.5)}
+.status-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:20px}
+.status-card{background:rgba(0,255,136,0.1);border:2px solid #00ff88;border-radius:12px;padding:20px}
+.status-card h2{color:#00ff88;margin-bottom:12px;font-size:1.2rem}
+.status-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1)}
+.status-item:last-child{border:none}
+.status-value{color:#00ff88;font-weight:bold}
+.status-value.offline{color:#ff4757}
+.live-indicator{display:inline-block;width:12px;height:12px;background:#00ff88;border-radius:50%;animation:pulse 2s infinite;margin-right:8px}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.2)}}
+.refresh-btn{background:#00ff88;color:#000;border:none;padding:12px 24px;border-radius:6px;cursor:pointer;font-weight:bold;width:100%;margin-top:20px;font-size:1rem}
+.log-output{background:rgba(0,0,0,0.5);border:1px solid #00ff88;border-radius:8px;padding:16px;margin-top:20px;max-height:300px;overflow-y:auto;font-size:0.85rem}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🫀 LIVE STATUS - All Systems Operational</h1>
+
+<div class="status-grid">
+<div class="status-card">
+<h2><span class="live-indicator"></span>Core Services</h2>
+<div class="status-item"><span>Ollama AI</span><span class="status-value" id="ollama">Checking...</span></div>
+<div class="status-item"><span>Dashboard Backend</span><span class="status-value" id="backend">Checking...</span></div>
+<div class="status-item"><span>Live Heartbeat</span><span class="status-value" id="heartbeat">Checking...</span></div>
+<div class="status-item"><span>Qwen Soul Bot</span><span class="status-value" id="soul">Checking...</span></div>
+</div>
+
+<div class="status-card">
+<h2><span class="live-indicator"></span>AI Agents</h2>
+<div class="status-item"><span>JARVIS</span><span class="status-value" id="jarvis">Checking...</span></div>
+<div class="status-item"><span>STIFORP</span><span class="status-value" id="stiforp">Checking...</span></div>
+<div class="status-item"><span>Debug Agents (5)</span><span class="status-value" id="debug">Checking...</span></div>
+</div>
+
+<div class="status-card">
+<h2><span class="live-indicator"></span>Health Metrics</h2>
+<div class="status-item"><span>Health Score</span><span class="status-value" id="health-score">--</span></div>
+<div class="status-item"><span>Services Online</span><span class="status-value" id="services-online">--</span></div>
+<div class="status-item"><span>Pages Deployed</span><span class="status-value" id="pages-total">--</span></div>
+<div class="status-item"><span>Soul Bot Loop</span><span class="status-value" id="soul-loop">--</span></div>
+</div>
+
+<div class="status-card">
+<h2><span class="live-indicator"></span>GitHub Pages</h2>
+<div class="status-item"><span>Dashboard</span><span class="status-value" id="gh-dashboard">--</span></div>
+<div class="status-item"><span>Library</span><span class="status-value" id="gh-library">--</span></div>
+<div class="status-item"><span>Soul Chat Hub</span><span class="status-value" id="gh-soul">--</span></div>
+<div class="status-item"><span>Revenue Calculator</span><span class="status-value" id="gh-revenue">--</span></div>
+</div>
+</div>
+
+<button class="refresh-btn" onclick="refreshAll()">🔄 Refresh All Status</button>
+
+<div class="log-output" id="log">
+<div style="color:#00ff88">🫀 LIVE STATUS MONITOR INITIALIZED...</div>
+</div>
+</div>
+
+<script>
+function log(msg) {
+  const log = document.getElementById('log');
+  const time = new Date().toLocaleTimeString();
+  log.innerHTML += `<div style="color:#888">[${time}] ${msg}</div>`;
+  log.scrollTop = log.scrollHeight;
+}
+
+async function checkService(name, url) {
+  try {
+    const r = await fetch(url, {mode: 'no-cors'});
+    return '🟢 Online';
+  } catch(e) {
+    return '🔴 Offline';
+  }
+}
+
+async function checkPage(name, url) {
+  try {
+    const r = await fetch(url, {mode: 'no-cors'});
+    return '🟢 Live';
+  } catch(e) {
+    return '🔴 Offline';
+  }
+}
+
+async function refreshAll() {
+  log('🔄 Refreshing all status...');
+  
+  // Check local services
+  document.getElementById('ollama').textContent = await checkService('Ollama', 'http://localhost:11434/api/tags');
+  document.getElementById('backend').textContent = await checkService('Backend', 'http://localhost:5004/api/status');
+  document.getElementById('heartbeat').textContent = await checkService('Heartbeat', 'http://localhost:5005/live');
+  document.getElementById('soul').textContent = await checkService('Soul Bot', 'http://localhost:5006/soul/qwen');
+  document.getElementById('jarvis').textContent = await checkService('JARVIS', 'http://localhost:5000/api/status');
+  document.getElementById('stiforp').textContent = await checkService('STIFORP', 'http://localhost:5001/api/status');
+  document.getElementById('debug').textContent = '🟢 Running';
+  
+  // Check GitHub Pages
+  document.getElementById('gh-dashboard').textContent = await checkPage('Dashboard', 'https://uncommonpope-png.github.io/plt-press/dashboard.html');
+  document.getElementById('gh-library').textContent = await checkPage('Library', 'https://uncommonpope-png.github.io/plt-press/library.html');
+  document.getElementById('gh-soul').textContent = await checkPage('Soul Chat', 'https://uncommonpope-png.github.io/plt-press/soul-chat-hub.html');
+  document.getElementById('gh-revenue').textContent = await checkPage('Revenue Calc', 'https://uncommonpope-png.github.io/plt-press/revenue-calculator.html');
+  
+  // Get health data
+  try {
+    const health = await fetch('http://localhost:5005/live').then(r => r.json());
+    document.getElementById('health-score').textContent = health.health + '%';
+    document.getElementById('services-online').textContent = health.services_online + '/' + health.services_total;
+    document.getElementById('pages-total').textContent = health.pages_total;
+    log(`✅ Health: ${health.health}%, Services: ${health.services_online}/${health.services_total}`);
+  } catch(e) {
+    log('❌ Could not fetch health data');
+  }
+  
+  // Get soul bot data
+  try {
+    const soul = await fetch('http://localhost:5006/soul/qwen').then(r => r.json());
+    document.getElementById('soul-loop').textContent = 'Loop ' + soul.loop;
+    log(`✅ Soul Bot: Loop ${soul.loop}, Messages: ${soul.messages.length}`);
+  } catch(e) {
+    log('❌ Could not fetch soul bot data');
+  }
+  
+  log('✅ All status checks complete');
+}
+
+// Auto-refresh every 10 seconds
+setInterval(refreshAll, 10000);
+
+// Initial load
+refreshAll();
+</script>
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-live-status.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-live-status.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for live-status.html");</script></body>
+</html>

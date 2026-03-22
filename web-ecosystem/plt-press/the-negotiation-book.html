@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Negotiation — PLT Press | Craig Jones</title>
+<meta name="description" content="The Negotiation by Craig Jones. 15 moves fully scored through the PLT Framework. Six configurations. The close that compounds.">
+<meta name="keywords" content="The Negotiation book, Craig Jones negotiation, PLT negotiation book">
+<meta property="og:title" content="The Negotiation — PLT Press | Craig Jones">
+<meta property="og:description" content="The Negotiation by Craig Jones. 15 moves fully scored through the PLT Framework. Six configurations. The close that compounds.">
+<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#050505;color:#E8E8E8;font-family:Georgia,serif;line-height:1.8;max-width:720px;margin:0 auto;padding:2rem 1.5rem}h1{font-size:2rem;font-weight:normal;color:#C9A84C;margin-bottom:1rem}h2{font-size:1.2rem;margin:1.5rem 0 .6rem;color:#E8E8E8}p{color:#aaa;margin-bottom:1rem;font-size:.95rem}blockquote{border-left:2px solid #C9A84C;padding:.5rem 1.25rem;margin:1.25rem 0;font-style:italic;color:#888}.cta{display:block;background:#C9A84C;color:#050505;text-align:center;padding:.9rem;text-decoration:none;font-weight:bold;margin:2rem 0}nav{margin-bottom:1.5rem}</style>
+</head>
+<body>
+<nav><a href="index.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/index.html';return false;} style="color:#C9A84C;text-decoration:none">← PLT Press</a></nav>
+<h1>The Negotiation by Craig Jones</h1>
+<p>Fifteen moves. Six configurations. Every one scored through Profit, Love, and Tax. The Negotiation is the PLT doctrine applied to high-stakes exchanges — the moves, the counters, and the close that compounds over time.</p>
+<h2>The Three Scores</h2>
+<p><strong style="color:#C9A84C">Profit</strong> — Strategic position and leverage in every exchange.</p>
+<p><strong style="color:#C9A84C">Love</strong> — Relationship capital built over time, spent in moments.</p>
+<p><strong style="color:#C9A84C">Tax</strong> — The real cost, deferred. It always comes due.</p>
+<blockquote>"Every conversation has a score. Most people never see it running." — Craig Jones</blockquote>
+<h2>18 Books. One Framework.</h2>
+<p>Craig Jones has built an entire library around PLT — from negotiation doctrine to fiction, from daily practice guides to real estate scripts. Each book applies the three-score framework to a different arena.</p>
+<a href="bundle.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/bundle.html';return false;} class="cta">Get All 18 Books — $49 →</a>
+<p><a href="index.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/index.html';return false;} style="color:#C9A84C;font-size:.85rem">Browse individual titles →</a></p>
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-the-negotiation-book.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-the-negotiation-book.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for the-negotiation-book.html");</script></body>
+</html>

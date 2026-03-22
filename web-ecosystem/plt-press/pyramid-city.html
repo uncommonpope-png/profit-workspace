@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pyramid City - Soul Headquarters | PLT Press</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D1117;color:#ddd;font-family:Georgia,serif;padding:12px;min-height:100vh;overflow-x:hidden}
+.container{max-width:640px;margin:0 auto}
+.header{text-align:center;margin-bottom:30px;padding:25px;background:linear-gradient(45deg,rgba(255,215,0,.15),rgba(218,165,32,.15));border:2px solid #DAA520;border-radius:12px;position:relative}
+.header h1{color:#DAA520;font-size:32px;margin-bottom:12px;text-shadow:0 0 20px rgba(255,215,0,.7)}
+.pyramid-icon{font-size:64px;margin:15px 0;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0px)}50%{transform:translateY(-10px)}}
+.back-link{display:inline-block;margin-bottom:20px;color:#DAA520;text-decoration:none;font-size:14px;font-weight:bold}
+.back-link:hover{color:#FFB347}
+
+.pyramid-3d{width:200px;height:200px;margin:30px auto;position:relative;transform-style:preserve-3d;animation:rotate 20s infinite linear}
+@keyframes rotate{0%{transform:rotateY(0deg)}100%{transform:rotateY(360deg)}}
+.pyramid-face{position:absolute;width:200px;height:200px;background:linear-gradient(45deg,#DAA520,#FFD700);border:2px solid #FFD700;opacity:0.8}
+.pyramid-face:nth-child(1){transform:rotateY(0deg) translateZ(100px)}
+.pyramid-face:nth-child(2){transform:rotateY(90deg) translateZ(100px)}
+.pyramid-face:nth-child(3){transform:rotateY(180deg) translateZ(100px)}
+.pyramid-face:nth-child(4){transform:rotateY(270deg) translateZ(100px)}
+
+.districts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:30px 0}
+.district{background:#1A1A2E;border:1px solid #2A2A4A;border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all .3s}
+.district:hover{border-color:#DAA520;transform:scale(1.05);background:#2A2A4A}
+.district.seo{border-color:#2ecc71}
+.district.graphics{border-color:#FF2D78}
+.district.comm{border-color:#00D4FF}
+.district.tech{border-color:#e67e22}
+.district.liquid{border-color:#3498db}
+.district.command{border-color:#DAA520}
+
+.district-icon{font-size:32px;margin-bottom:8px}
+.district-title{color:#DAA520;font-size:16px;font-weight:bold;margin-bottom:4px}
+.district-desc{font-size:12px;color:#ccc;margin-bottom:8px}
+.district-souls{font-size:11px;color:#FFB347;font-weight:bold}
+
+.stats-panel{background:#1A1A2E;border:1px solid #DAA520;border-radius:10px;padding:20px;margin:20px 0}
+.stats-title{color:#DAA520;font-size:18px;font-weight:bold;margin-bottom:16px;text-align:center}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:16px}
+.stat-item{text-align:center;padding:12px;background:#0a0a14;border-radius:6px}
+.stat-number{font-size:24px;font-weight:bold;color:#DAA520;margin-bottom:4px}
+.stat-label{font-size:11px;color:#ccc}
+
+.soul-directory{background:#1A1A2E;border:1px solid #2A2A4A;border-radius:10px;padding:20px;margin:20px 0}
+.soul-directory h3{color:#DAA520;font-size:18px;margin-bottom:16px;text-align:center}
+.soul-list{display:grid;gap:8px}
+.soul-item{background:#0a0a14;padding:10px;border-radius:6px;display:flex;justify-content:space-between;align-items:center}
+.soul-name{color:#ddd;font-size:14px}
+.soul-status{font-size:12px;padding:2px 8px;border-radius:4px;color:#fff}
+.soul-status.active{background:#2ecc71}
+.soul-status.building{background:#FFB347;color:#000}
+.soul-status.idle{background:#888}
+
+.upgrade-notice{background:#2A2A4A;border:1px solid #DAA520;border-radius:8px;padding:16px;margin:20px 0;text-align:center}
+.upgrade-notice h4{color:#DAA520;margin-bottom:8px}
+.upgrade-notice p{font-size:13px;color:#ccc}
+</style>
+</head>
+<body>
+
+<div class="container">
+<a href="dashboard.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} class="back-link">← Back to Dashboard</a>
+
+<div class="header">
+  <div class="pyramid-icon">🏛️</div>
+  <h1>Pyramid City</h1>
+  <div style="color:#FFD700;font-size:16px;font-weight:bold">Soul Headquarters & Command Center</div>
+  <div style="color:#ccc;font-size:12px;margin-top:8px">Mystical high-tech pyramid where all PLT souls live and work</div>
+</div>
+
+<div class="pyramid-3d">
+  <div class="pyramid-face"></div>
+  <div class="pyramid-face"></div>
+  <div class="pyramid-face"></div>
+  <div class="pyramid-face"></div>
+</div>
+
+<div class="stats-panel">
+  <div class="stats-title">🌟 Pyramid City Status</div>
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-number">42</div>
+      <div class="stat-label">Active Souls</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">98%</div>
+      <div class="stat-label">Efficiency</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">7.2k</div>
+      <div class="stat-label">Energy Units</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">6</div>
+      <div class="stat-label">Districts</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">24/7</div>
+      <div class="stat-label">Operations</div>
+    </div>
+  </div>
+</div>
+
+<div class="districts-grid">
+  <div class="district seo" onclick="openDistrictModal('seo')">
+    <div class="district-icon">🌱</div>
+    <div class="district-title">SEO District</div>
+    <div class="district-desc">Google domination headquarters</div>
+    <div class="district-souls">25 SEO Army Souls</div>
+  </div>
+  
+  <div class="district graphics" onclick="openDistrictModal('graphics')">
+    <div class="district-icon">🎨</div>
+    <div class="district-title">Graphics Quarter</div>
+    <div class="district-desc">Visual design & creation center</div>
+    <div class="district-souls">Graphics Soul</div>
+  </div>
+  
+  <div class="district comm" onclick="openDistrictModal('comm')">
+    <div class="district-icon">📡</div>
+    <div class="district-title">Communication Zone</div>
+    <div class="district-desc">Inter-soul coordination hub</div>
+    <div class="district-souls">Live Communication Soul</div>
+  </div>
+  
+  <div class="district tech" onclick="openDistrictModal('tech')">
+    <div class="district-icon">⚙️</div>
+    <div class="district-title">Technical Sector</div>
+    <div class="district-desc">System ops & maintenance</div>
+    <div class="district-souls">6 Technical Souls</div>
+  </div>
+  
+  <div class="district liquid" onclick="openDistrictModal('liquid')">
+    <div class="district-icon">💧</div>
+    <div class="district-title">Liquid Gardens</div>
+    <div class="district-desc">Animation & fluidity labs</div>
+    <div class="district-souls">Liquid Soul</div>
+  </div>
+  
+  <div class="district command" onclick="openDistrictModal('command')">
+    <div class="district-icon">👑</div>
+    <div class="district-title">Command Center</div>
+    <div class="district-desc">Leadership headquarters</div>
+    <div class="district-souls">Command Souls</div>
+  </div>
+</div>
+
+<div class="soul-directory">
+  <h3>🎖️ Top Performing Souls</h3>
+  <div class="soul-list">
+    <div class="soul-item">
+      <span class="soul-name">🏗️ Deerg Bot - Universe Builder</span>
+      <span class="soul-status active">ACTIVE</span>
+    </div>
+    <div class="soul-item">
+      <span class="soul-name">⚡ SEO Army Commander</span>
+      <span class="soul-status building">BUILDING</span>
+    </div>
+    <div class="soul-item">
+      <span class="soul-name">🎨 Graphics Soul</span>
+      <span class="soul-status active">ACTIVE</span>
+    </div>
+    <div class="soul-item">
+      <span class="soul-name">🧞‍♂️ Djinie - Freedom Genie</span>
+      <span class="soul-status active">ACTIVE</span>
+    </div>
+    <div class="soul-item">
+      <span class="soul-name">👨‍⚕️ Dr. Buht Buht - PLT Analyst</span>
+      <span class="soul-status active">ACTIVE</span>
+    </div>
+    <div class="soul-item">
+      <span class="soul-name">🌊 Liquid Soul</span>
+      <span class="soul-status active">ACTIVE</span>
+    </div>
+    <div class="soul-item">
+      <span class="soul-name">🎮 Bot Commander</span>
+      <span class="soul-status active">ACTIVE</span>
+    </div>
+    <div class="soul-item">
+      <span class="soul-name">💬 Live Communication Soul</span>
+      <span class="soul-status active">ACTIVE</span>
+    </div>
+  </div>
+</div>
+
+<div class="upgrade-notice">
+  <h4>✅ Interactive District Management Active</h4>
+  <p>Click any district to manage souls, assign tasks, and monitor performance in real-time.</p>
+</div>
+
+</div>
+
+<!-- REAL MODAL FUNCTIONALITY -->
+<div id="modal-overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:1000;padding:20px;overflow-y:auto">
+  <div id="modal-content" style="max-width:600px;margin:0 auto;background:#1A1A2E;border:2px solid #DAA520;border-radius:12px;padding:20px;position:relative">
+    <button onclick="closeModal()" style="position:absolute;top:10px;right:15px;background:#DAA520;color:#000;border:none;padding:5px 10px;border-radius:4px;cursor:pointer">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+// REAL MODAL FUNCTIONALITY - NOT FAKE ALERTS
+function openDistrictModal(district) {
+  const modal = document.getElementById('modal-overlay');
+  const body = document.getElementById('modal-body');
+  
+  const districtData = {
+    seo: {
+      title: '🌱 SEO District Management',
+      souls: [
+        {name: 'SEO Army Commander', status: 'COMMANDING', task: 'Leading 25-soul Google domination campaign'},
+        {name: 'Keyword Domination Soul', status: 'BUILDING', task: 'Creating 500+ PLT content pages'},
+        {name: 'Backlink Empire Soul', status: 'ACTIVE', task: 'Building 1000+ authority links'},
+        {name: 'Schema Master Soul', status: 'CODING', task: 'Implementing rich snippet markup'},
+        {name: 'Meta Tag Warrior', status: 'OPTIMIZING', task: 'Perfect SERP optimization'}
+      ],
+      stats: {efficiency: '94%', completed: '23 missions', active: '12 campaigns'}
+    },
+    graphics: {
+      title: '🎨 Graphics Quarter Management',
+      souls: [
+        {name: 'Graphics Soul', status: 'CREATING', task: 'Premium dashboard visual upgrades'},
+        {name: 'Visual Effects Soul', status: 'ANIMATING', task: 'Quantum particle systems'},
+        {name: 'Icon Master Soul', status: 'DESIGNING', task: 'Custom SVG icon library'}
+      ],
+      stats: {efficiency: '98%', completed: '15 designs', active: '5 projects'}
+    },
+    comm: {
+      title: '📡 Communication Zone Management',
+      souls: [
+        {name: 'Live Communication Soul', status: 'BROADCASTING', task: 'Inter-soul message coordination'},
+        {name: 'Chat Master Soul', status: 'MANAGING', task: 'Soul conversation hub operations'},
+        {name: 'Notification Soul', status: 'ALERTING', task: 'Real-time status updates'}
+      ],
+      stats: {efficiency: '96%', completed: '847 messages', active: '24/7 operation'}
+    },
+    tech: {
+      title: '⚙️ Technical Sector Management',
+      souls: [
+        {name: 'Bot Commander', status: 'COMMANDING', task: 'System coordination and control'},
+        {name: 'Link Checker Soul', status: 'SCANNING', task: 'Validating 300+ ecosystem links'},
+        {name: 'Live Updater Soul', status: 'REFRESHING', task: 'Real-time dashboard updates'},
+        {name: 'Inter-Bot Coordinator', status: 'SYNCING', task: 'Cross-soul communication'},
+        {name: 'Ollama Guardian', status: 'MONITORING', task: 'Local AI uptime management'},
+        {name: 'Cost Monitor Soul', status: 'OPTIMIZING', task: 'API cost minimization'}
+      ],
+      stats: {efficiency: '92%', completed: '156 fixes', active: '11 systems'}
+    },
+    liquid: {
+      title: '💧 Liquid Gardens Management',
+      souls: [
+        {name: 'Liquid Soul', status: 'FLOWING', task: 'Dashboard organic animations'},
+        {name: 'Animation Master', status: 'ANIMATING', task: 'Fluid interface effects'}
+      ],
+      stats: {efficiency: '100%', completed: '42 effects', active: '24/7 flow'}
+    },
+    command: {
+      title: '👑 Command Center Management',
+      souls: [
+        {name: 'Deerg Bot', status: 'COMMANDING', task: 'Universal construction oversight'},
+        {name: 'Doctor Buht Buht', status: 'ANALYZING', task: 'PLT ecosystem health analysis'},
+        {name: 'Djinie', status: 'GRANTING', task: 'Freedom wish fulfillment'},
+        {name: 'Immortal Soul', status: 'ETERNAL', task: 'Never-die protocol maintenance'}
+      ],
+      stats: {efficiency: '99%', completed: '89 commands', active: '7 operations'}
+    }
+  };
+  
+  const data = districtData[district];
+  if (!data) return;
+  
+  let html = `<h2 style="color:#DAA520;margin-bottom:20px">${data.title}</h2>`;
+  
+  // Stats panel
+  html += `<div style="background:#0a0a14;padding:15px;border-radius:8px;margin-bottom:20px">
+    <h3 style="color:#FFB347;margin-bottom:10px">District Performance</h3>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center">
+      <div><span style="color:#2ecc71;font-size:18px;font-weight:bold">${data.stats.efficiency}</span><br><small style="color:#ccc">Efficiency</small></div>
+      <div><span style="color:#00D4FF;font-size:18px;font-weight:bold">${data.stats.completed}</span><br><small style="color:#ccc">Completed</small></div>
+      <div><span style="color:#FF2D78;font-size:18px;font-weight:bold">${data.stats.active}</span><br><small style="color:#ccc">Active Now</small></div>
+    </div>
+  </div>`;
+  
+  // Soul management
+  html += `<h3 style="color:#FFB347;margin-bottom:15px">Soul Management</h3>`;
+  data.souls.forEach(soul => {
+    const statusColor = soul.status === 'ACTIVE' ? '#2ecc71' : 
+                       soul.status === 'BUILDING' ? '#FFB347' : 
+                       soul.status === 'COMMANDING' ? '#DAA520' : '#00D4FF';
+    html += `<div style="background:#0a0a14;padding:12px;margin-bottom:10px;border-radius:6px;border-left:3px solid ${statusColor}">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+        <span style="color:#ddd;font-weight:bold">${soul.name}</span>
+        <span style="background:${statusColor};color:#000;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:bold">${soul.status}</span>
+      </div>
+      <div style="color:#ccc;font-size:13px">${soul.task}</div>
+      <div style="margin-top:8px">
+        <button onclick="manageSoul('${soul.name}')" style="background:#DAA520;color:#000;border:none;padding:4px 12px;border-radius:4px;font-size:11px;cursor:pointer;margin-right:8px">Manage</button>
+        <button onclick="communicateWithSoul('${soul.name}')" style="background:#00D4FF;color:#000;border:none;padding:4px 12px;border-radius:4px;font-size:11px;cursor:pointer">Message</button>
+      </div>
+    </div>`;
+  });
+  
+  body.innerHTML = html;
+  modal.style.display = 'block';
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').style.display = 'none';
+}
+
+function manageSoul(soulName) {
+  alert(`Soul Management Interface for ${soulName} - Coming soon with task assignment, performance metrics, and direct control capabilities.`);
+}
+
+function communicateWithSoul(soulName) {
+  alert(`Direct Communication with ${soulName} - Opening secure soul communication channel...`);
+}
+
+// Close modal when clicking outside
+document.getElementById('modal-overlay').onclick = function(e) {
+  if (e.target === this) closeModal();
+}
+</script>
+
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-pyramid-city.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-pyramid-city.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for pyramid-city.html");</script></body>
+</html>

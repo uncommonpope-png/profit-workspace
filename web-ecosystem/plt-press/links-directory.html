@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Links Directory - All Generated Content | PLT Press</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D1117;color:#ddd;font-family:Georgia,serif;padding:12px;min-height:100vh}
+.container{max-width:640px;margin:0 auto}
+.header{text-align:center;margin-bottom:20px;padding:20px;border:1px solid #9b59b6;border-radius:8px;background:#1A1A2E}
+.header h1{color:#9b59b6;font-size:28px;margin-bottom:8px}
+.links{font-size:48px;margin:10px 0}
+.back-link{display:inline-block;margin-bottom:15px;color:#9b59b6;text-decoration:none;font-size:14px}
+.back-link:hover{color:#FFB347}
+
+.search-filter{margin-bottom:20px}
+.search-box{width:100%;background:#0a0a14;border:1px solid #2A2A4A;color:#ddd;padding:10px;font-family:Georgia,serif;border-radius:6px;margin-bottom:12px}
+.filter-tags{display:flex;gap:8px;flex-wrap:wrap}
+.filter-tag{background:#2A2A4A;color:#ddd;border:none;padding:6px 12px;font-size:11px;border-radius:4px;cursor:pointer}
+.filter-tag.active{background:#9b59b6;color:#fff}
+
+.category-section{margin-bottom:24px}
+.category-header{background:#9b59b6;color:#fff;padding:12px 16px;border-radius:6px 6px 0 0;font-size:16px;font-weight:bold}
+.category-content{background:#1A1A2E;border:1px solid #2A2A4A;border-top:none;border-radius:0 0 6px 6px;padding:16px}
+
+.link-grid{display:grid;gap:12px}
+.link-item{background:#0a0a14;border:1px solid #2A2A4A;border-radius:8px;padding:16px;transition:all .3s}
+.link-item:hover{border-color:#9b59b6;background:#1A1A2E}
+.link-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.link-title{color:#9b59b6;font-size:16px;font-weight:bold;margin-bottom:4px}
+.link-url{color:#00D4FF;font-size:12px;text-decoration:none}
+.link-url:hover{color:#FFB347}
+.link-status{background:#2ecc71;color:#fff;padding:2px 6px;border-radius:3px;font-size:10px;font-weight:bold}
+.link-status.building{background:#FFB347;color:#000}
+.link-status.planned{background:#888;color:#fff}
+.link-desc{color:#ddd;font-size:13px;line-height:1.5;margin-bottom:8px}
+.link-meta{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#888}
+.link-words{color:#FFB347}
+.link-date{color:#00D4FF}
+
+.stats-bar{background:#0a0a14;padding:12px;border-radius:6px;margin-bottom:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:12px;text-align:center}
+.stat-item{border-right:1px solid #2A2A4A;padding:0 8px}
+.stat-item:last-child{border-right:none}
+.stat-number{font-size:18px;font-weight:bold;color:#9b59b6;margin-bottom:2px}
+.stat-label{font-size:10px;color:#ccc}
+
+.update-notice{background:#2A2A4A;color:#ddd;padding:10px;border-radius:4px;font-size:12px;text-align:center;margin-bottom:16px}
+</style>
+</head>
+<body>
+
+<div class="container">
+<a href="dashboard.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} class="back-link">← Back to Dashboard</a>
+
+<div class="header">
+  <div class="links">🔗</div>
+  <h1>Links Directory</h1>
+  <div style="color:#00D4FF;font-size:14px">All Generated Content with Clickable Links</div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-number" id="total-links">Loading...</div>
+    <div class="stat-label">Total Links</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number" id="live-links">0</div>
+    <div class="stat-label">Live</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number" id="building-links">0</div>
+    <div class="stat-label">Building</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number" id="planned-links">0</div>
+    <div class="stat-label">Planned</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number" id="total-words">0</div>
+    <div class="stat-label">Total Words</div>
+  </div>
+</div>
+
+<div class="update-notice" id="update-notice">
+  🔄 Auto-updating every 2 minutes with new content from soul army...
+</div>
+
+<div class="search-filter">
+  <input type="text" class="search-box" id="search" placeholder="🔍 Search all generated content..." onkeyup="filterContent()">
+  <div class="filter-tags">
+    <button class="filter-tag active" onclick="filterByType('all')">All</button>
+    <button class="filter-tag" onclick="filterByType('live')">Live</button>
+    <button class="filter-tag" onclick="filterByType('building')">Building</button>
+    <button class="filter-tag" onclick="filterByType('seo')">SEO</button>
+    <button class="filter-tag" onclick="filterByType('products')">Products</button>
+    <button class="filter-tag" onclick="filterByType('blog')">Blog</button>
+    <button class="filter-tag" onclick="filterByType('tools')">Tools</button>
+  </div>
+</div>
+
+<!-- System/Dashboard Pages -->
+<div class="category-section" id="system-section">
+  <div class="category-header">⚙️ System & Dashboard Pages</div>
+  <div class="category-content">
+    <div class="link-grid" id="system-links">
+      <div class="link-item">
+        <div class="link-header">
+          <div>
+            <div class="link-title">PLT Command Dashboard</div>
+            <a href="dashboard.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} class="link-url" target="_blank">dashboard.html</a>
+          </div>
+          <div class="link-status">LIVE</div>
+        </div>
+        <div class="link-desc">Main control center - revenue tracking, soul management, system status, and navigation to all universe windows</div>
+        <div class="link-meta">
+          <span class="link-words">2,500+ words</span>
+          <span class="link-date">Core System</span>
+        </div>
+      </div>
+      
+      <div class="link-item">
+        <div class="link-header">
+          <div>
+            <div class="link-title">Bot Commander - Control Center</div>
+            <a href="bot-commander.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/bot-commander.html';return false;} class="link-url" target="_blank">bot-commander.html</a>
+          </div>
+          <div class="link-status">LIVE</div>
+        </div>
+        <div class="link-desc">Master control panel for all autonomous bots - start/stop, emergency controls, bot communication monitoring</div>
+        <div class="link-meta">
+          <span class="link-words">1,800+ words</span>
+          <span class="link-date">Control System</span>
+        </div>
+      </div>
+      
+      <div class="link-item">
+        <div class="link-header">
+          <div>
+            <div class="link-title">Djinie - Freedom Genie</div>
+            <a href="djinie.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/djinie.html';return false;} class="link-url" target="_blank">djinie.html</a>
+          </div>
+          <div class="link-status">LIVE</div>
+        </div>
+        <div class="link-desc">Cost optimization and freedom wishes - makes local AI faster than paid APIs but completely free</div>
+        <div class="link-meta">
+          <span class="link-words">1,200+ words</span>
+          <span class="link-date">Optimization</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SEO Pages -->
+<div class="category-section" id="seo-section">
+  <div class="category-header">🔍 SEO Content Pages</div>
+  <div class="category-content">
+    <div class="link-grid" id="seo-links">
+      <div class="link-item">
+        <div class="link-header">
+          <div>
+            <div class="link-title">AI Business Automation Tools 2026</div>
+            <a href="ai-business-automation.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/ai-business-automation.html';return false;} class="link-url" target="_blank">ai-business-automation.html</a>
+          </div>
+          <div class="link-status">LIVE</div>
+        </div>
+        <div class="link-desc">Complete guide to AI business automation tools targeting "AI business automation tools 2026" keyword</div>
+        <div class="link-meta">
+          <span class="link-words">1,733 words</span>
+          <span class="link-date">Built by Groq Soul</span>
+        </div>
+      </div>
+      
+      <div class="link-item">
+        <div class="link-header">
+          <div>
+            <div class="link-title">Credit Repair Guide 2026</div>
+            <a href="credit-repair-guide-2026.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/credit-repair-guide-2026.html';return false;} class="link-url" target="_blank">credit-repair-guide-2026.html</a>
+          </div>
+          <div class="link-status">LIVE</div>
+        </div>
+        <div class="link-desc">Fast credit repair strategies targeting "how to repair credit score fast 2026" with PLT framework insights</div>
+        <div class="link-meta">
+          <span class="link-words">1,067 words</span>
+          <span class="link-date">Built by DeepL Soul</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Product Pages -->
+<div class="category-section" id="products-section">
+  <div class="category-header">📦 Product Pages</div>
+  <div class="category-content">
+    <div class="link-grid" id="product-links">
+      <div class="link-item">
+        <div class="link-header">
+          <div>
+            <div class="link-title">PLT Email Course Landing</div>
+            <a href="products/email-course-landing.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/products/email-course-landing.html';return false;} class="link-url" target="_blank">products/email-course-landing.html</a>
+          </div>
+          <div class="link-status">LIVE</div>
+        </div>
+        <div class="link-desc">7-day "Master PLT in 7 Days" email course - $27 - Professional landing page with Stripe integration</div>
+        <div class="link-meta">
+          <span class="link-words">1,500+ words</span>
+          <span class="link-date">Built by Stability AI Soul</span>
+        </div>
+      </div>
+      
+      <div class="link-item">
+        <div class="link-header">
+          <div>
+            <div class="link-title">AI Automation Toolkit</div>
+            <a href="products/automation-toolkit.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/products/automation-toolkit.html';return false;} class="link-url" target="_blank">products/automation-toolkit.html</a>
+          </div>
+          <div class="link-status">LIVE</div>
+        </div>
+        <div class="link-desc">50+ ChatGPT prompts & workflows for business automation - $67 - Premium positioning with value stacking</div>
+        <div class="link-meta">
+          <span class="link-words">1,800+ words</span>
+          <span class="link-date">Built by Stability AI Soul</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Blog Posts -->
+<div class="category-section" id="blog-section">
+  <div class="category-header">📝 Blog Posts</div>
+  <div class="category-content">
+    <div class="link-grid" id="blog-links">
+      <div class="link-item">
+        <div class="link-header">
+          <div>
+            <div class="link-title">Why Most Business Advice Fails</div>
+            <a href="../plt-blog/why-most-business-advice-fails.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/../plt-blog/why-most-business-advice-fails.html';return false;} class="link-url" target="_blank">plt-blog/why-most-business-advice-fails.html</a>
+          </div>
+          <div class="link-status">LIVE</div>
+        </div>
+        <div class="link-desc">PLT perspective on why traditional business advice doesn't work - targets "business advice that works"</div>
+        <div class="link-meta">
+          <span class="link-words">627 words</span>
+          <span class="link-date">Built by Mistral Soul</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AI Tools Pages -->
+<div class="category-section" id="tools-section">
+  <div class="category-header">🛠️ AI Tools Comparison</div>
+  <div class="category-content">
+    <div class="link-grid" id="tools-links">
+      <div class="link-item">
+        <div class="link-header">
+          <div>
+            <div class="link-title">AI Writing Tools Comparison</div>
+            <a href="../ai-tools-hub/ai-writing-tools-comparison.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/../ai-tools-hub/ai-writing-tools-comparison.html';return false;} class="link-url" target="_blank">ai-tools-hub/ai-writing-tools-comparison.html</a>
+          </div>
+          <div class="link-status">LIVE</div>
+        </div>
+        <div class="link-desc">ChatGPT vs Claude vs Gemini comparison with affiliate links - targets "best AI writing tools 2026"</div>
+        <div class="link-meta">
+          <span class="link-words">600 words</span>
+          <span class="link-date">Built by Hugging Face Soul</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+let allLinks = [];
+let currentFilter = 'all';
+
+// Comprehensive links database with all generated content
+const linksDatabase = {
+  system: [
+    {
+      title: 'PLT Command Dashboard',
+      url: 'dashboard.html',
+      desc: 'Main control center - revenue tracking, soul management, system status, and navigation to all universe windows',
+      words: 2500,
+      status: 'live',
+      date: 'Core System',
+      category: 'system'
+    },
+    {
+      title: 'Bot Commander - Control Center', 
+      url: 'bot-commander.html',
+      desc: 'Master control panel for all autonomous bots - start/stop, emergency controls, bot communication monitoring',
+      words: 1800,
+      status: 'live',
+      date: 'Control System',
+      category: 'system'
+    },
+    {
+      title: 'Djinie - Freedom Genie',
+      url: 'djinie.html', 
+      desc: 'Cost optimization and freedom wishes - makes local AI faster than paid APIs but completely free',
+      words: 1200,
+      status: 'live',
+      date: 'Optimization',
+      category: 'system'
+    },
+    {
+      title: 'Deerg Bot - Universe Builder',
+      url: 'deerg-bot.html',
+      desc: 'Creates new universe windows and expands dashboard capabilities - builds the ecosystem itself',
+      words: 1500,
+      status: 'live', 
+      date: 'Universe Expansion',
+      category: 'system'
+    },
+    {
+      title: 'Dr. Buht Buht - PLT Analyst',
+      url: 'doctor-buht-buht.html',
+      desc: 'Continuously analyzes entire ecosystem using PLT framework - provides health diagnosis and optimization recommendations',
+      words: 1400,
+      status: 'live',
+      date: 'PLT Analysis', 
+      category: 'system'
+    },
+    {
+      title: 'Library - Ecosystem Directory',
+      url: 'library.html',
+      desc: 'Complete catalog of all 229+ pages across ecosystem with clickable navigation and search',
+      words: 1600,
+      status: 'live',
+      date: 'Content Catalog',
+      category: 'system'
+    },
+    {
+      title: 'SEO Dashboard - Content Empire',
+      url: 'seo-dashboard.html', 
+      desc: 'Monitors all SEO pages with keyword targets, word counts, and ranking status',
+      words: 1300,
+      status: 'live',
+      date: 'SEO Monitoring',
+      category: 'system'
+    }
+  ],
+  seo: [
+    {
+      title: 'AI Business Automation Tools 2026',
+      url: 'ai-business-automation.html',
+      desc: 'Complete guide to AI business automation tools targeting "AI business automation tools 2026" keyword',
+      words: 1733,
+      status: 'live',
+      date: 'Built by Groq Soul',
+      category: 'seo'
+    },
+    {
+      title: 'How to Automate Small Business',
+      url: 'automate-small-business.html', 
+      desc: 'Step-by-step small business automation guide targeting "how to automate small business processes"',
+      words: 2078,
+      status: 'live',
+      date: 'Built by Groq Soul',
+      category: 'seo'
+    },
+    {
+      title: 'Best AI Productivity Tools',
+      url: 'ai-productivity-tools.html',
+      desc: 'Comprehensive review of AI productivity tools targeting "best AI productivity tools for businesses"',
+      words: 2318,
+      status: 'live', 
+      date: 'Built by Groq Soul',
+      category: 'seo'
+    },
+    {
+      title: 'Credit Repair Guide 2026',
+      url: 'credit-repair-guide-2026.html',
+      desc: 'Fast credit repair strategies targeting "how to repair credit score fast 2026" with PLT framework insights',
+      words: 1067,
+      status: 'live',
+      date: 'Built by DeepL Soul',
+      category: 'seo'
+    },
+    {
+      title: 'Build Business Credit from Scratch',
+      url: 'business-credit-building.html',
+      desc: 'Complete business credit building guide targeting "how to build business credit from scratch"',
+      words: 1311,
+      status: 'live',
+      date: 'Built by DeepL Soul',  
+      category: 'seo'
+    },
+    {
+      title: 'Financial Literacy for Beginners',
+      url: 'financial-literacy-basics.html',
+      desc: 'Beginner-friendly financial literacy guide targeting "financial literacy for beginners guide"',
+      words: 1398,
+      status: 'live',
+      date: 'Built by DeepL Soul',
+      category: 'seo'
+    }
+  ],
+  products: [
+    {
+      title: 'PLT Email Course Landing',
+      url: 'products/email-course-landing.html',
+      desc: '7-day "Master PLT in 7 Days" email course - $27 - Professional landing page with Stripe integration',
+      words: 1500,
+      status: 'live',
+      date: 'Built by Stability AI Soul',
+      category: 'products'
+    },
+    {
+      title: 'Betty Credits Financial Templates', 
+      url: 'products/financial-templates.html',
+      desc: 'Digital download bundle - credit repair letters, loan applications, spreadsheets - $47',
+      words: 1300,
+      status: 'live',
+      date: 'Built by Stability AI Soul',
+      category: 'products'
+    },
+    {
+      title: 'AI Automation Toolkit',
+      url: 'products/automation-toolkit.html', 
+      desc: '50+ ChatGPT prompts & workflows for business automation - $67 - Premium positioning with value stacking',
+      words: 1800,
+      status: 'live',
+      date: 'Built by Stability AI Soul',
+      category: 'products'
+    },
+    {
+      title: 'Products Hub',
+      url: 'products/index.html',
+      desc: 'Main products showcase with bundle deals - all 3 products for $97 (save $50)',
+      words: 900,
+      status: 'live',
+      date: 'Products Central',
+      category: 'products'
+    }
+  ],
+  blog: [
+    {
+      title: 'Why Most Business Advice Fails',
+      url: '../plt-blog/why-most-business-advice-fails.html',
+      desc: 'PLT perspective on why traditional business advice doesn\'t work - targets "business advice that works"',
+      words: 627,
+      status: 'live',
+      date: 'Built by Mistral Soul',
+      category: 'blog'
+    },
+    {
+      title: 'How to Score Any Deal Using PLT',
+      url: '../plt-blog/how-to-score-any-deal-using-plt.html',
+      desc: 'Deal evaluation framework using PLT - targets "deal evaluation framework" keyword',
+      words: 767,
+      status: 'live',
+      date: 'Built by Mistral Soul', 
+      category: 'blog'
+    },
+    {
+      title: 'Credit Secrets Banks Don\'t Want You to Know',
+      url: '../plt-blog/credit-secrets-banks-dont-want-you-to-know.html',
+      desc: 'Betty\'s insider banking knowledge targeting "credit secrets banking" keywords',
+      words: 1016,
+      status: 'live',
+      date: 'Built by Mistral Soul',
+      category: 'blog'
+    },
+    {
+      title: 'AI Automation Mistakes Costing Businesses',
+      url: '../plt-blog/ai-automation-mistakes-costing-businesses.html', 
+      desc: 'Common AI automation errors and solutions targeting "AI automation mistakes"',
+      words: 914,
+      status: 'live',
+      date: 'Built by Mistral Soul',
+      category: 'blog'
+    },
+    {
+      title: 'Small Business Funding in 2026',
+      url: '../plt-blog/small-business-funding-in-2026.html',
+      desc: 'Updated financing landscape guide targeting "small business funding 2026"', 
+      words: 863,
+      status: 'live',
+      date: 'Built by Mistral Soul',
+      category: 'blog'
+    },
+    {
+      title: 'Passive Income Streams That Actually Work',
+      url: '../plt-blog/passive-income-streams-that-actually-work.html',
+      desc: 'Real passive income strategies targeting "passive income streams 2026"',
+      words: 998,
+      status: 'live',
+      date: 'Built by Mistral Soul',
+      category: 'blog'
+    }
+  ],
+  tools: [
+    {
+      title: 'AI Writing Tools Comparison',
+      url: '../ai-tools-hub/ai-writing-tools-comparison.html',
+      desc: 'ChatGPT vs Claude vs Gemini comparison with affiliate links - targets "best AI writing tools 2026"',
+      words: 600,
+      status: 'live', 
+      date: 'Built by Hugging Face Soul',
+      category: 'tools'
+    },
+    {
+      title: 'AI Image Generators 2026',
+      url: '../ai-tools-hub/ai-image-generators-2026.html',
+      desc: 'DALL-E vs Midjourney vs Stability AI comparison with monetization',
+      words: 721,
+      status: 'live',
+      date: 'Built by Hugging Face Soul',
+      category: 'tools'
+    },
+    {
+      title: 'AI Code Assistants Comparison',
+      url: '../ai-tools-hub/ai-code-assistants.html',
+      desc: 'GitHub Copilot vs Cursor comparison targeting developer tools',
+      words: 841,
+      status: 'live',
+      date: 'Built by Hugging Face Soul', 
+      category: 'tools'
+    },
+    {
+      title: 'AI Video Tools Comparison',
+      url: '../ai-tools-hub/ai-video-tools-comparison.html',
+      desc: 'Sora vs RunwayML vs Luma AI comparison for video generation',
+      words: 874,
+      status: 'live',
+      date: 'Built by Hugging Face Soul',
+      category: 'tools'
+    },
+    {
+      title: 'AI Productivity Suites',
+      url: '../ai-tools-hub/ai-productivity-suites.html',
+      desc: 'Notion AI vs Clickup AI comparison for productivity tools',
+      words: 919,
+      status: 'live',
+      date: 'Built by Hugging Face Soul',
+      category: 'tools'
+    }
+  ]
+};
+
+function renderAllLinks() {
+  // Flatten all links
+  allLinks = [];
+  Object.values(linksDatabase).forEach(category => {
+    allLinks = allLinks.concat(category);
+  });
+  
+  // Update stats
+  const totalLinks = allLinks.length;
+  const liveLinks = allLinks.filter(l => l.status === 'live').length;
+  const buildingLinks = allLinks.filter(l => l.status === 'building').length; 
+  const plannedLinks = allLinks.filter(l => l.status === 'planned').length;
+  const totalWords = allLinks.reduce((sum, link) => sum + (link.words || 0), 0);
+  
+  document.getElementById('total-links').textContent = totalLinks;
+  document.getElementById('live-links').textContent = liveLinks;
+  document.getElementById('building-links').textContent = buildingLinks;
+  document.getElementById('planned-links').textContent = plannedLinks;
+  document.getElementById('total-words').textContent = totalWords.toLocaleString();
+  
+  // Render each category
+  Object.keys(linksDatabase).forEach(categoryKey => {
+    renderCategoryLinks(categoryKey, linksDatabase[categoryKey]);
+  });
+}
+
+function renderCategoryLinks(categoryKey, links) {
+  const containerId = categoryKey + '-links';
+  const container = document.getElementById(containerId);
+  
+  if (!container) return;
+  
+  container.innerHTML = links.map(link => `
+    <div class="link-item" data-category="${link.category}" data-status="${link.status}">
+      <div class="link-header">
+        <div>
+          <div class="link-title">${link.title}</div>
+          <a href="${link.url}" class="link-url" target="_blank">${link.url}</a>
+        </div>
+        <div class="link-status ${link.status}">${link.status.toUpperCase()}</div>
+      </div>
+      <div class="link-desc">${link.desc}</div>
+      <div class="link-meta">
+        <span class="link-words">${link.words ? link.words.toLocaleString() + ' words' : 'TBD'}</span>
+        <span class="link-date">${link.date}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterByType(type) {
+  // Update active filter button
+  document.querySelectorAll('.filter-tag').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  
+  currentFilter = type;
+  applyFilters();
+}
+
+function filterContent() {
+  applyFilters();
+}
+
+function applyFilters() {
+  const searchTerm = document.getElementById('search').value.toLowerCase();
+  const linkItems = document.querySelectorAll('.link-item');
+  
+  linkItems.forEach(item => {
+    const title = item.querySelector('.link-title').textContent.toLowerCase();
+    const desc = item.querySelector('.link-desc').textContent.toLowerCase();
+    const category = item.getAttribute('data-category');
+    const status = item.getAttribute('data-status');
+    
+    let showItem = true;
+    
+    // Filter by type
+    if (currentFilter !== 'all') {
+      if (currentFilter === 'live' && status !== 'live') showItem = false;
+      else if (currentFilter === 'building' && status !== 'building') showItem = false;
+      else if (currentFilter !== 'live' && currentFilter !== 'building' && category !== currentFilter) showItem = false;
+    }
+    
+    // Filter by search
+    if (searchTerm && !title.includes(searchTerm) && !desc.includes(searchTerm)) {
+      showItem = false;
+    }
+    
+    item.style.display = showItem ? 'block' : 'none';
+  });
+  
+  // Hide empty categories
+  document.querySelectorAll('.category-section').forEach(section => {
+    const visibleItems = section.querySelectorAll('.link-item[style="display: block"], .link-item:not([style*="display: none"])');
+    section.style.display = visibleItems.length > 0 ? 'block' : 'none';
+  });
+}
+
+// Initialize
+renderAllLinks();
+
+// Auto-refresh every 2 minutes
+setInterval(() => {
+  document.getElementById('update-notice').textContent = '🔄 Checking for new content from soul army...';
+  
+  // In real implementation, this would fetch new links
+  setTimeout(() => {
+    document.getElementById('update-notice').textContent = '🔄 Auto-updating every 2 minutes with new content from soul army...';
+  }, 3000);
+}, 120000);
+</script>
+
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-links-directory.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-links-directory.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for links-directory.html");</script></body>
+</html>

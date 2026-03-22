@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Ads Campaign Generator - PLT Press</title>
+    <style>
+        body { font-family: monospace; background: #0D1117; color: #FF2D78; padding: 20px; }
+        .campaign { background: #1A1A2E; border: 1px solid #2A2A4A; border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .headline { color: #FFB347; font-weight: bold; margin-bottom: 10px; }
+        .keyword { background: rgba(46,204,113,0.1); padding: 4px 8px; border-radius: 4px; margin: 2px; display: inline-block; }
+        .cta { background: #FF2D78; color: #000; padding: 8px 15px; border-radius: 4px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>🎯 Google Ads Campaigns - PLT Framework</h1>
+    
+    <div class="campaign">
+        <h2>Campaign 1: Business Decision Keywords</h2>
+        <div class="headline">Business Decision Framework | Score Any Choice | Free Calculator</div>
+        <p><strong>Description:</strong> Stop second-guessing business decisions. Use the PLT framework to score opportunities on Profit, Love & Tax. Free calculator + proven examples.</p>
+        
+        <p><strong>Keywords:</strong></p>
+        <span class="keyword">business decision framework</span>
+        <span class="keyword">how to make business decisions</span>
+        <span class="keyword">decision making tools</span>
+        <span class="keyword">business evaluation framework</span>
+        <span class="keyword">profit analysis framework</span>
+        
+        <p><strong>Landing Page:</strong> /plt-framework-guide.html</p>
+        <p><strong>CTA:</strong> <span class="cta">Try Free PLT Calculator</span></p>
+        <p><strong>Budget:</strong> $50/day</p>
+    </div>
+
+    <div class="campaign">
+        <h2>Campaign 2: Entrepreneur Problems</h2>
+        <div class="headline">Overwhelmed by Decisions? | PLT Scoring System | Get Clarity Fast</div>
+        <p><strong>Description:</strong> Too many opportunities, not enough time? Score every decision with PLT framework. Entrepreneurs increase profits 40%+ using this system.</p>
+        
+        <p><strong>Keywords:</strong></p>
+        <span class="keyword">overwhelmed entrepreneur</span>
+        <span class="keyword">too many business opportunities</span>
+        <span class="keyword">decision fatigue business</span>
+        <span class="keyword">focus business priorities</span>
+        <span class="keyword">profitable business decisions</span>
+        
+        <p><strong>Landing Page:</strong> /plt-calculator.html</p>
+        <p><strong>CTA:</strong> <span class="cta">Score Your Decision Now</span></p>
+        <p><strong>Budget:</strong> $75/day</p>
+    </div>
+
+    <div class="campaign">
+        <h2>Campaign 3: Profit Optimization</h2>
+        <div class="headline">Increase Business Profits 40%+ | PLT Framework | Proven System</div>
+        <p><strong>Description:</strong> Stop wasting time on unprofitable activities. PLT framework helps entrepreneurs identify high-value opportunities and eliminate profit drains.</p>
+        
+        <p><strong>Keywords:</strong></p>
+        <span class="keyword">increase business profits</span>
+        <span class="keyword">profit optimization</span>
+        <span class="keyword">business profitability framework</span>
+        <span class="keyword">maximize business revenue</span>
+        <span class="keyword">profitable business strategy</span>
+        
+        <p><strong>Landing Page:</strong> /bundle.html</p>
+        <p><strong>CTA:</strong> <span class="cta">Get Complete System $49</span></p>
+        <p><strong>Budget:</strong> $100/day</p>
+    </div>
+
+    <h2>📊 Campaign Performance Targets</h2>
+    <ul>
+        <li><strong>CTR:</strong> 3%+ (above average)</li>
+        <li><strong>Cost per Click:</strong> $2-5 (business keywords)</li>
+        <li><strong>Conversion Rate:</strong> 5%+ (calculator signups)</li>
+        <li><strong>Cost per Conversion:</strong> $40-100 (book sales)</li>
+        <li><strong>ROAS Target:</strong> 300%+ ($3 return per $1 spent)</li>
+    </ul>
+
+    <script>
+        // Auto-generate campaign codes
+        setTimeout(() => {
+            document.querySelectorAll('.campaign').forEach((camp, i) => {
+                const code = document.createElement('p');
+                code.innerHTML = `<strong>Campaign Code:</strong> PLT_${i+1}_${new Date().getFullYear()}`;
+                code.style.color = '#00D4FF';
+                camp.appendChild(code);
+            });
+        }, 1000);
+    </script>
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-google-ads-campaigns.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-google-ads-campaigns.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for google-ads-campaigns.html");</script></body>
+</html>

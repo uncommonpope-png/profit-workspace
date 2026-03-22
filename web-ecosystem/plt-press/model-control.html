@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>💰 PLT Model Control</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { 
+            background: #0D1117; color: #FF2D78; font-family: monospace; 
+            margin: 0; padding: 15px; font-size: 14px;
+        }
+        .header { text-align: center; margin-bottom: 20px; }
+        .title { font-size: 20px; color: #FFB347; margin-bottom: 5px; }
+        .current { 
+            background: rgba(255,179,71,0.1); border: 1px solid #FFB347;
+            border-radius: 4px; padding: 10px; margin: 15px 0; text-align: center;
+        }
+        .model { font-size: 16px; font-weight: bold; color: #FFB347; }
+        .cost { font-size: 12px; color: #888; margin-top: 3px; }
+        .options { margin: 15px 0; }
+        .option { 
+            background: #1A1A2E; border: 1px solid #2A2A4A; 
+            border-radius: 4px; padding: 12px; margin: 8px 0; cursor: pointer;
+        }
+        .option:hover { border-color: #FF2D78; }
+        .free { border-color: #2ecc71; }
+        .cheap { border-color: #f39c12; }
+        .expensive { border-color: #e74c3c; }
+        .name { font-weight: bold; margin-bottom: 5px; }
+        .desc { font-size: 12px; color: #888; margin-bottom: 8px; }
+        .badge { 
+            font-size: 10px; padding: 2px 6px; border-radius: 10px; 
+            text-transform: uppercase; font-weight: bold;
+        }
+        .badge-free { background: rgba(46,204,113,0.2); color: #2ecc71; }
+        .badge-cheap { background: rgba(243,156,18,0.2); color: #f39c12; }
+        .badge-expensive { background: rgba(231,76,60,0.2); color: #e74c3c; }
+        .switch-btn { 
+            background: #FF2D78; color: #000; border: none; 
+            padding: 6px 12px; border-radius: 3px; cursor: pointer; 
+            font-weight: bold; font-size: 11px; margin-top: 5px;
+        }
+        .switch-btn:disabled { background: #555; color: #999; }
+        .status { 
+            text-align: center; padding: 8px; border-radius: 4px; 
+            margin: 10px 0; font-size: 12px;
+        }
+        .success { background: rgba(46,204,113,0.1); color: #2ecc71; }
+        .error { background: rgba(231,76,60,0.1); color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">💰 Model Control</div>
+        <div style="font-size: 12px; color: #888;">Switch to save money</div>
+    </div>
+
+    <div class="current">
+        <div class="model" id="current">anthropic/claude-sonnet</div>
+        <div class="cost" id="cost">Moderate cost</div>
+    </div>
+    
+    <div id="status" style="display: none;"></div>
+
+    <div class="options">
+        <div class="option free" onclick="switchModel('local', 'qwen2.5:0.5b')">
+            <div class="name">🦙 Local AI</div>
+            <div class="desc">Qwen 2.5 on your device</div>
+            <span class="badge badge-free">Free</span>
+            <button class="switch-btn">Switch</button>
+        </div>
+
+        <div class="option free" onclick="switchModel('groq', 'llama-3.1-8b-instant')">
+            <div class="name">⚡ Groq</div>
+            <div class="desc">Fast Llama 3.1</div>
+            <span class="badge badge-free">Free Tier</span>
+            <button class="switch-btn">Switch</button>
+        </div>
+
+        <div class="option cheap" onclick="switchModel('anthropic', 'claude-3-haiku-20240307')">
+            <div class="name">🏃 Haiku</div>
+            <div class="desc">Fast and cheap</div>
+            <span class="badge badge-cheap">Cheap</span>
+            <button class="switch-btn">Switch</button>
+        </div>
+
+        <div class="option expensive" onclick="switchModel('anthropic', 'claude-opus-4-6')">
+            <div class="name">🧠 Opus</div>
+            <div class="desc">Most capable</div>
+            <span class="badge badge-expensive">Expensive</span>
+            <button class="switch-btn">Switch</button>
+        </div>
+    </div>
+
+    <script>
+        function showStatus(msg, type) {
+            const status = document.getElementById('status');
+            status.textContent = msg;
+            status.className = `status ${type}`;
+            status.style.display = 'block';
+            setTimeout(() => status.style.display = 'none', 3000);
+        }
+
+        async function switchModel(provider, model) {
+            showStatus('Switching...', 'success');
+            
+            try {
+                const response = await fetch('https://pltcommands.onrender.com/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: `SWITCH_MODEL:${provider}:${model}` })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('current').textContent = `${provider}/${model}`;
+                    showStatus(`✅ Switched to ${model}`, 'success');
+                    
+                    const costEl = document.getElementById('cost');
+                    if (provider === 'local') costEl.textContent = 'Free - Your device';
+                    else if (provider === 'groq') costEl.textContent = 'Free tier';
+                    else if (model.includes('haiku')) costEl.textContent = 'Very cheap';
+                    else if (model.includes('opus')) costEl.textContent = 'Expensive';
+                    else costEl.textContent = 'Moderate cost';
+                } else {
+                    showStatus('❌ Failed to switch', 'error');
+                }
+            } catch (error) {
+                showStatus('❌ Network error', 'error');
+            }
+        }
+    </script>
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-model-control.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-model-control.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for model-control.html");</script></body>
+</html>

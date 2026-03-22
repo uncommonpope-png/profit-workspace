@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLT Score Calculator — Score Any Conversation | Profit Love Tax</title>
+<meta name="description" content="Free PLT Score Calculator. Rate any situation by Profit, Love, and Tax to calculate your Soul Profit score. Make better decisions instantly.">
+<meta name="keywords" content="PLT score calculator, profit love tax, soul profit, decision making tool, PLT framework">
+<meta property="og:title" content="PLT Score Calculator — Score Any Conversation">
+<meta property="og:description" content="Rate any situation by Profit, Love, and Tax. Calculate your Soul Profit score instantly.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://uncommonpope-png.github.io/plt-press/plt-score-calculator.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PLT Score Calculator — Score Any Conversation">
+<meta name="twitter:description" content="I just scored my situation with the PLT Calculator. What's your Soul Profit?">
+<link rel="canonical" href="https://uncommonpope-png.github.io/plt-press/plt-score-calculator.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/https://uncommonpope-png.github.io/plt-press/plt-score-calculator.html';return false;}>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "PLT Score Calculator",
+  "description": "Calculate your Soul Profit score using the Profit, Love, Tax framework. Rate any situation and get an instant verdict.",
+  "url": "https://uncommonpope-png.github.io/plt-press/plt-score-calculator.html",
+  "applicationCategory": "LifestyleApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Craig Jones"
+  }
+}
+</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #0D1117;
+  color: #E6EDF3;
+  font-family: Georgia, 'Times New Roman', serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 16px 40px;
+}
+.container { width: 100%; max-width: 640px; }
+h1 {
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.gold { color: #FFB347; }
+.pink { color: #FF2D78; }
+.cyan { color: #00D4FF; }
+.subtitle {
+  text-align: center;
+  color: #8B949E;
+  font-size: 1rem;
+  margin-bottom: 32px;
+}
+.situation-input {
+  width: 100%;
+  background: #161B22;
+  border: 1px solid #30363D;
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: #E6EDF3;
+  font-family: Georgia, serif;
+  font-size: 1rem;
+  margin-bottom: 28px;
+  resize: none;
+  transition: border-color 0.3s;
+}
+.situation-input:focus {
+  outline: none;
+  border-color: #FFB347;
+}
+.slider-group { margin-bottom: 24px; }
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+.slider-label span:first-child { font-size: 1.1rem; font-weight: bold; }
+.slider-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  min-width: 40px;
+  text-align: right;
+}
+.slider-desc {
+  color: #8B949E;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid #0D1117;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.slider-profit input[type="range"] { background: linear-gradient(90deg, #1a1a2e, #FFB347); }
+.slider-profit input[type="range"]::-webkit-slider-thumb { background: #FFB347; }
+.slider-profit .slider-value { color: #FFB347; }
+.slider-love input[type="range"] { background: linear-gradient(90deg, #1a1a2e, #FF2D78); }
+.slider-love input[type="range"]::-webkit-slider-thumb { background: #FF2D78; }
+.slider-love .slider-value { color: #FF2D78; }
+.slider-tax input[type="range"] { background: linear-gradient(90deg, #1a1a2e, #00D4FF); }
+.slider-tax input[type="range"]::-webkit-slider-thumb { background: #00D4FF; }
+.slider-tax .slider-value { color: #00D4FF; }
+
+.score-display {
+  text-align: center;
+  padding: 32px 20px;
+  margin: 32px 0;
+  background: #161B22;
+  border-radius: 16px;
+  border: 2px solid #30363D;
+  transition: border-color 0.5s;
+}
+.score-label {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #8B949E;
+  margin-bottom: 8px;
+}
+.formula {
+  font-size: 0.95rem;
+  color: #8B949E;
+  margin-bottom: 16px;
+}
+.formula .f-p { color: #FFB347; }
+.formula .f-l { color: #FF2D78; }
+.formula .f-t { color: #00D4FF; }
+.score-number {
+  font-size: 5rem;
+  font-weight: bold;
+  line-height: 1;
+  margin-bottom: 12px;
+  transition: color 0.4s, transform 0.3s;
+}
+.verdict {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-top: 4px;
+}
+.verdict-desc {
+  font-size: 0.9rem;
+  color: #8B949E;
+  margin-top: 8px;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+.score-number.animate { animation: pulse 0.5s ease; }
+
+.cta-section {
+  text-align: center;
+  margin: 32px 0 24px;
+}
+.cta-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #FFB347, #FF2D78);
+  color: #0D1117;
+  text-decoration: none;
+  font-family: Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 16px 32px;
+  border-radius: 50px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(255,179,71,0.3);
+}
+.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(255,179,71,0.45); }
+.cta-sub {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: #8B949E;
+}
+.cta-sub a { color: #00D4FF; text-decoration: none; }
+.cta-sub a:hover { text-decoration: underline; }
+
+.share-section {
+  text-align: center;
+  margin: 24px 0;
+  padding-top: 24px;
+  border-top: 1px solid #21262D;
+}
+.share-section p {
+  font-size: 0.9rem;
+  color: #8B949E;
+  margin-bottom: 12px;
+}
+.share-btns { display: flex; justify-content: center; gap: 12px; }
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-family: Georgia, serif;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.share-btn:hover { transform: translateY(-1px); opacity: 0.9; }
+.share-twitter { background: #1DA1F2; color: #fff; }
+.share-facebook { background: #4267B2; color: #fff; }
+
+.books-link {
+  text-align: center;
+  margin-top: 20px;
+}
+.books-link a {
+  color: #FFB347;
+  text-decoration: none;
+  font-size: 1rem;
+}
+.books-link a:hover { text-decoration: underline; }
+
+footer {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #21262D;
+  color: #484F58;
+  font-size: 0.8rem;
+}
+footer a { color: #8B949E; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1><span class="gold">PLT</span> Score Calculator</h1>
+  <p class="subtitle">Score any conversation. Make better moves.</p>
+
+  <textarea class="situation-input" rows="2" placeholder="What situation are you scoring? (e.g., &quot;Taking this new job offer&quot;)" id="situation"></textarea>
+
+  <div class="slider-group slider-profit">
+    <div class="slider-label">
+      <span class="gold">💰 Profit</span>
+      <span class="slider-value" id="profitVal">5</span>
+    </div>
+    <p class="slider-desc">How much does this benefit you financially or materially?</p>
+    <input type="range" min="1" max="10" value="5" id="profit">
+  </div>
+
+  <div class="slider-group slider-love">
+    <div class="slider-label">
+      <span class="pink">❤️ Love</span>
+      <span class="slider-value" id="loveVal">5</span>
+    </div>
+    <p class="slider-desc">How much joy, passion, or fulfillment does it bring?</p>
+    <input type="range" min="1" max="10" value="5" id="love">
+  </div>
+
+  <div class="slider-group slider-tax">
+    <div class="slider-label">
+      <span class="cyan">⚡ Tax</span>
+      <span class="slider-value" id="taxVal">5</span>
+    </div>
+    <p class="slider-desc">What's the cost — stress, time, energy, money drained?</p>
+    <input type="range" min="1" max="10" value="5" id="tax">
+  </div>
+
+  <div class="score-display" id="scoreDisplay">
+    <div class="score-label">Soul Profit</div>
+    <div class="formula"><span class="f-p">P</span> + <span class="f-l">L</span> − <span class="f-t">T</span> = Soul Profit</div>
+    <div class="score-number" id="scoreNumber">5</div>
+    <div class="verdict" id="verdict">Proceed with caution</div>
+    <div class="verdict-desc" id="verdictDesc">This could go either way. Dig deeper before committing.</div>
+  </div>
+
+  <div class="cta-section">
+    <a href="https://buy.stripe.com/eVq4gz1de64z9bbcXXfnO0i" class="cta-btn">Want to Master This? Get All 18 Books — $49</a>
+    <p class="cta-sub">The complete PLT framework. Every angle. Every situation.</p>
+  </div>
+
+  <div class="share-section">
+    <p>Share your score</p>
+    <div class="share-btns">
+      <a class="share-btn share-twitter" id="shareTwitter" href="#" target="_blank" rel="noopener">𝕏 Tweet</a>
+      <a class="share-btn share-facebook" id="shareFacebook" href="#" target="_blank" rel="noopener">f Share</a>
+    </div>
+  </div>
+
+  <div class="books-link">
+    <a href="https://uncommonpope-png.github.io/plt-press/">📚 Read the Books →</a>
+  </div>
+
+  <footer>
+    <p>© 2025 PLT Press · <a href="https://uncommonpope-png.github.io/plt-press/">Home</a></p>
+  </footer>
+</div>
+
+<script>
+const profitSlider = document.getElementById('profit');
+const loveSlider = document.getElementById('love');
+const taxSlider = document.getElementById('tax');
+const profitVal = document.getElementById('profitVal');
+const loveVal = document.getElementById('loveVal');
+const taxVal = document.getElementById('taxVal');
+const scoreNumber = document.getElementById('scoreNumber');
+const verdict = document.getElementById('verdict');
+const verdictDesc = document.getElementById('verdictDesc');
+const scoreDisplay = document.getElementById('scoreDisplay');
+const situation = document.getElementById('situation');
+
+function calculate() {
+  const p = parseInt(profitSlider.value);
+  const l = parseInt(loveSlider.value);
+  const t = parseInt(taxSlider.value);
+  profitVal.textContent = p;
+  loveVal.textContent = l;
+  taxVal.textContent = t;
+  const soul = p + l - t;
+  scoreNumber.textContent = soul;
+  scoreNumber.classList.remove('animate');
+  void scoreNumber.offsetWidth;
+  scoreNumber.classList.add('animate');
+
+  if (soul > 10) {
+    scoreNumber.style.color = '#00FF88';
+    scoreDisplay.style.borderColor = '#00FF88';
+    verdict.textContent = '🚀 Strong move';
+    verdict.style.color = '#00FF88';
+    verdictDesc.textContent = 'High Soul Profit. This is a green light — execute with confidence.';
+  } else if (soul >= 5) {
+    scoreNumber.style.color = '#FFB347';
+    scoreDisplay.style.borderColor = '#FFB347';
+    verdict.textContent = '⚠️ Proceed with caution';
+    verdict.style.color = '#FFB347';
+    verdictDesc.textContent = 'This could go either way. Dig deeper before committing.';
+  } else {
+    scoreNumber.style.color = '#FF2D78';
+    scoreDisplay.style.borderColor = '#FF2D78';
+    verdict.textContent = '🚫 Walk away';
+    verdict.style.color = '#FF2D78';
+    verdictDesc.textContent = 'The tax is eating your soul. Find a better play.';
+  }
+  updateShareLinks(soul);
+}
+
+function updateShareLinks(score) {
+  const sit = situation.value || 'my situation';
+  const text = encodeURIComponent(`I scored "${sit}" with the PLT Calculator: Soul Profit = ${score}. What's yours?`);
+  const url = encodeURIComponent('https://uncommonpope-png.github.io/plt-press/plt-score-calculator.html');
+  document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+  document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`;
+}
+
+profitSlider.addEventListener('input', calculate);
+loveSlider.addEventListener('input', calculate);
+taxSlider.addEventListener('input', calculate);
+situation.addEventListener('input', () => updateShareLinks(parseInt(profitSlider.value) + parseInt(loveSlider.value) - parseInt(taxSlider.value)));
+calculate();
+</script>
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-plt-score-calculator.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-plt-score-calculator.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$page')">
+    <button onclick="qwenSend('$page')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+</script>
+<script>console.log("✅ Links fixed for plt-score-calculator.html");</script></body>
+</html>

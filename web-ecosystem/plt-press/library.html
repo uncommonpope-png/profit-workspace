@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Library - Ecosystem Directory | PLT Press</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D1117;color:#ddd;font-family:Georgia,serif;padding:12px;min-height:100vh}
+.container{max-width:640px;margin:0 auto}
+.header{text-align:center;margin-bottom:20px;padding:20px;border:1px solid #00D4FF;border-radius:8px;background:#1A1A2E;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,212,255,.1),transparent);animation:shimmer 3s infinite}
+@keyframes shimmer{to{left:100%}}
+.header h1{color:#00D4FF;font-size:28px;margin-bottom:8px;text-shadow:0 0 20px rgba(0,212,255,.5)}
+.library{font-size:48px;margin:10px 0}
+.status{font-size:14px;color:#FFB347}
+.back-link{display:inline-block;margin-bottom:15px;color:#00D4FF;text-decoration:none;font-size:14px}
+.back-link:hover{color:#FFB347}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:8px;margin-bottom:20px}
+.stat{background:#0a0a14;border:1px solid #2A2A4A;border-radius:6px;padding:8px;text-align:center}
+.stat-number{font-size:16px;font-weight:bold;color:#00D4FF;margin-bottom:2px}
+.stat-label{font-size:9px;color:#ccc}
+
+.category{background:#1A1A2E;border:1px solid #2A2A4A;border-radius:8px;padding:16px;margin-bottom:16px}
+.category h2{color:#00D4FF;font-size:18px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.category.system h2{color:#FFB347}
+.category.products h2{color:#2ecc71}
+.category.blog h2{color:#FF2D78}
+.category.tools h2{color:#e67e22}
+.category.seo h2{color:#9b59b6}
+.category.revenue h2{color:#f39c12}
+
+.page-grid{display:grid;gap:6px}
+.page-item{background:#0a0a14;border:1px solid #2A2A4A;border-radius:6px;padding:10px;display:flex;justify-content:space-between;align-items:center;transition:all .3s}
+.page-item:hover{border-color:#00D4FF;background:#1A1A2E;cursor:pointer}
+.page-link{color:#ddd;text-decoration:none;flex:1}
+.page-link:hover{color:#00D4FF}
+.page-title{font-size:14px;font-weight:bold;margin-bottom:2px}
+.page-file{font-size:11px;color:#888}
+.page-stats{text-align:right;font-size:11px;color:#FFB347;min-width:60px}
+
+.search-box{width:100%;background:#0a0a14;border:1px solid #2A2A4A;color:#ddd;padding:10px;font-family:Georgia,serif;border-radius:6px;margin-bottom:16px}
+.search-box::placeholder{color:#888}
+
+.refresh-btn{background:#00D4FF;color:#000;border:none;padding:8px 16px;font-family:Georgia,serif;border-radius:4px;cursor:pointer;font-weight:bold;font-size:12px;margin-bottom:16px}
+.refresh-btn:hover{opacity:0.9}
+
+.empty-category{color:#888;font-style:italic;font-size:13px;text-align:center;padding:20px}
+</style>
+</head>
+<body>
+
+<div class="container">
+<a href="dashboard.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} class="back-link">← Back to Dashboard</a>
+
+<div class="header">
+  <div class="library">📚</div>
+  <h1>Ecosystem Library</h1>
+  <div class="status" id="library-status">Complete Directory — Last Updated: Loading...</div>
+</div>
+
+<div class="stats" id="stats">
+  <div class="stat">
+    <div class="stat-number" id="total-pages">Loading...</div>
+    <div class="stat-label">Total Pages</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number" id="system-count">0</div>
+    <div class="stat-label">System</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number" id="blog-count">0</div>
+    <div class="stat-label">Blog</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number" id="products-count">0</div>
+    <div class="stat-label">Products</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number" id="tools-count">0</div>
+    <div class="stat-label">Tools</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number" id="seo-count">0</div>
+    <div class="stat-label">SEO</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number" id="revenue-count">0</div>
+    <div class="stat-label">Revenue</div>
+  </div>
+</div>
+
+<input type="text" class="search-box" id="search" placeholder="🔍 Search pages..." onkeyup="filterPages()">
+
+<button class="refresh-btn" onclick="refreshLibrary()">🔄 Refresh Library</button>
+
+<div class="category system">
+  <h2>⚙️ System Pages</h2>
+  <div class="page-grid" id="system-pages">
+    <div class="empty-category">Loading system pages...</div>
+  </div>
+</div>
+
+<div class="category products">
+  <h2>📦 Products</h2>
+  <div class="page-grid" id="product-pages">
+    <div class="empty-category">Loading products...</div>
+  </div>
+</div>
+
+<div class="category blog">
+  <h2>📝 Blog Posts</h2>
+  <div class="page-grid" id="blog-pages">
+    <div class="empty-category">Loading blog posts...</div>
+  </div>
+</div>
+
+<div class="category tools">
+  <h2>🛠️ AI Tools Hub</h2>
+  <div class="page-grid" id="tools-pages">
+    <div class="empty-category">Loading tools pages...</div>
+  </div>
+</div>
+
+<div class="category seo">
+  <h2>🔍 SEO Pages</h2>
+  <div class="page-grid" id="seo-pages">
+    <div class="empty-category">Loading SEO pages...</div>
+  </div>
+</div>
+
+<div class="category revenue">
+  <h2>💰 Revenue Pages</h2>
+  <div class="page-grid" id="revenue-pages">
+    <div class="empty-category">Loading revenue pages...</div>
+  </div>
+</div>
+
+<div class="category">
+  <h2>🌐 Other Pages</h2>
+  <div class="page-grid" id="main-pages">
+    <div class="empty-category">Loading other pages...</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+let libraryData = null;
+
+function renderPages(pages, containerId, baseUrl = '') {
+  const container = document.getElementById(containerId);
+  
+  if (!pages || pages.length === 0) {
+    container.innerHTML = '<div class="empty-category">No pages found</div>';
+    return;
+  }
+  
+  container.innerHTML = pages.map(page => `
+    <div class="page-item" onclick="window.open('${baseUrl}${page.file}')">
+      <a href="${baseUrl}${page.file}" class="page-link" target="_blank">
+        <div class="page-title">${page.title || page.file}</div>
+        <div class="page-file">${page.file}</div>
+      </a>
+      <div class="page-stats">${page.words || 0} words</div>
+    </div>
+  `).join('');
+}
+
+function updateLibrary() {
+  fetch('https://raw.githubusercontent.com/uncommonpope-png/plt-press/main/log.json')
+    .then(r => r.json())
+    .then(data => {
+      if (data.library_catalog) {
+        libraryData = data.library_catalog;
+        
+        // Update stats
+        document.getElementById('total-pages').textContent = libraryData.total_pages;
+        document.getElementById('system-count').textContent = libraryData.categories.system.count;
+        document.getElementById('blog-count').textContent = libraryData.categories.blog.count;
+        document.getElementById('products-count').textContent = libraryData.categories.products.count;
+        document.getElementById('tools-count').textContent = libraryData.categories.tools.count;
+        document.getElementById('seo-count').textContent = libraryData.categories.seo.count;
+        document.getElementById('revenue-count').textContent = libraryData.categories.revenue.count;
+        
+        // Update last scan time
+        const lastScan = new Date(libraryData.last_scan).toLocaleString();
+        document.getElementById('library-status').textContent = `Complete Directory — Last Updated: ${lastScan}`;
+        
+        // Render all page categories
+        renderPages(libraryData.categories.system.pages, 'system-pages');
+        renderPages(libraryData.categories.products.pages, 'product-pages');
+        renderPages(libraryData.categories.blog.pages, 'blog-pages', '../plt-blog/');
+        renderPages(libraryData.categories.tools.pages, 'tools-pages', '../ai-tools-hub/');
+        renderPages(libraryData.categories.seo.pages, 'seo-pages');
+        renderPages(libraryData.categories.revenue.pages, 'revenue-pages');
+        renderPages(libraryData.categories.main.pages, 'main-pages');
+      }
+    })
+    .catch(() => {
+      // Demo data fallback
+      document.getElementById('total-pages').textContent = '50+';
+      document.getElementById('library-status').textContent = 'Complete Directory — Using demo data';
+      
+      // Show some demo pages
+      const demoPages = [
+        {file: 'dashboard.html', title: 'PLT Command Dashboard', words: 2500},
+        {file: 'vault.html', title: 'The Vault - Revenue Tracking', words: 1200},
+        {file: 'djinie.html', title: 'Djinie - Freedom Genie', words: 1800}
+      ];
+      
+      renderPages(demoPages, 'system-pages');
+    });
+}
+
+function filterPages() {
+  const searchTerm = document.getElementById('search').value.toLowerCase();
+  
+  if (!libraryData || !searchTerm.trim()) {
+    updateLibrary(); // Reset to show all
+    return;
+  }
+  
+  // Filter each category
+  Object.keys(libraryData.categories).forEach(categoryKey => {
+    const category = libraryData.categories[categoryKey];
+    const filtered = category.pages.filter(page => 
+      page.title.toLowerCase().includes(searchTerm) || 
+      page.file.toLowerCase().includes(searchTerm)
+    );
+    
+    const containerId = categoryKey === 'main' ? 'main-pages' : `${categoryKey}-pages`;
+    const baseUrl = categoryKey === 'blog' ? '../plt-blog/' : 
+                   categoryKey === 'tools' ? '../ai-tools-hub/' : '';
+    
+    renderPages(filtered, containerId, baseUrl);
+  });
+}
+
+function refreshLibrary() {
+  document.getElementById('library-status').textContent = 'Refreshing library...';
+  
+  // In a real implementation, this would trigger the library updater
+  setTimeout(() => {
+    updateLibrary();
+  }, 2000);
+  
+  alert('📚 Library refresh triggered!\n\nThe Library Updater will scan all repositories and update the catalog with any new pages found.');
+}
+
+// Initialize and auto-refresh
+updateLibrary();
+setInterval(updateLibrary, 120000); // Update every 2 minutes
+
+// Auto-focus search box
+document.getElementById('search').addEventListener('input', filterPages);
+</script>
+
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="category" style="border:2px solid #00D4FF">
+  <h2 style="color:#00D4FF">🤖 Qwen AI - Library Assistant</h2>
+  <div id="qwen-chat-library" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-library" placeholder="Ask about the library..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('library')">
+    <button onclick="qwenSend('library')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+  <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+    <button onclick="qwenQuick('Show all pages')" style="background:rgba(0,212,255,0.1);border:1px solid #00D4FF;color:#00D4FF;padding:6px 12px;border-radius:12px;cursor:pointer;font-size:11px">📄 Pages</button>
+    <button onclick="qwenQuick('Search for...')" style="background:rgba(0,212,255,0.1);border:1px solid #00D4FF;color:#00D4FF;padding:6px 12px;border-radius:12px;cursor:pointer;font-size:11px">🔍 Search</button>
+    <button onclick="qwenQuick('Show stats')" style="background:rgba(0,212,255,0.1);border:1px solid #00D4FF;color:#00D4FF;padding:6px 12px;border-radius:12px;cursor:pointer;font-size:11px">📊 Stats</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:"Library: "+text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+function qwenQuick(text) {
+  document.getElementById('qwen-input-library').value=text;
+  qwenSend('library');
+}
+setTimeout(() => qwenSend('library'), 1000);
+</script>
+<script>console.log("✅ Links fixed for library.html");</script></body>
+</html>

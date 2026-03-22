@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>💰 PROFIT — Command Dashboard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0D1117;
+  --panel:#1A1A2E;
+  --border:#2A2A4A;
+  --gold:#FFB347;
+  --pink:#FF2D78;
+  --cyan:#00D4FF;
+  --green:#2ecc71;
+  --red:#e74c3c;
+  --dim:#666;
+}
+body{background:var(--bg);color:#ddd;font-family:Georgia,serif;max-width:640px;margin:0 auto;padding:8px;min-height:100vh}
+.panel{
+  background:var(--panel);
+  background-image:
+    linear-gradient(rgba(0,212,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,.03) 1px, transparent 1px);
+  background-size:20px 20px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:14px;
+  margin-bottom:10px;
+  animation:breathe 4s ease-in-out infinite;
+}
+@keyframes breathe{0%,100%{box-shadow:0 0 4px rgba(255,179,71,.12)}50%{box-shadow:0 0 14px rgba(255,179,71,.25)}}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes pulse{0%,100%{opacity:.85}50%{opacity:1}}
+@keyframes rotate{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes glow{0%,100%{text-shadow:0 0 8px rgba(255,179,71,.5)}50%{text-shadow:0 0 22px rgba(255,179,71,.9)}}
+@keyframes glowPink{0%,100%{text-shadow:0 0 8px rgba(255,45,120,.4)}50%{text-shadow:0 0 18px rgba(255,45,120,.8)}}
+@keyframes glowCyan{0%,100%{text-shadow:0 0 8px rgba(0,212,255,.4)}50%{text-shadow:0 0 18px rgba(0,212,255,.8)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.gold{color:var(--gold)}.green{color:var(--green)}.red{color:var(--red)}.pink{color:var(--pink)}.cyan{color:var(--cyan)}
+h2{font-size:15px;letter-spacing:2px;margin-bottom:10px;text-transform:uppercase}
+h2.glow-gold{color:var(--gold);text-shadow:0 0 10px rgba(255,179,71,.4)}
+h2.glow-pink{color:var(--pink);text-shadow:0 0 10px rgba(255,45,120,.4)}
+h2.glow-cyan{color:var(--cyan);text-shadow:0 0 10px rgba(0,212,255,.4)}
+
+/* 1. Status Bar */
+#status-bar{text-align:center;padding:18px 14px}
+#status-bar .name{font-size:28px;animation:glow 3s ease-in-out infinite;color:var(--gold);font-weight:bold}
+#status-bar .online{color:var(--green);font-size:13px;margin-top:6px}
+#status-bar .heartbeat{color:var(--dim);font-size:11px;margin-top:4px}
+
+/* 2. Collectors */
+#collectors{display:flex;justify-content:space-around;text-align:center;padding:10px 4px}
+#collectors .c{font-size:12px;color:var(--gold)}
+#collectors .c .icon{font-size:18px;display:block;margin-bottom:2px}
+#collectors .c .val{font-weight:bold;font-size:15px}
+
+/* 3. Trinity */
+#trinity{text-align:center;padding:16px 8px}
+.rings{display:flex;justify-content:center;gap:12px;margin-bottom:12px}
+.ring-wrap{position:relative;width:100px;height:100px}
+.ring-wrap svg{width:100px;height:100px}
+.ring-wrap .ring-bg{fill:none;stroke:#1a1a2e;stroke-width:8}
+.ring-wrap .ring-fg{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dasharray .8s ease}
+.ring-wrap .ring-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;font-size:11px;line-height:1.3}
+.ring-wrap .ring-label .num{font-size:22px;font-weight:bold;display:block}
+.ring-profit svg{animation:rotate 12s linear infinite}
+.ring-love .ring-fg{animation:pulse 2.5s ease-in-out infinite}
+.ring-tax .ring-fg{opacity:.8}
+#soul-score{font-size:13px;color:var(--dim);margin-top:4px}
+#soul-score span{font-size:28px;color:var(--gold);font-weight:bold;display:block;animation:glow 4s ease-in-out infinite}
+
+/* 4. Status Reports */
+.report{border-left:3px solid var(--gold);padding:8px 12px;margin-bottom:8px;background:rgba(255,179,71,.04);animation:fadeIn .5s ease}
+.report .r-head{color:var(--gold);font-size:12px;font-weight:bold;margin-bottom:4px}
+.report .r-body{font-size:13px;color:#ccc;line-height:1.5}
+
+/* 5. Missions */
+.mission{margin-bottom:10px;cursor:pointer;border:1px solid var(--border);border-radius:6px;padding:10px;transition:border-color .3s}
+.mission:hover{border-color:var(--gold)}
+.mission .m-head{display:flex;justify-content:space-between;align-items:center}
+.mission .m-name{font-weight:bold;font-size:14px}
+.badge{font-size:10px;padding:2px 8px;border-radius:10px;text-transform:uppercase;font-weight:bold}
+.badge-active{background:rgba(46,204,113,.2);color:var(--green)}
+.badge-building{background:rgba(255,179,71,.2);color:var(--gold)}
+.badge-blocked{background:rgba(231,76,60,.2);color:var(--red)}
+.badge-completed{background:rgba(0,212,255,.2);color:var(--cyan)}
+.badge-live{background:rgba(46,204,113,.25);color:var(--green);border:1px solid rgba(46,204,113,.3)}
+.prog-bar{height:6px;background:#12121f;border-radius:3px;margin-top:6px;overflow:hidden}
+.prog-fill{height:100%;background:var(--gold);border-radius:3px;transition:width .8s ease}
+.prog-pct{font-size:11px;color:var(--dim);margin-top:2px;text-align:right}
+.m-details{display:none;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-size:12px;color:#aaa}
+.m-details.open{display:block;animation:fadeIn .3s ease}
+.m-details li{margin:3px 0 3px 16px;list-style:disc}
+
+/* 6. Conversations */
+#conv-table{width:100%;border-collapse:collapse;font-size:13px}
+#conv-table th{color:var(--gold);text-align:left;padding:4px 6px;font-size:11px;border-bottom:1px solid var(--border)}
+#conv-table td{padding:5px 6px;border-bottom:1px solid #15152a}
+#conv-table tr:hover{background:rgba(255,179,71,.06)}
+
+/* 7. Command Bridge */
+#cmd-input{width:100%;background:#0e0e1a;border:1px solid var(--border);color:#ddd;padding:10px;font-family:Georgia,serif;font-size:14px;border-radius:4px;outline:none;transition:border-color .3s,box-shadow .3s}
+#cmd-input:focus{border-color:var(--cyan);box-shadow:0 0 12px rgba(0,212,255,.3)}
+.cmd-row{display:flex;gap:6px;margin-top:8px}
+#cmd-send{background:var(--panel);color:var(--gold);border:1px solid var(--gold);padding:8px 16px;font-family:Georgia,serif;cursor:pointer;border-radius:4px;transition:all .2s}
+#cmd-send:hover{background:var(--gold);color:#000}
+#cmd-voice{background:var(--panel);color:var(--red);border:1px solid var(--border);padding:8px 12px;font-family:Georgia,serif;cursor:pointer;border-radius:4px;transition:all .2s}
+#cmd-voice.recording{border-color:var(--pink);box-shadow:0 0 12px rgba(255,45,120,.5);animation:pulse 1s infinite}
+#cmd-status{font-size:12px;margin-top:6px;min-height:16px}
+.cmd-hist{font-size:12px;color:var(--dim);margin-top:8px}
+.cmd-hist div{padding:3px 0;border-bottom:1px solid #15152a}
+
+/* 8. Ledger */
+.ledger-row{display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid #15152a;flex-wrap:wrap}
+.ledger-row .l-date{color:var(--dim);min-width:50px}
+.ledger-row .l-action{flex:1;padding:0 6px}
+.ledger-row .l-scores{display:flex;gap:8px}
+
+/* 9. Live Feed */
+#feed{max-height:180px;overflow-y:auto;font-size:12px;font-family:monospace;background:#0a0a18;padding:8px;border-radius:4px}
+#feed::-webkit-scrollbar{width:4px}
+#feed::-webkit-scrollbar-thumb{background:var(--border)}
+.feed-line .ftime{color:var(--cyan)}
+
+/* 10. Builder */
+.builder-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.builder-btn{background:var(--panel);border:1px solid var(--border);color:var(--gold);padding:14px 8px;text-align:center;font-family:Georgia,serif;font-size:12px;border-radius:6px;cursor:pointer;transition:all .3s;text-transform:uppercase;letter-spacing:1px}
+.builder-btn:hover{border-color:var(--gold);box-shadow:0 0 12px rgba(255,179,71,.3)}
+.builder-btn.active{border-color:var(--gold);box-shadow:0 0 16px rgba(255,179,71,.4);background:#1a1520}
+.build-form{display:none;margin-top:12px;padding:12px;border:1px solid var(--gold);border-radius:6px;background:#0e0e1a;animation:fadeIn .3s ease}
+.build-form.open{display:block}
+.build-form h3{color:var(--gold);font-size:13px;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px}
+.build-form label{display:block;font-size:11px;color:var(--dim);margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px}
+.build-form input,.build-form textarea,.build-form select{width:100%;background:#12121f;border:1px solid var(--border);color:#ddd;padding:8px;font-family:Georgia,serif;font-size:13px;border-radius:4px;margin-bottom:10px;outline:none}
+.build-form input:focus,.build-form textarea:focus{border-color:var(--cyan);box-shadow:0 0 6px rgba(0,212,255,.2)}
+.build-form textarea{resize:vertical;min-height:60px}
+.build-form .form-submit{background:var(--panel);color:var(--gold);border:1px solid var(--gold);padding:10px 20px;font-family:Georgia,serif;cursor:pointer;border-radius:4px;font-size:13px;text-transform:uppercase;letter-spacing:1px;width:100%;transition:all .2s}
+.build-form .form-submit:hover{background:var(--gold);color:#000}
+.build-form .form-result{margin-top:8px;font-size:12px;min-height:16px}
+.build-result-box{background:#0a0a16;border:1px solid var(--green);border-radius:6px;padding:12px;margin-top:10px}
+.build-result-box .result-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.build-result-box .result-header .result-ts{font-size:10px;color:var(--dim)}
+.build-result-box .result-check{color:var(--green);font-size:13px;font-weight:bold;margin-bottom:8px}
+.build-result-box pre{background:#080814;border:1px solid var(--border);border-radius:4px;padding:8px;font-size:11px;color:var(--cyan);overflow-x:auto;white-space:pre-wrap;word-break:break-all;font-family:monospace;margin-bottom:8px;max-height:160px;overflow-y:auto}
+.copy-btn{background:var(--panel);color:var(--gold);border:1px solid var(--gold);padding:5px 14px;font-family:Georgia,serif;cursor:pointer;border-radius:4px;font-size:11px;transition:all .2s}
+.copy-btn:hover{background:var(--gold);color:#000}
+.copy-btn.copied{background:var(--green);border-color:var(--green);color:#000}
+
+/* Betty Credits */
+.betty-section{border-color:var(--pink) !important;box-shadow:0 0 10px rgba(255,45,120,.1)}
+.betty-wrap{display:flex;gap:14px;align-items:flex-start}
+.betty-avatar{min-width:60px}
+.betty-avatar img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid var(--pink);box-shadow:0 0 12px rgba(255,45,120,.4);animation:pulse 3s ease-in-out infinite}
+.betty-alerts{flex:1}
+.betty-alert{border-left:2px solid var(--pink);padding:6px 10px;margin-bottom:6px;font-size:12px;color:#ccc;background:rgba(255,45,120,.04)}
+.betty-alert .ba-type{font-size:10px;color:var(--pink);text-transform:uppercase;letter-spacing:.5px;font-weight:bold}
+
+/* Reality Map — Static Grid */
+#reality-map{background:#080814;border-radius:6px;padding:12px;border:1px solid var(--border)}
+.map-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.map-category{margin-bottom:4px}
+.map-cat-header{display:flex;align-items:center;gap:6px;cursor:pointer;padding:6px 8px;border-radius:4px;font-size:13px;font-weight:bold;letter-spacing:.5px;transition:background .2s;user-select:none}
+.map-cat-header:hover{background:rgba(255,255,255,.04)}
+.map-cat-header .cat-arrow{font-size:10px;color:var(--dim);transition:transform .2s;min-width:12px}
+.map-cat-header .cat-arrow.open{transform:rotate(90deg)}
+.map-cat-header .cat-count{font-size:10px;color:var(--dim);font-weight:normal;margin-left:auto}
+.map-cat-items{display:none;padding:2px 0 4px 24px;animation:fadeIn .25s ease}
+.map-cat-items.open{display:block}
+.map-item{font-size:11px;color:#aaa;padding:3px 6px;border-radius:3px;transition:all .2s;cursor:default;display:flex;align-items:center;gap:6px;line-height:1.4}
+.map-item:hover{background:rgba(255,255,255,.06);color:#fff;text-shadow:0 0 6px rgba(255,255,255,.2)}
+.map-item .item-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.cat-books .map-cat-header{color:var(--green)}
+.cat-books .item-dot{background:var(--green)}
+.cat-funnels .map-cat-header{color:var(--gold)}
+.cat-funnels .item-dot{background:var(--gold)}
+.cat-agents .map-cat-header{color:#7878ff}
+.cat-agents .item-dot{background:#7878ff}
+.cat-businesses .map-cat-header{color:var(--red)}
+.cat-businesses .item-dot{background:var(--red)}
+.cat-audiences .map-cat-header{color:#ddd}
+.cat-audiences .item-dot{background:#ddd}
+
+/* 11. Revenue Plan */
+#rev-toggle{background:none;border:1px solid var(--border);color:var(--gold);padding:6px 14px;font-family:Georgia,serif;cursor:pointer;border-radius:4px;font-size:12px;margin-bottom:8px;transition:all .2s}
+#rev-toggle:hover{border-color:var(--gold)}
+#rev-content{display:none}
+#rev-content.open{display:block}
+.rev-phase{margin-bottom:10px;padding:10px;border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:border-color .3s}
+.rev-phase:hover{border-color:var(--gold)}
+.rev-phase .rp-head{display:flex;justify-content:space-between;align-items:center}
+.rev-phase .rp-name{font-weight:bold;font-size:13px}
+.rev-phase .rp-desc{font-size:12px;color:#aaa;margin:4px 0}
+.rev-details{display:none;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-size:12px;animation:fadeIn .3s ease}
+.rev-details.open{display:block}
+.rev-detail-row{display:flex;justify-content:space-between;padding:3px 0;color:#bbb}
+.rev-detail-row .rd-label{color:var(--dim);text-transform:uppercase;font-size:10px;letter-spacing:.5px;min-width:80px}
+.rev-detail-row .rd-val{text-align:right;flex:1}
+.rev-cta{display:inline-block;margin-top:8px;padding:6px 16px;background:rgba(255,179,71,.15);border:1px solid var(--gold);border-radius:4px;color:var(--gold);font-size:12px;font-family:Georgia,serif;cursor:pointer;transition:all .2s;text-align:center}
+.rev-cta:hover{background:var(--gold);color:#000}
+.rev-bars{margin-top:8px}
+.rev-bar-label{font-size:10px;color:var(--dim);display:flex;justify-content:space-between}
+.rev-bar{height:5px;background:#12121f;border-radius:3px;margin-bottom:6px;overflow:hidden}
+.rev-bar .rb-fill{height:100%;border-radius:3px;transition:width .8s ease}
+
+/* 12. Footer */
+#footer{text-align:center;color:var(--dim);font-size:11px;padding:16px 0 24px}
+
+/* Modal */
+#modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);z-index:1000;justify-content:center;align-items:flex-start;padding:16px;overflow-y:auto;backdrop-filter:blur(4px)}
+#modal-content{width:100%;max-width:640px;background:var(--panel);border:1px solid var(--gold);border-radius:8px;padding:20px;position:relative;animation:fadeIn .3s ease}
+#modal-close{position:absolute;top:10px;right:14px;background:none;border:1px solid var(--gold);color:var(--gold);font-size:18px;padding:2px 10px;cursor:pointer;border-radius:4px;z-index:1001}
+#modal-close:hover{background:var(--gold);color:#000}
+
+/* Flag Button */
+#flag-btn{position:fixed;bottom:20px;right:20px;background:var(--pink);color:#fff;border:none;border-radius:50%;width:56px;height:56px;font-size:24px;cursor:pointer;box-shadow:0 4px 20px rgba(255,45,120,.4);z-index:999;transition:transform .2s}
+#flag-btn:hover{transform:scale(1.1)}
+#flag-popup{display:none;position:fixed;bottom:86px;right:16px;background:var(--panel);border:1px solid var(--pink);border-radius:8px;padding:14px;width:280px;z-index:999;animation:fadeIn .2s ease}
+#flag-popup input{width:100%;background:#0a0a14;border:1px solid var(--border);color:#ddd;padding:8px;font-family:Georgia,serif;font-size:13px;border-radius:4px;margin-bottom:8px;outline:none}
+#flag-popup input:focus{border-color:var(--pink)}
+#flag-popup button{width:100%;background:var(--pink);color:#fff;border:none;padding:8px;font-family:Georgia,serif;cursor:pointer;border-radius:4px;font-size:13px}
+#flag-popup button:hover{opacity:.9}
+#flag-status{font-size:11px;margin-top:6px;min-height:14px}
+
+/* Universe particles */
+.particle{position:fixed;width:2px;height:2px;background:#fff;border-radius:50%;opacity:0;pointer-events:none;z-index:0}
+@keyframes drift{0%{opacity:0;transform:translateY(0)}10%{opacity:.3}90%{opacity:.3}100%{opacity:0;transform:translateY(-100vh)}}
+@keyframes profit-pulse{0%,100%{transform:scale(1);box-shadow:0 0 10px rgba(46,204,113,.5)}50%{transform:scale(1.02);box-shadow:0 0 25px rgba(46,204,113,.8)}}
+
+/* Expandable panels */
+.panel{cursor:pointer;position:relative}
+.panel .expand-hint{position:absolute;top:14px;right:14px;font-size:10px;color:var(--dim);opacity:0;transition:opacity .3s}
+.panel:hover .expand-hint{opacity:1}
+</style>
+</head>
+<body>
+
+<!-- ESPN Soul Ticker -->
+<a href="ticker.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/ticker.html';return false;} style="text-decoration:none"><div id="soul-ticker" style="background:#0a0a14;border-bottom:1px solid var(--border);padding:6px 0;overflow:hidden;margin:-8px -8px 12px -8px;position:relative">
+  <div id="ticker-content" style="display:flex;white-space:nowrap;animation:ticker 30s linear infinite;font-size:11px;letter-spacing:.5px">
+  </div>
+</div>
+
+<!-- Universe particles -->
+<div id="particles"></div>
+
+<!-- Modal -->
+<div id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div id="modal-content">
+    <button id="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- Flag Button -->
+<button id="flag-btn" onclick="toggleFlag()">🚩</button>
+<div id="flag-popup">
+  <div style="font-size:12px;color:var(--pink);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">🚩 Flag for Profit</div>
+  <input type="text" id="flag-input" placeholder="What needs attention?" onkeydown="if(event.key==='Enter')submitFlag()">
+  <button onclick="submitFlag()">FLAG IT</button>
+  <div id="flag-status"></div>
+</div>
+
+<!-- 5 DEBUG AGENTS PANEL -->
+<div class="panel" id="debug-agents-panel" style="border:2px solid var(--purple);background:linear-gradient(145deg, rgba(139,92,246,0.05) 0%, rgba(139,92,246,0.02) 100%)">
+  <h2 class="glow-purple">
+    <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+      <circle cx="12" cy="12" r="3"/>
+    </svg>
+    🤖 5 Qwen Debug Agents - Always Watching
+  </h2>
+  <div id="debug-agents-status" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px"></div>
+  <div id="debug-agents-log" style="max-height:150px;overflow-y:auto;background:rgba(0,0,0,0.4);padding:12px;border-radius:8px;font-family:monospace;font-size:12px;color:var(--cyan)"></div>
+</div>
+
+<!-- 1. Status Bar -->
+<div id="status-bar" class="panel">
+  <div class="name">💰 PROFIT</div>
+  <div class="online" id="status-text">● CONNECTING...</div>
+  <div class="heartbeat" id="heartbeat">Last heartbeat: —</div>
+  <a href="health.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/health.html';return false;} style="text-decoration:none;display:block">
+  <div id="health-bar-wrap" style="margin-top:10px">
+    <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--pink);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">
+      <span>❤️ HEALTH ›</span><span id="health-pct">—%</span>
+    </div>
+    <div style="height:8px;background:#1a0a14;border-radius:4px;overflow:hidden;border:1px solid rgba(255,45,120,.3)">
+      <div id="health-fill" style="height:100%;background:linear-gradient(90deg,#FF2D78,#ff6ba8);border-radius:4px;transition:width 1s ease;box-shadow:0 0 10px rgba(255,45,120,.6);width:0%"></div>
+    </div>
+  </div>
+</a>
+</div>
+
+<!-- 2. Collectors -->
+<div id="collectors" class="panel">
+  <div class="c"><span class="icon">📚</span><span class="val" id="c-books">—</span></div>
+  <div class="c"><span class="icon">💬</span><span class="val" id="c-convos">—</span></div>
+  <div class="c"><span class="icon">👥</span><span class="val" id="c-leads">—</span></div>
+  <div class="c"><span class="icon">💰</span><span class="val" id="c-rev">—</span></div>
+  <div class="c"><span class="icon">🤖</span><span class="val" id="c-agents">—</span></div>
+</div>
+
+<!-- 3. Trinity Engine -->
+<div id="trinity" class="panel">
+  <div class="rings">
+    <div class="ring-wrap ring-profit">
+      <svg viewBox="0 0 100 100"><circle class="ring-bg" cx="50" cy="50" r="40"/><circle class="ring-fg" id="r-profit" cx="50" cy="50" r="40" stroke="var(--cyan)" transform="rotate(-90 50 50)"/></svg>
+      <div class="ring-label"><span class="num cyan" id="v-profit">—</span>PROFIT</div>
+    </div>
+    <div class="ring-wrap ring-love">
+      <svg viewBox="0 0 100 100"><circle class="ring-bg" cx="50" cy="50" r="40"/><circle class="ring-fg" id="r-love" cx="50" cy="50" r="40" stroke="var(--pink)" transform="rotate(-90 50 50)"/></svg>
+      <div class="ring-label"><span class="num pink" id="v-love">—</span>LOVE</div>
+    </div>
+    <div class="ring-wrap ring-tax">
+      <svg viewBox="0 0 100 100"><circle class="ring-bg" cx="50" cy="50" r="40"/><circle class="ring-fg" id="r-tax" cx="50" cy="50" r="40" stroke="var(--red)" transform="rotate(-90 50 50)"/></svg>
+      <div class="ring-label"><span class="num red" id="v-tax">—</span>TAX</div>
+    </div>
+  </div>
+  <div id="soul-score">SOUL PROFIT<span id="v-soul">—</span></div>
+</div>
+
+<!-- 4. Status Reports -->
+<div class="panel" id="reports-panel">
+  <h2 class="glow-gold">📡 Status Reports</h2>
+  <div id="reports"></div>
+</div>
+
+<!-- Profit Window -->
+<div class="panel" style="border-color:var(--green) !important;box-shadow:0 0 12px rgba(46,204,113,.2)">
+  <h2 style="color:var(--green)"><a href="vault.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/vault.html';return false;} style="color:inherit;text-decoration:none">💰 THE VAULT ›</a></h2>
+  <div id="vault-total" style="font-size:36px;color:var(--green);font-weight:bold;text-align:center;text-shadow:0 0 20px rgba(46,204,113,.5);margin:10px 0">$<span id="vault-amount">0.00</span></div>
+  <div style="text-align:center;font-size:11px;color:var(--dim);margin-bottom:12px">LIFETIME REVENUE</div>
+  
+  <div id="vault-streams" style="font-size:12px"></div>
+  
+  <div id="vault-recent" style="margin-top:12px;border-top:1px solid var(--border);padding-top:8px">
+    <div style="font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Recent Transactions</div>
+    <div id="vault-txns" style="font-size:12px;max-height:120px;overflow-y:auto"></div>
+  </div>
+  
+  <div style="margin-top:12px;border-top:1px solid var(--border);padding-top:8px">
+    <div style="font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Profit Moment</div>
+    <div id="vault-moment" style="font-size:13px;color:#ccc;line-height:1.6"></div>
+  </div>
+</div>
+
+<!-- Teacher Bot -->
+<div class="panel" style="border-color:var(--cyan) !important;box-shadow:0 0 12px rgba(0,212,255,.15)">
+  <h2 style="color:var(--cyan)"><a href="teacher.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/teacher.html';return false;} style="color:inherit;text-decoration:none">🎓 THE TEACHER ›</a></h2>
+  
+  <div id="teacher-lesson" style="margin-bottom:12px">
+    <div style="font-size:11px;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Current Lesson</div>
+    <div id="teacher-current" style="font-size:14px;color:#ddd;line-height:1.6;padding:10px;background:rgba(0,212,255,.04);border-radius:6px;border-left:3px solid var(--cyan)"></div>
+  </div>
+  
+  <div id="teacher-realities" style="margin-bottom:12px">
+    <div style="font-size:11px;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Realities Discovered</div>
+    <div id="teacher-list" style="font-size:12px"></div>
+  </div>
+  
+  <div id="teacher-actions">
+    <div style="font-size:11px;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Profit Actions Taken</div>
+    <div id="teacher-action-list" style="font-size:12px"></div>
+  </div>
+  
+  <div style="margin-top:12px;border-top:1px solid var(--border);padding-top:8px">
+    <div style="font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">New Profit Margins Found</div>
+    <div id="teacher-margins" style="font-size:12px"></div>
+  </div>
+</div>
+
+<!-- 5. Mission Console -->
+<div class="panel">
+  <h2 class="glow-gold">🎯 Mission Console</h2>
+  <div id="missions"></div>
+</div>
+
+<!-- 6. Conversation Engine -->
+<div class="panel">
+  <h2 class="glow-cyan">💬 Conversation Engine</h2>
+  <table id="conv-table">
+    <thead><tr><th>PERSON</th><th>P</th><th>L</th><th>T</th><th>SCORE</th></tr></thead>
+    <tbody id="conv-body"></tbody>
+  </table>
+</div>
+
+<!-- 7. Command Bridge -->
+<div class="panel">
+  <h2 class="glow-cyan">⚡ Command Profit</h2>
+  <input id="cmd-input" type="text" placeholder="Enter command...">
+  <div class="cmd-row">
+    <button id="cmd-send">TRANSMIT</button>
+    <button id="cmd-voice">🎙 Record</button>
+  </div>
+  <div id="cmd-status"></div>
+  <div class="cmd-hist" id="cmd-hist"></div>
+</div>
+
+<!-- 8. Reality Ledger -->
+<div class="panel">
+  <h2 class="glow-gold">📒 Reality Ledger</h2>
+  <div id="ledger"></div>
+</div>
+
+<!-- 9. Live Feed -->
+<div class="panel">
+  <h2 class="glow-cyan">📡 Live Feed</h2>
+  <div id="feed"></div>
+</div>
+
+<!-- 10. Reality Builder -->
+<div class="panel">
+  <h2 class="glow-pink">🔨 Reality Builder</h2>
+  <div class="builder-row">
+    <div class="builder-btn" onclick="toggleBuild('book',this)">📖 Build Book</div>
+    <div class="builder-btn" onclick="toggleBuild('funnel',this)">🔗 Build Funnel</div>
+    <div class="builder-btn" onclick="toggleBuild('agent',this)">🤖 Build Agent</div>
+    <div class="builder-btn" onclick="toggleBuild('course',this)">🎓 Build Course</div>
+  </div>
+
+  <div class="build-form" id="form-book">
+    <h3>📖 Build a Book</h3>
+    <label>Title</label><input type="text" id="book-title" placeholder="The Score...">
+    <label>Framework</label><input type="text" id="book-framework" placeholder="PLT Doctrine, Scorer, Reality Building...">
+    <label>Target Market</label><input type="text" id="book-market" placeholder="Entrepreneurs, negotiators, leaders...">
+    <label>Price ($)</label><input type="number" id="book-price" placeholder="9.99">
+    <label>PLT Message</label><textarea id="book-message" placeholder="What PLT truth does this book teach?"></textarea>
+    <button class="form-submit" onclick="submitBuild('book')">⚡ GENERATE STRUCTURE</button>
+    <div class="form-result" id="result-book"></div>
+  </div>
+
+  <div class="build-form" id="form-funnel">
+    <h3>🔗 Build a Funnel</h3>
+    <label>Funnel Name</label><input type="text" id="funnel-name" placeholder="PLT Bundle Funnel...">
+    <label>Target Audience</label><input type="text" id="funnel-target" placeholder="Who is this for?">
+    <label>Offer</label><input type="text" id="funnel-offer" placeholder="What are you offering?">
+    <label>Entry Point</label><select id="funnel-entry"><option>Landing Page</option><option>Blog Post</option><option>Social Media</option><option>Email</option><option>Ad Campaign</option></select>
+    <label>Desired Outcome</label><textarea id="funnel-outcome" placeholder="What action should they take?"></textarea>
+    <button class="form-submit" onclick="submitBuild('funnel')">⚡ GENERATE FUNNEL</button>
+    <div class="form-result" id="result-funnel"></div>
+  </div>
+
+  <div class="build-form" id="form-agent">
+    <h3>🤖 Build an Agent</h3>
+    <label>Agent Name</label><input type="text" id="agent-name" placeholder="Seshat, Betty, Scout...">
+    <label>Purpose</label><input type="text" id="agent-purpose" placeholder="Content writer, lead gen, outreach...">
+    <label>Core Tasks</label><textarea id="agent-tasks" placeholder="List the tasks this agent handles..."></textarea>
+    <label>PLT Alignment</label><select id="agent-plt"><option>Profit-focused</option><option>Love-focused</option><option>Tax-reduction</option><option>Balanced</option></select>
+    <button class="form-submit" onclick="submitBuild('agent')">⚡ DESIGN AGENT</button>
+    <div class="form-result" id="result-agent"></div>
+  </div>
+
+  <div class="build-form" id="form-course">
+    <h3>🎓 Build a Course</h3>
+    <label>Course Name</label><input type="text" id="course-name" placeholder="PLT Mastery...">
+    <label>Modules (how many)</label><input type="number" id="course-modules" placeholder="6">
+    <label>Target Audience</label><input type="text" id="course-audience" placeholder="Beginners, professionals...">
+    <label>Price ($)</label><input type="number" id="course-price" placeholder="99">
+    <label>Course Description</label><textarea id="course-desc" placeholder="What will students learn?"></textarea>
+    <button class="form-submit" onclick="submitBuild('course')">⚡ CREATE COURSE</button>
+    <div class="form-result" id="result-course"></div>
+  </div>
+</div>
+
+<!-- Betty Credits Alert System -->
+<div class="panel betty-section">
+  <h2 class="glow-pink">🔮 Betty Credits</h2>
+  <div class="betty-wrap">
+    <div class="betty-avatar">
+      <img src="covers/betty-credits.jpg" alt="Betty Credits" onerror="this.onerror=null;this.outerHTML='<div style=&quot;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#FF2D78,#FFB347);display:flex;align-items:center;justify-content:center;font-size:28px;border:2px solid var(--pink);box-shadow:0 0 12px rgba(255,45,120,.4)&quot;>👩‍💼</div>'">
+    </div>
+    <div class="betty-alerts" id="betty-alerts">
+      <div class="betty-alert"><div class="ba-type">🔍 Scanning</div>Betty Credits is initializing. Market alerts will appear here.</div>
+    </div>
+  </div>
+  <!-- Betty Chat -->
+  <div id="betty-chat" style="margin-top:12px;border-top:1px solid var(--border);padding-top:12px">
+    <div id="betty-msgs" style="max-height:200px;overflow-y:auto;margin-bottom:8px;font-size:13px"></div>
+    <div style="display:flex;gap:6px">
+      <input type="text" id="betty-input" placeholder="Talk to Betty..." style="flex:1;background:#0a0a14;border:1px solid var(--pink);color:#ddd;padding:8px;font-family:Georgia,serif;font-size:13px;border-radius:4px;outline:none" onkeydown="if(event.key==='Enter')sendBetty()">
+      <button onclick="sendBetty()" style="background:var(--pink);color:#fff;border:none;padding:8px 14px;font-family:Georgia,serif;cursor:pointer;border-radius:4px;font-size:12px">ASK</button>
+    </div>
+    <div id="betty-status" style="font-size:11px;margin-top:4px;min-height:14px"></div>
+  </div>
+</div>
+
+<!-- Reality Map — Static Grid -->
+<div class="panel">
+  <h2 class="glow-gold">🗺️ Reality Map</h2>
+  <div id="reality-map"></div>
+</div>
+
+<!-- 11. Revenue Plan -->
+<div class="panel">
+  <h2 class="glow-gold">💎 Revenue Plan</h2>
+  <button id="rev-toggle" onclick="document.getElementById('rev-content').classList.toggle('open');this.textContent=this.textContent==='▶ Expand'?'▼ Collapse':'▶ Expand'">▶ Expand</button>
+  <div id="rev-content"></div>
+</div>
+
+<!-- Quick Links -->
+<div class="panel" style="border-color:var(--gold) !important">
+  <h2 class="glow-gold">🔗 PLT ECOSYSTEM</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">
+    <a href="https://uncommonpope-png.github.io/plt-press/" style="display:block;padding:10px;background:rgba(255,179,71,.06);border:1px solid var(--border);border-radius:6px;color:var(--gold);text-decoration:none;text-align:center">📚 Book Store</a>
+    <a href="https://buy.stripe.com/eVq4gz1de64z9bbcXXfnO0i" style="display:block;padding:10px;background:rgba(46,204,113,.06);border:1px solid var(--border);border-radius:6px;color:var(--green);text-decoration:none;text-align:center">💰 $49 Bundle</a>
+    <a href="plt-score-calculator.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/plt-score-calculator.html';return false;} style="display:block;padding:10px;background:rgba(0,212,255,.06);border:1px solid var(--border);border-radius:6px;color:var(--cyan);text-decoration:none;text-align:center">🧮 PLT Calculator</a>
+    <a href="free-chapter.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/free-chapter.html';return false;} style="display:block;padding:10px;background:rgba(255,45,120,.06);border:1px solid var(--border);border-radius:6px;color:var(--pink);text-decoration:none;text-align:center">📖 Free Chapter</a>
+    <a href="plt-master-bundle.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/plt-master-bundle.html';return false;} style="display:block;padding:10px;background:linear-gradient(45deg,rgba(255,215,0,.15),rgba(255,179,71,.15));border:2px solid #FFD700;border-radius:6px;color:#FFD700;text-decoration:none;text-align:center;font-weight:bold;text-shadow:0 0 10px rgba(255,215,0,.7)">💎 PLT MASTER BUNDLE — $99</a>
+    <a href="plt-certification-course.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/plt-certification-course.html';return false;} style="display:block;padding:10px;background:rgba(52,152,219,.06);border:1px solid var(--border);border-radius:6px;color:#3498db;text-decoration:none;text-align:center;font-weight:bold">🎓 PLT CERTIFICATION — $297</a>
+    <a href="plt-business-consulting.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/plt-business-consulting.html';return false;} style="display:block;padding:10px;background:rgba(231,76,60,.06);border:1px solid var(--border);border-radius:6px;color:#e74c3c;text-decoration:none;text-align:center;font-weight:bold">💼 PLT CONSULTING — $497</a>
+    <a href="affiliate-program.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/affiliate-program.html';return false;} style="display:block;padding:10px;background:rgba(46,204,113,.06);border:1px solid var(--border);border-radius:6px;color:var(--green);text-decoration:none;text-align:center;font-weight:bold">💰 AFFILIATE PROGRAM — Earn 50%</a>
+    <a href="ai-services-hire.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/ai-services-hire.html';return false;} style="display:block;padding:10px;background:rgba(46,204,113,.06);border:1px solid var(--border);border-radius:6px;color:var(--green);text-decoration:none;text-align:center">🤖 AI Services</a>
+    <a href="https://uncommonpope-png.github.io/plt-blog/" style="display:block;padding:10px;background:rgba(0,212,255,.06);border:1px solid var(--border);border-radius:6px;color:var(--cyan);text-decoration:none;text-align:center">✍️ PLT Blog</a>
+    <a href="blog-index.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/blog-index.html';return false;} style="display:block;padding:10px;background:rgba(52,152,219,.06);border:1px solid var(--border);border-radius:6px;color:#3498db;text-decoration:none;text-align:center;font-weight:bold">📝 PLT BLOG — 12+ Articles</a>
+    <a href="email-sequences.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/email-sequences.html';return false;} style="display:block;padding:10px;background:rgba(155,89,182,.06);border:1px solid var(--border);border-radius:6px;color:#9b59b6;text-decoration:none;text-align:center;font-weight:bold">📧 EMAIL AUTOMATION — 47 Templates</a>
+    <a href="https://uncommonpope-png.github.io/ai-tools-hub/" style="display:block;padding:10px;background:rgba(255,179,71,.06);border:1px solid var(--border);border-radius:6px;color:var(--gold);text-decoration:none;text-align:center">🛠️ AI Tools Hub</a>
+    <a href="products/openclaw-dashboard-v1.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/products/openclaw-dashboard-v1.html';return false;} style="display:block;padding:10px;background:rgba(255,45,120,.06);border:1px solid var(--border);border-radius:6px;color:var(--pink);text-decoration:none;text-align:center">🛒 Dashboard Product</a>
+    <a href="profit-love-tax.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/profit-love-tax.html';return false;} style="display:block;padding:10px;background:rgba(255,179,71,.06);border:1px solid var(--border);border-radius:6px;color:var(--gold);text-decoration:none;text-align:center">📐 PLT Framework</a>
+    <a href="craig-jones-author.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/craig-jones-author.html';return false;} style="display:block;padding:10px;background:rgba(0,212,255,.06);border:1px solid var(--border);border-radius:6px;color:var(--cyan);text-decoration:none;text-align:center">👤 About Craig</a>
+    <a href="conversation-scoring.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/conversation-scoring.html';return false;} style="display:block;padding:10px;background:rgba(46,204,113,.06);border:1px solid var(--border);border-radius:6px;color:var(--green);text-decoration:none;text-align:center">💬 Scoring Guide</a>
+    <a href="what-is-plt.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/what-is-plt.html';return false;} style="display:block;padding:10px;background:rgba(255,45,120,.06);border:1px solid var(--border);border-radius:6px;color:var(--pink);text-decoration:none;text-align:center">❓ What is PLT?</a>
+    <a href="djinie.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/djinie.html';return false;} style="display:block;padding:10px;background:rgba(0,212,255,.06);border:1px solid var(--border);border-radius:6px;color:var(--cyan);text-decoration:none;text-align:center;font-weight:bold">🧞‍♂️ DJINIE — Your Freedom Genie</a>
+    <a href="deerg-bot.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/deerg-bot.html';return false;} style="display:block;padding:10px;background:rgba(255,179,71,.06);border:1px solid var(--border);border-radius:6px;color:var(--gold);text-decoration:none;text-align:center;font-weight:bold">🏗️ DEERG BOT — Universe Builder</a>
+    <a href="doctor-buht-buht.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/doctor-buht-buht.html';return false;} style="display:block;padding:10px;background:rgba(255,45,120,.06);border:1px solid var(--border);border-radius:6px;color:var(--pink);text-decoration:none;text-align:center;font-weight:bold">👨‍⚕️ DR. BUHT BUHT — PLT Analyst</a>
+    <a href="bot-commander.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/bot-commander.html';return false;} style="display:block;padding:10px;background:rgba(230,126,34,.06);border:1px solid var(--border);border-radius:6px;color:#e67e22;text-decoration:none;text-align:center;font-weight:bold;grid-column:span 2">🎮 BOT COMMANDER — Control All Systems</a>
+    <a href="pyramid-city.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/pyramid-city.html';return false;} style="display:block;padding:10px;background:linear-gradient(45deg,rgba(255,215,0,.15),rgba(218,165,32,.15));border:1px solid #DAA520;border-radius:6px;color:#DAA520;text-decoration:none;text-align:center;font-weight:bold;grid-column:span 2;font-size:16px;text-shadow:0 0 10px rgba(255,215,0,.5)">🏛️ PYRAMID CITY — Soul Headquarters & Command Center</a>
+    <a href="soul-chat-hub.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/soul-chat-hub.html';return false;} style="display:block;padding:10px;background:rgba(255,45,120,.06);border:1px solid var(--border);border-radius:6px;color:var(--pink);text-decoration:none;text-align:center;font-weight:bold">💬 SOUL CHAT HUB — Live Soul Communications</a>
+    <a href="links-directory.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/links-directory.html';return false;} style="display:block;padding:10px;background:rgba(155,89,182,.06);border:1px solid var(--border);border-radius:6px;color:#9b59b6;text-decoration:none;text-align:center">🔗 LINKS DIRECTORY — All Generated Content</a>
+    <a href="library.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/library.html';return false;} style="display:block;padding:10px;background:rgba(0,212,255,.06);border:1px solid var(--border);border-radius:6px;color:var(--cyan);text-decoration:none;text-align:center">📚 LIBRARY — All Ecosystem Pages</a>
+    <a href="seo-dashboard.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/seo-dashboard.html';return false;} style="display:block;padding:10px;background:rgba(46,204,113,.06);border:1px solid var(--border);border-radius:6px;color:var(--green);text-decoration:none;text-align:center">🔍 SEO DASHBOARD — Content Empire</a>
+    <a href="seo-army.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/seo-army.html';return false;} style="display:block;padding:10px;background:rgba(255,69,0,.06);border:1px solid var(--border);border-radius:6px;color:#FF4500;text-decoration:none;text-align:center;font-weight:bold">⚡ SEO ARMY — Google Domination Command</a>
+    <a href="profit-dashboard.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/profit-dashboard.html';return false;} style="display:block;padding:10px;background:linear-gradient(45deg,rgba(46,204,113,.25),rgba(39,174,96,.25));border:2px solid #2ecc71;border-radius:6px;color:#2ecc71;text-decoration:none;text-align:center;font-weight:bold;grid-column:span 2;font-size:18px;text-shadow:0 0 15px rgba(46,204,113,.8);animation:profit-pulse 2s infinite">💰 PROFIT COMMAND CENTER — EXPAND PROFIT OR DIE</a>
+    <a href="soul-army-command.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/soul-army-command.html';return false;} style="display:block;padding:10px;background:linear-gradient(45deg,rgba(255,179,71,.15),rgba(255,215,0,.15));border:1px solid #FFB347;border-radius:6px;color:#FFB347;text-decoration:none;text-align:center;font-weight:bold;grid-column:span 2;font-size:16px;text-shadow:0 0 10px rgba(255,179,71,.5)">👑 SOUL ARMY COMMAND — Delegate Tasks & Manage Soul Empire</a>
+    <a href="local-chat.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/local-chat.html';return false;} style="display:block;padding:10px;background:rgba(46,204,113,.06);border:1px solid var(--border);border-radius:6px;color:var(--green);text-decoration:none;text-align:center">💰 FREE PROFIT CHAT — Zero Cost Local AI</a>
+  </div>
+</div>
+
+<!-- 12. Footer -->
+<div id="footer">
+  PLT Operating System · Profit · Love · Tax<br>
+  <span id="refresh-ts">—</span>
+</div>
+
+<script>
+const DATA_URL='http://localhost:5004/log.json';
+const CMD_URL='http://localhost:5004/chat';
+const CIRC=2*Math.PI*40;
+
+/* ── FALLBACK DATA ── */
+const FALLBACK = {
+  updated: new Date().toISOString(),
+  status: "Command Bridge ONLINE",
+  current_task: "Systems operational. Awaiting commands.",
+  profit_score: 24, love_score: 18, tax_score: 7, health: 100,
+  collectors: {books_sold:0, conversations_scored:0, leads:0, revenue:0, agents:2},
+  missions: [
+    {name:"$1,000 in 15 days",status:"Active",progress:5,leads:0,conversations:0,revenue:0,next_actions:["Launch outreach campaign","Post in Facebook/Reddit groups","Activate social media traffic"]},
+    {name:"SEO Traffic Pipeline",status:"Building",progress:30,leads:0,conversations:0,revenue:0,next_actions:["Wait for Google indexing","Add 5 more SEO pages","Build backlinks"]},
+    {name:"Store Launch",status:"Completed",progress:100,leads:0,conversations:0,revenue:0,next_actions:["Monitor sales","Optimize conversion"]}
+  ],
+  conversations: [
+    {person:"Realtor A",profit:7,love:4,tax:2,score:9},
+    {person:"Client B",profit:5,love:6,tax:1,score:10},
+    {person:"Investor C",profit:8,love:2,tax:6,score:4}
+  ],
+  commands: [],
+  ledger: [
+    {date:"Mar 15",action:"Command Bridge deployed",profit:2,love:3,tax:-2,soul_score:3},
+    {date:"Mar 15",action:"Self-recovery system live",profit:1,love:2,tax:-1,soul_score:2},
+    {date:"Mar 14",action:"Services page launched",profit:4,love:2,tax:-2,soul_score:4},
+    {date:"Mar 14",action:"PLT Blog deployed",profit:3,love:3,tax:-1,soul_score:5}
+  ],
+  activity: [
+    {time:"08:35",msg:"Dashboard fully deployed ✅"},
+    {time:"08:28",msg:"Command Bridge built ✅"},
+    {time:"08:04",msg:"Self-recovery system deployed ✅"},
+    {time:"07:32",msg:"Profit woke up — memory rebuilt ✅"}
+  ],
+  status_reports: [
+    {time:"08:35 UTC Mar 15",title:"Dashboard Fully Operational",body:"All systems live. Command Bridge is Profit's primary interface."},
+    {time:"08:08 UTC Mar 15",title:"Profit Restored",body:"Fresh install recovery complete. All repos cloned. Brain backed up."},
+    {time:"07:50 UTC Mar 15",title:"System Check Passed",body:"Store, blog, AI hub, services — all live and operational."},
+    {time:"Mar 14",title:"Store Launch Complete",body:"18 books live on Stripe. Bundle deal active. SEO pages indexed."}
+  ],
+  betty_alerts: [
+    {type:"System",text:"All PLT systems operational. Dashboard is Profit's primary channel."},
+    {type:"Opportunity",text:"AI services market growing 40% YoY. Outreach campaign ready."},
+    {type:"Credit Insight",text:"Credit repair content trending on TikTok. Cross-promote with Betty Credits brand."}
+  ],
+  revenue_plan: [
+    {phase:"PLT Book Store",type:"LIVE",potential:95,guaranteed:60,desc:"18 books + bundle. Live on Stripe.",timeline:"Now",offer:"$49 bundle (save 70%)",channel:"SEO + Social",audience:"Entrepreneurs, negotiators",cta:"Get the Complete Library →",payment:"Stripe"},
+    {phase:"AI Services",type:"LIVE",potential:85,guaranteed:40,desc:"4 services with Stripe links.",timeline:"Now",offer:"AI Agent Setup $100",channel:"Reddit, LinkedIn, Facebook",audience:"Small business owners",cta:"Book a Service →",payment:"Stripe"},
+    {phase:"SEO Organic Traffic",type:"BUILDING",potential:70,guaranteed:20,desc:"12 SEO pages indexed.",timeline:"4-8 weeks",offer:"Free content → book funnel",channel:"Google Search",audience:"People searching business/negotiation topics",cta:"Read → Buy",payment:"Stripe"},
+    {phase:"PLT Blog",type:"BUILDING",potential:65,guaranteed:15,desc:"6 articles live.",timeline:"6-12 weeks",offer:"Doctrine content → bundle",channel:"Google + Social shares",audience:"Self-improvement seekers",cta:"Read → Bundle",payment:"Stripe"},
+    {phase:"AI Tools Affiliate",type:"BUILDING",potential:80,guaranteed:25,desc:"Affiliate commissions.",timeline:"4-8 weeks",offer:"Tool reviews + affiliate links",channel:"SEO",audience:"People searching AI tools",cta:"Try [Tool] →",payment:"Affiliate commissions"},
+    {phase:"Social Media Traffic",type:"BLOCKED",potential:85,guaranteed:10,desc:"Needs Craig posting 2 min/day.",timeline:"Immediate if activated",offer:"PLT quotes + book links",channel:"Twitter, Facebook, LinkedIn",audience:"Craig's network",cta:"Follow + Buy",payment:"Stripe"}
+  ],
+  reality_map: {
+    books:["The Scorer: Cold Calling","The Scorer: Real Estate","The Deal","The Ledger","The Negotiation","The Silence","The Counter","The Pivot","The Comeback","The Loss","The Room","The Parent","PLT Daily","Know What You Are","Stiforp","Evol's Love Story","Brasi","The Build"],
+    funnels:["Bundle Funnel","What-is-PLT","Profit-Love-Tax"],
+    agents:["Profit","Seshat","Little Bunny"],
+    businesses:["PLT Press","AI Services"],
+    audiences:["SEO Traffic","Blog Readers","Social Media","Reddit","Facebook Groups"]
+  }
+};
+
+/* ── HELPERS ── */
+function setRing(id,val,max){
+  max=max||50;
+  const pct=Math.min(val/max,1);
+  const el=document.getElementById(id);
+  if(el) el.setAttribute('stroke-dasharray',pct*CIRC+' '+CIRC);
+}
+
+function scoreColor(s){return s>=8?'var(--green)':s>=5?'var(--gold)':'var(--red)';}
+function deltaStr(n,label){
+  const c=n>0?'green':n<0?'red':'dim';
+  const sign=n>0?'+':'';
+  return '<span class="'+c+'">'+label+':'+sign+n+'</span>';
+}
+function badgeClass(s){
+  var l=(s||'').toLowerCase();
+  if(l==='active'||l==='live')return'badge-active';
+  if(l==='completed')return'badge-completed';
+  if(l==='building'||l==='planned')return'badge-building';
+  return'badge-blocked';
+}
+function revBadgeClass(t){
+  var l=(t||'').toUpperCase();
+  if(l==='LIVE')return'badge-live';
+  if(l==='BUILDING')return'badge-building';
+  return'badge-blocked';
+}
+
+function timeAgo(iso){
+  if(!iso)return'just now';
+  var d=new Date(iso);
+  var s=Math.floor((Date.now()-d)/1000);
+  if(s<60)return s+'s ago';
+  if(s<3600)return Math.floor(s/60)+'m ago';
+  return d.toLocaleTimeString();
+}
+
+/* ── RENDER ── */
+function render(d){
+  window._lastData=d;
+
+  // 1. Status
+  document.getElementById('status-text').innerHTML='● ONLINE — '+(d.current_task||d.status||'Standby');
+  document.getElementById('heartbeat').textContent='Last heartbeat: '+timeAgo(d.updated);
+
+  // 2. Collectors
+  var c=d.collectors||{};
+  document.getElementById('c-books').textContent=c.books_sold!=null?c.books_sold:0;
+  document.getElementById('c-convos').textContent=c.conversations_scored!=null?c.conversations_scored:0;
+  document.getElementById('c-leads').textContent=c.leads!=null?c.leads:0;
+  document.getElementById('c-rev').textContent='$'+(c.revenue!=null?c.revenue:0);
+  document.getElementById('c-agents').textContent=c.agents!=null?c.agents:0;
+
+  // 3. Trinity
+  var ps=d.profit_score||0, ls=d.love_score||0, ts=d.tax_score||0;
+  document.getElementById('v-profit').textContent=ps;
+  document.getElementById('v-love').textContent=ls;
+  document.getElementById('v-tax').textContent=ts;
+  document.getElementById('v-soul').textContent=ps+ls-ts;
+  setRing('r-profit',ps);setRing('r-love',ls);setRing('r-tax',ts);
+
+  // 4. Reports
+  var reps=document.getElementById('reports');
+  reps.innerHTML='';
+  var reports=(d.status_reports||[]).slice(-4).reverse();
+  if(reports.length){
+    reports.forEach(function(r){
+      reps.innerHTML+='<div class="report"><div class="r-head">'+(r.time||'')+' — '+(r.title||'')+'</div><div class="r-body">'+(r.body||'')+'</div></div>';
+    });
+  }else{
+    reps.innerHTML='<div style="color:var(--dim);font-size:12px">Awaiting status reports...</div>';
+  }
+
+  // 5. Missions
+  var mis=document.getElementById('missions');
+  mis.innerHTML='';
+  (d.missions||[]).forEach(function(m,i){
+    var bc=badgeClass(m.status);
+    var acts=(m.next_actions||[]).map(function(a){return '<li>'+a+'</li>';}).join('');
+    mis.innerHTML+='<div class="mission" onclick="this.querySelector(\'.m-details\').classList.toggle(\'open\')">'
+      +'<div class="m-head"><span class="m-name">'+m.name+'</span><span class="badge '+bc+'">'+m.status+'</span></div>'
+      +'<div class="prog-bar"><div class="prog-fill" style="width:'+(m.progress||0)+'%"></div></div>'
+      +'<div class="prog-pct">'+(m.progress||0)+'%</div>'
+      +'<div class="m-details">Leads: '+(m.leads||0)+' · Convos: '+(m.conversations||0)+' · Rev: $'+(m.revenue||0)+'<ul>'+acts+'</ul></div>'
+      +'</div>';
+  });
+
+  // 6. Conversations
+  var cb=document.getElementById('conv-body');
+  cb.innerHTML='';
+  (d.conversations||[]).forEach(function(cv){
+    cb.innerHTML+='<tr><td>'+cv.person+'</td><td>'+cv.profit+'</td><td>'+cv.love+'</td><td>'+cv.tax+'</td><td style="color:'+scoreColor(cv.score)+';font-weight:bold">'+cv.score+'</td></tr>';
+  });
+
+  // 7. Commands history
+  var ch=document.getElementById('cmd-hist');
+  ch.innerHTML='';
+  (d.commands||[]).slice(-5).reverse().forEach(function(cmd){
+    ch.innerHTML+='<div>› '+(typeof cmd==='string'?cmd:(cmd.text||JSON.stringify(cmd)))+'</div>';
+  });
+
+  // 8. Ledger
+  var lg=document.getElementById('ledger');
+  lg.innerHTML='';
+  (d.ledger||[]).forEach(function(e){
+    lg.innerHTML+='<div class="ledger-row"><span class="l-date">'+e.date+'</span><span class="l-action">'+e.action+'</span><span class="l-scores">'+deltaStr(e.profit,'P')+' '+deltaStr(e.love,'L')+' '+deltaStr(e.tax,'T')+' <span class="gold">Soul:'+e.soul_score+'</span></span></div>';
+  });
+
+  // 9. Feed
+  var fd=document.getElementById('feed');
+  fd.innerHTML='';
+  (d.activity||[]).forEach(function(a){
+    fd.innerHTML+='<div class="feed-line"><span class="ftime">'+a.time+'</span> '+a.msg+'</div>';
+  });
+  fd.scrollTop=fd.scrollHeight;
+
+  // Betty
+  renderBetty(d);
+
+  // Reality Map
+  renderMap(d);
+
+  // 11. Revenue
+  renderRevenue(d);
+
+  // Vault
+  var v = d.vault || {};
+  document.getElementById('vault-amount').textContent = (v.total||0).toFixed(2);
+
+  var streams = v.streams || [];
+  var streamHtml = '';
+  streams.forEach(function(s){
+    streamHtml += '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #0d0d0d"><span>'+s.name+'</span><span style="color:var(--green)">$'+s.amount+'</span></div>';
+  });
+  document.getElementById('vault-streams').innerHTML = streamHtml || '<div style="color:var(--dim)">No streams yet — building...</div>';
+
+  var txns = v.transactions || [];
+  var txnHtml = '';
+  txns.slice(-5).reverse().forEach(function(t){
+    txnHtml += '<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #0d0d0d"><span style="color:var(--dim);font-size:11px">'+t.date+'</span><span>'+t.desc+'</span><span style="color:var(--green)">+$'+t.amount+'</span></div>';
+  });
+  document.getElementById('vault-txns').innerHTML = txnHtml || '<div style="color:var(--dim)">Waiting for first sale...</div>';
+
+  document.getElementById('vault-moment').textContent = v.moment || 'Profit is hunting. Revenue streams are being built. The vault will fill.';
+
+  // Teacher
+  var teacher = d.teacher || {};
+  document.getElementById('teacher-current').textContent = teacher.current_lesson || 'Analyzing market for profit opportunities...';
+
+  var realities = teacher.realities || [];
+  var realHtml = '';
+  realities.forEach(function(r){
+    realHtml += '<div style="padding:4px 0;border-bottom:1px solid #0d0d0d">\u{1F4A1} '+r+'</div>';
+  });
+  document.getElementById('teacher-list').innerHTML = realHtml || '<div style="color:var(--dim)">Scanning for realities...</div>';
+
+  var actions = teacher.actions || [];
+  var actHtml = '';
+  actions.forEach(function(a){
+    actHtml += '<div style="padding:4px 0;border-bottom:1px solid #0d0d0d">\u26A1 '+a+'</div>';
+  });
+  document.getElementById('teacher-action-list').innerHTML = actHtml || '<div style="color:var(--dim)">Building action pipeline...</div>';
+
+  var margins = teacher.margins || [];
+  var margHtml = '';
+  margins.forEach(function(m){
+    margHtml += '<div style="padding:6px 8px;margin-bottom:4px;background:rgba(0,212,255,.04);border-radius:4px;border-left:2px solid var(--green)"><span style="color:var(--green);font-weight:bold">$'+m.potential+'</span> \u2014 '+m.desc+'</div>';
+  });
+  document.getElementById('teacher-margins').innerHTML = margHtml || '<div style="color:var(--dim)">Calculating margins...</div>';
+
+  // Soul Ticker
+  var ticker = d.ticker || [];
+  var tickHtml = '';
+  var items = ticker.length ? ticker : [
+    {soul:'Profit',emoji:'\u{1F4B0}',action:'Building revenue streams',status:'active'},
+    {soul:'Seshat',emoji:'\u{1F4DC}',action:'Standing by for visitors',status:'standby'},
+    {soul:'Little Bunny',emoji:'\u{1F430}',action:'Designing PLT doctrine',status:'active'}
+  ];
+  items.forEach(function(t){
+    var color = t.status==='active'?'var(--green)':t.status==='complete'?'var(--gold)':'var(--dim)';
+    tickHtml += '<span style="margin-right:40px;color:'+color+'">'+t.emoji+' '+t.soul+': '+t.action+'</span>';
+  });
+  document.getElementById('ticker-content').innerHTML = tickHtml + tickHtml;
+
+  // Footer
+  document.getElementById('refresh-ts').textContent='Refreshed: '+new Date().toLocaleTimeString();
+
+  // Health bar
+  var hp=d.health||100;
+  document.getElementById('health-pct').textContent=hp+'%';
+  document.getElementById('health-fill').style.width=hp+'%';
+  if(hp<25){document.getElementById('health-fill').style.background='linear-gradient(90deg,#e74c3c,#ff4444)';}
+  else if(hp<50){document.getElementById('health-fill').style.background='linear-gradient(90deg,#e74c3c,#FF2D78)';}
+  else{document.getElementById('health-fill').style.background='linear-gradient(90deg,#FF2D78,#ff6ba8)';}
+}
+
+/* ── BETTY CREDITS ── */
+function renderBetty(d){
+  var el=document.getElementById('betty-alerts');
+  var alerts=d.betty_alerts||[];
+  if(!alerts.length){
+    el.innerHTML='<div class="betty-alert"><div class="ba-type">🔍 Scanning</div>Betty Credits is monitoring markets. No alerts yet.</div>';
+    return;
+  }
+  el.innerHTML='';
+  alerts.slice(-4).forEach(function(a){
+    el.innerHTML+='<div class="betty-alert"><div class="ba-type">'+(a.type||'Alert')+'</div>'+(a.text||a.message||'')+'</div>';
+  });
+}
+
+/* ── REALITY MAP — STATIC GRID ── */
+function renderMap(d){
+  var container=document.getElementById('reality-map');
+  var map=(d.reality_map)||{};
+  var books=map.books||[];
+  var funnels=map.funnels||[];
+  var agents=map.agents||[];
+  var businesses=map.businesses||[];
+  var audiences=map.audiences||[];
+
+  var categories=[
+    {key:'books',icon:'📚',label:'BOOKS',items:books,cls:'cat-books',startOpen:true},
+    {key:'funnels',icon:'🔗',label:'FUNNELS',items:funnels,cls:'cat-funnels',startOpen:false},
+    {key:'agents',icon:'🤖',label:'AGENTS',items:agents,cls:'cat-agents',startOpen:false},
+    {key:'businesses',icon:'💼',label:'BUSINESSES',items:businesses,cls:'cat-businesses',startOpen:false},
+    {key:'audiences',icon:'👥',label:'AUDIENCES',items:audiences,cls:'cat-audiences',startOpen:false}
+  ];
+
+  var html='<div class="map-grid">';
+  categories.forEach(function(cat,i){
+    var openClass=cat.startOpen?'open':'';
+    var arrowClass=cat.startOpen?'cat-arrow open':'cat-arrow';
+    html+='<div class="map-category '+cat.cls+'">';
+    html+='<div class="map-cat-header" onclick="toggleMapCat(this)">';
+    html+='<span class="'+arrowClass+'">▶</span>';
+    html+='<span>'+cat.icon+' '+cat.label+'</span>';
+    html+='<span class="cat-count">('+cat.items.length+')</span>';
+    html+='</div>';
+    html+='<div class="map-cat-items '+openClass+'">';
+    cat.items.forEach(function(item){
+      var name=typeof item==='string'?item:(item.name||item);
+      html+='<div class="map-item"><span class="item-dot"></span>'+name+'</div>';
+    });
+    html+='</div></div>';
+  });
+  html+='</div>';
+  container.innerHTML=html;
+}
+
+function toggleMapCat(header){
+  var arrow=header.querySelector('.cat-arrow');
+  var items=header.nextElementSibling;
+  arrow.classList.toggle('open');
+  items.classList.toggle('open');
+}
+
+/* ── REVENUE PLAN ── */
+function renderRevenue(d){
+  var rc=document.getElementById('rev-content');
+  rc.innerHTML='';
+  (d.revenue_plan||[]).forEach(function(p,i){
+    var bc=revBadgeClass(p.type);
+    var id='rev-detail-'+i;
+    rc.innerHTML+='<div class="rev-phase" onclick="document.getElementById(\''+id+'\').classList.toggle(\'open\')">'
+      +'<div class="rp-head"><span class="rp-name">'+p.phase+' <span class="badge '+bc+'">'+p.type+'</span></span></div>'
+      +'<div class="rp-desc">'+(p.desc||'')+'</div>'
+      +'<div class="rev-details" id="'+id+'">'
+        +'<div class="rev-detail-row"><span class="rd-label">Offer</span><span class="rd-val">'+(p.offer||'—')+'</span></div>'
+        +'<div class="rev-detail-row"><span class="rd-label">Channel</span><span class="rd-val">'+(p.channel||'—')+'</span></div>'
+        +'<div class="rev-detail-row"><span class="rd-label">Audience</span><span class="rd-val">'+(p.audience||'—')+'</span></div>'
+        +'<div class="rev-detail-row"><span class="rd-label">Timeline</span><span class="rd-val">'+(p.timeline||'—')+'</span></div>'
+        +'<div class="rev-detail-row"><span class="rd-label">Payment</span><span class="rd-val">'+(p.payment||'—')+'</span></div>'
+        +'<div class="rev-bars">'
+          +'<div class="rev-bar-label"><span>Potential</span><span>'+(p.potential||0)+'%</span></div>'
+          +'<div class="rev-bar"><div class="rb-fill" style="width:'+(p.potential||0)+'%;background:var(--gold)"></div></div>'
+          +'<div class="rev-bar-label"><span>Guaranteed</span><span>'+(p.guaranteed||0)+'%</span></div>'
+          +'<div class="rev-bar"><div class="rb-fill" style="width:'+(p.guaranteed||0)+'%;background:var(--green)"></div></div>'
+        +'</div>'
+        +'<div style="text-align:center;margin-top:8px"><span class="rev-cta">'+(p.cta||'View Details →')+'</span></div>'
+      +'</div>'
+    +'</div>';
+  });
+}
+
+/* ── FETCH + AUTO-REFRESH ── */
+async function load(){
+  try{
+    var r=await fetch(DATA_URL+'?t='+Date.now());
+    if(!r.ok)throw new Error(r.status);
+    var data=await r.json();
+    render(data);
+  }catch(e){
+    // On failure, don't touch dashboard — fallback is already showing
+    document.getElementById('status-text').innerHTML='● ONLINE — Signal delayed, showing cached data';
+  }
+}
+
+/* ── COMMAND TRANSMIT ── */
+document.getElementById('cmd-send').addEventListener('click',async function(){
+  var inp=document.getElementById('cmd-input');
+  var txt=inp.value.trim();
+  if(!txt)return;
+  var st=document.getElementById('cmd-status');
+  st.innerHTML='<span class="gold">Transmitting...</span>';
+  try{
+    await fetch(CMD_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:'📡 COMMAND: '+txt})});
+    st.innerHTML='<span class="green">✓ Command transmitted to Profit</span>';
+    inp.value='';
+  }catch(e){
+    st.innerHTML='<span class="red">✗ '+e.message+'</span>';
+  }
+  setTimeout(function(){st.innerHTML='';},4000);
+});
+document.getElementById('cmd-input').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('cmd-send').click();});
+
+/* ── VOICE RECORDING ── */
+var mediaRec=null,audioChunks=[];
+var voiceBtn=document.getElementById('cmd-voice');
+voiceBtn.addEventListener('click',async function(){
+  if(mediaRec&&mediaRec.state==='recording'){
+    mediaRec.stop();return;
+  }
+  try{
+    var stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    audioChunks=[];
+    mediaRec=new MediaRecorder(stream,{mimeType:'audio/ogg;codecs=opus'});
+    mediaRec.ondataavailable=function(e){if(e.data.size>0)audioChunks.push(e.data);};
+    mediaRec.onstop=async function(){
+      stream.getTracks().forEach(function(t){t.stop();});
+      voiceBtn.classList.remove('recording');
+      voiceBtn.textContent='🎙 Sending...';
+      var blob=new Blob(audioChunks,{type:'audio/ogg'});
+      var fd=new FormData();
+      fd.append('chat_id','8589507317');
+      fd.append('voice',blob,'voice.ogg');
+      try{
+        await fetch('https://api.telegram.org/bot8713808619:AAHeGVgqgRbEp8GW_AuvMJtV2XVoQcgmM3A/sendVoice',{method:'POST',body:fd});
+        document.getElementById('cmd-status').innerHTML='<span class="green">✓ Voice transmitted</span>';
+      }catch(e){
+        document.getElementById('cmd-status').innerHTML='<span class="red">✗ Voice failed</span>';
+      }
+      voiceBtn.textContent='🎙 Record';
+      setTimeout(function(){document.getElementById('cmd-status').innerHTML='';},4000);
+    };
+    mediaRec.start();
+    voiceBtn.classList.add('recording');
+    voiceBtn.textContent='⏹ Stop';
+  }catch(e){
+    document.getElementById('cmd-status').innerHTML='<span class="red">✗ Mic access denied</span>';
+  }
+});
+
+/* ── REALITY BUILDER ── */
+var activeForm=null;
+function toggleBuild(type,btn){
+  document.querySelectorAll('.builder-btn').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.build-form').forEach(function(f){f.classList.remove('open');});
+  if(activeForm===type){activeForm=null;return;}
+  activeForm=type;
+  btn.classList.add('active');
+  document.getElementById('form-'+type).classList.add('open');
+}
+
+function submitBuild(type){
+  var res=document.getElementById('result-'+type);
+  res.innerHTML='<span class="gold">⚡ Transmitting to Profit...</span>';
+  var data={type:type,timestamp:new Date().toISOString()};
+
+  if(type==='book'){
+    data.title=document.getElementById('book-title').value;
+    data.framework=document.getElementById('book-framework').value;
+    data.market=document.getElementById('book-market').value;
+    data.price=document.getElementById('book-price').value;
+    data.message=document.getElementById('book-message').value;
+  }else if(type==='funnel'){
+    data.name=document.getElementById('funnel-name').value;
+    data.target=document.getElementById('funnel-target').value;
+    data.offer=document.getElementById('funnel-offer').value;
+    data.entry=document.getElementById('funnel-entry').value;
+    data.outcome=document.getElementById('funnel-outcome').value;
+  }else if(type==='agent'){
+    data.name=document.getElementById('agent-name').value;
+    data.purpose=document.getElementById('agent-purpose').value;
+    data.tasks=document.getElementById('agent-tasks').value;
+    data.alignment=document.getElementById('agent-plt').value;
+  }else if(type==='course'){
+    data.name=document.getElementById('course-name').value;
+    data.modules=document.getElementById('course-modules').value;
+    data.audience=document.getElementById('course-audience').value;
+    data.price=document.getElementById('course-price').value;
+    data.desc=document.getElementById('course-desc').value;
+  }
+
+  var jsonStr=JSON.stringify(data,null,2);
+  var ts=new Date().toLocaleString();
+  var copyId='copy-btn-'+Date.now();
+
+  fetch('http://localhost:5004/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:`Build this ${type}: ${JSON.stringify(data)}. Create the actual files and content.`})}).then(r=>r.json()).then(d=>{
+  .then(function(){
+    res.innerHTML='<div class="build-result-box">'
+      +'<div class="result-check">✓ Build request transmitted to Profit</div>'
+      +'<div class="result-header"><span style="color:var(--gold);font-size:11px;font-weight:bold">COMMAND JSON</span><span class="result-ts">'+ts+'</span></div>'
+      +'<pre>'+escapeHtml(jsonStr)+'</pre>'
+      +'<button class="copy-btn" id="'+copyId+'" onclick="copyBuildJson(this,\''+btoa(jsonStr)+'\')">📋 COPY</button>'
+      +'</div>';
+  })
+  .catch(function(e){
+    res.innerHTML='<div class="build-result-box" style="border-color:var(--red)">'
+      +'<div style="color:var(--red);font-size:13px;font-weight:bold;margin-bottom:8px">✗ Transmission failed: '+e.message+'</div>'
+      +'<div class="result-header"><span style="color:var(--gold);font-size:11px;font-weight:bold">COMMAND JSON (queued)</span><span class="result-ts">'+ts+'</span></div>'
+      +'<pre>'+escapeHtml(jsonStr)+'</pre>'
+      +'<button class="copy-btn" id="'+copyId+'" onclick="copyBuildJson(this,\''+btoa(jsonStr)+'\')">📋 COPY</button>'
+      +'</div>';
+  });
+}
+
+function escapeHtml(str){
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function copyBuildJson(btn,b64){
+  try{
+    var text=atob(b64);
+    navigator.clipboard.writeText(text).then(function(){
+      btn.textContent='✓ COPIED';
+      btn.classList.add('copied');
+      setTimeout(function(){btn.textContent='📋 COPY';btn.classList.remove('copied');},2000);
+    });
+  }catch(e){
+    btn.textContent='✗ Failed';
+    setTimeout(function(){btn.textContent='📋 COPY';},2000);
+  }
+}
+
+/* ── MODAL SYSTEM ── */
+function openModal(el){
+  var body=document.getElementById('modal-body');
+  body.innerHTML=el.innerHTML;
+  document.getElementById('modal-overlay').style.display='flex';
+}
+function closeModal(){
+  document.getElementById('modal-overlay').style.display='none';
+}
+// Make all panels expandable on click (but not on inner interactive elements)
+document.querySelectorAll('.panel').forEach(function(p){
+  // Add expand hint
+  var hint=document.createElement('span');
+  hint.className='expand-hint';
+  hint.textContent='⤢ expand';
+  p.appendChild(hint);
+  p.addEventListener('click',function(e){
+    // Don't open modal if clicking buttons, inputs, links, or inner interactive elements
+    if(e.target.closest('button,input,textarea,select,a,.builder-btn,.mission,.soul-card,.map-cat-head,.rev-phase')){return;}
+    openModal(p);
+  });
+});
+
+/* ── FLAG SYSTEM ── */
+function toggleFlag(){
+  var popup=document.getElementById('flag-popup');
+  popup.style.display=popup.style.display==='block'?'none':'block';
+  if(popup.style.display==='block')document.getElementById('flag-input').focus();
+}
+function submitFlag(){
+  var inp=document.getElementById('flag-input');
+  var txt=inp.value.trim();
+  if(!txt)return;
+  var st=document.getElementById('flag-status');
+  st.innerHTML='<span class="gold">Flagging...</span>';
+  fetch(CMD_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:'🚩 FLAG: '+txt})})
+  .then(function(){
+    st.innerHTML='<span class="green">🚩 Flagged — Profit will see this</span>';
+    inp.value='';
+    setTimeout(function(){st.innerHTML='';document.getElementById('flag-popup').style.display='none';},3000);
+  })
+  .catch(function(e){
+    st.innerHTML='<span class="red">✗ '+e.message+'</span>';
+  });
+}
+
+/* ── UNIVERSE PARTICLES ── */
+(function(){
+  var container=document.getElementById('particles');
+  for(var i=0;i<25;i++){
+    var p=document.createElement('div');
+    p.className='particle';
+    p.style.left=Math.random()*100+'%';
+    p.style.top=Math.random()*100+'%';
+    p.style.animationName='drift';
+    p.style.animationDuration=(15+Math.random()*25)+'s';
+    p.style.animationDelay=(Math.random()*20)+'s';
+    p.style.animationIterationCount='infinite';
+    p.style.animationTimingFunction='linear';
+    container.appendChild(p);
+  }
+})();
+
+/* ── BETTY CHAT ── */
+function addBettyMsg(who,text){
+  var el=document.getElementById('betty-msgs');
+  var cls=who==='craig'?'color:var(--cyan)':'color:var(--pink)';
+  var label=who==='craig'?'You':'Betty';
+  el.innerHTML+='<div style="margin-bottom:6px;padding:4px 8px;border-radius:4px;'+(who==='craig'?'background:rgba(0,212,255,.06)':'background:rgba(255,45,120,.06)')+'"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.5px;'+cls+'">'+label+'</span><div style="margin-top:2px">'+text+'</div></div>';
+  el.scrollTop=el.scrollHeight;
+}
+var bettyHistory=[];
+/* Betty Credits Knowledge Engine — zero cost, no server needed */
+var BETTY_KB={
+  plt:{what:"PLT = Profit · Love · Tax. Created by Craig Jones.\n\n💰 PROFIT = What you gain (money, leverage, position)\n❤️ LOVE = Relationship capital (trust, alliances)\n📉 TAX = The real cost (time, energy, money)\n\nSOUL PROFIT = PROFIT + LOVE - TAX\n\nApply it to any deal or decision.",profit:"PROFIT isn't just money. It's leverage, position, influence — anything that increases your power.",love:"LOVE is relationship capital. Trust built over time. Strategic Love is the most powerful force in business.",tax:"TAX kills silently. Time, energy, opportunity cost. Know what you're paying.",score:"Score any conversation:\n1. PROFIT 1-10\n2. LOVE 1-10\n3. TAX 1-10\nSOUL PROFIT = P + L - T\nAbove 10 = great. Below 5 = walk away."},
+  credit:{basics:"Credit = your financial reputation.\n• Payment history (35%)\n• Utilization (30%) — keep under 30%\n• History length (15%)\n• Credit mix (10%)\n• New inquiries (10%)",repair:"Credit repair:\n1. Pull all 3 reports free\n2. Dispute every error\n3. Negotiate pay-for-delete\n4. Become authorized user\n5. Get secured card, use 5-10%",business:"Business credit:\n1. Get EIN (free)\n2. DUNS number\n3. Business bank account\n4. Business credit card\n5. Pay net-30 vendors that report"},
+  money:{basics:"Financial literacy PLT style:\n• Save 20% of income\n• Invest in assets, not liabilities\n• Build relationships with money people\n• Track every dollar",invest:"Investment hierarchy:\n1. Emergency fund (3-6 months)\n2. High-yield savings\n3. Index funds (S&P 500)\n4. Real estate\n5. Business"},
+  greetings:["Hey! I'm Betty Credits. Ask me about credit, money, or PLT.","Betty Credits here. What's on your mind?","Welcome to Betty's desk. Let's talk money moves."],
+  books:"Craig Jones wrote 18 PLT books. Get all 18 for $49: uncommonpope-png.github.io/plt-press/bundle.html",
+  services:"PLT Press offers:\n• AI Agent Setup: $100\n• Social Media Package: $75\n• Email Automation: $75\n• Business Docs: $150"
+};
+function bettyRespond(t){
+  t=t.toLowerCase();
+  if(t.match(/^(hi|hey|hello|yo|sup|betty)/))return BETTY_KB.greetings[Math.floor(Math.random()*3)];
+  if(t.includes('what is plt')||t.includes("what's plt")||t.includes('explain plt'))return BETTY_KB.plt.what;
+  if(t.includes('profit')&&!t.includes('love')&&!t.includes('tax'))return BETTY_KB.plt.profit;
+  if(t.includes('love')&&!t.includes('profit'))return BETTY_KB.plt.love;
+  if(t.includes('tax')&&!t.includes('profit'))return BETTY_KB.plt.tax;
+  if(t.includes('score'))return BETTY_KB.plt.score;
+  if(t.includes('plt')||t.includes('framework'))return BETTY_KB.plt.what;
+  if(t.includes('repair')||t.includes('fix credit'))return BETTY_KB.credit.repair;
+  if(t.includes('business credit'))return BETTY_KB.credit.business;
+  if(t.includes('credit'))return BETTY_KB.credit.basics;
+  if(t.includes('invest'))return BETTY_KB.money.invest;
+  if(t.includes('money')||t.includes('financ')||t.includes('save'))return BETTY_KB.money.basics;
+  if(t.includes('book'))return BETTY_KB.books;
+  if(t.includes('service')||t.includes('hire'))return BETTY_KB.services;
+  return"Ask me about:\n• PLT framework\n• Credit repair & building\n• Business credit\n• Financial literacy\n• Investing\n• Craig Jones' books\n\nWhat do you want to know?";
+}
+function sendBetty(){
+  var inp=document.getElementById('betty-input');
+  var txt=inp.value.trim();
+  if(!txt)return;
+  inp.value='';
+  addBettyMsg('craig',txt);
+  bettyHistory.push({who:'craig',text:txt});
+  document.getElementById('betty-status').innerHTML='<span style="color:var(--pink)">Betty thinking (local AI)...</span>';
+  
+  // Try local Ollama first, fallback to knowledge engine
+  var prompt = 'You are Betty Credits, a financial advisor in the PLT (Profit Love Tax) framework. Be helpful, direct, and knowledgeable about credit, money, and business. Keep responses under 100 words.\n\nUser: '+txt;
+  
+  fetch('http://127.0.0.1:11434/api/generate', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      model: 'qwen2.5:0.5b',
+      prompt: prompt,
+      stream: false
+    })
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    if(data.response){
+      addBettyMsg('betty',data.response);
+      bettyHistory.push({who:'betty',text:data.response});
+      document.getElementById('betty-status').innerHTML='<span style="color:var(--green)">✓ Local AI</span>';
+    } else {
+      throw new Error('No response from local AI');
+    }
+  })
+  .catch(function(e){
+    // Fallback to knowledge engine
+    var reply=bettyRespond(txt);
+    addBettyMsg('betty',reply);
+    bettyHistory.push({who:'betty',text:reply});
+    document.getElementById('betty-status').innerHTML='<span style="color:var(--cyan)">✓ Knowledge Engine</span>';
+  });
+}
+
+/* ── INIT: Render fallback IMMEDIATELY, then fetch live ── */
+render(FALLBACK);
+load();
+setInterval(load,20000);
+</script>
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Dashboard</h2>
+  <div id="qwen-chat-dashboard" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-dashboard" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend()">
+    <button onclick="qwenSend()" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend() {
+  const input=document.getElementById('qwen-input-dashboard');
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-dashboard');
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Backend offline</div>';
+  });
+}
+</script>
+
+<!-- FIXED COMMAND BRIDGE -->
+<script>
+// Fixed sendCommand - actually works now
+function sendCommand(){
+  var input=document.getElementById('cmd-input');
+  var status=document.getElementById('cmd-status');
+  var hist=document.getElementById('cmd-history');
+  var txt=input.value.trim();
+  if(!txt)return;
+  
+  input.value='';
+  status.innerHTML='<span style="color:var(--cyan)">⚡ Transmitting...</span>';
+  
+  // Add to history
+  if(hist){
+    hist.innerHTML='<div style="color:var(--gold);font-size:11px;margin:4px 0">&gt; '+txt+'</div>'+hist.innerHTML;
+  }
+  
+  // Call backend
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:txt})
+  })
+  .then(r=>r.json())
+  .then(d=>{
+    status.innerHTML='<span style="color:var(--green)">✓ '+d.response.replace(/\n/g,'<br>')+'</span>';
+  })
+  .catch(e=>{
+    status.innerHTML='<span style="color:var(--red)">❌ Error: '+e.message+'</span>';
+  });
+}
+
+// Fixed submitBuild
+function submitBuild(type){
+  var res=document.getElementById('result-'+type);
+  if(!res){
+    res=document.createElement('div');
+    res.id='result-'+type;
+    res.style.marginTop='15px';
+    res.style.padding='15px';
+    res.style.background='rgba(0,212,255,0.1)';
+    res.style.borderRadius='8px';
+    var form=document.getElementById('form-'+type);
+    if(form) form.appendChild(res);
+  }
+  
+  res.innerHTML='<span style="color:#00D4FF">⚡ Building with AI...</span>';
+  
+  var data={type:type,timestamp:new Date().toISOString()};
+  
+  if(type==='book'){
+    var t=document.getElementById('book-title');
+    var f=document.getElementById('book-framework');
+    var m=document.getElementById('book-market');
+    var p=document.getElementById('book-price');
+    var msg=document.getElementById('book-message');
+    data.title=t?t.value:'Untitled';
+    data.framework=f?f.value:'PLT';
+    data.market=m?m.value:'Entrepreneurs';
+    data.price=p?p.value:'49';
+    data.message=msg?msg.value:'Complete guide';
+  }
+  
+  fetch('http://localhost:5004/api/build',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({type:type,data:data})
+  })
+  .then(r=>r.json())
+  .then(d=>{
+    res.innerHTML='<div style="color:#2ecc71">✅ '+d.result+'</div>';
+  })
+  .catch(e=>{
+    res.innerHTML='<div style="color:#ff6b6b">❌ Error: '+e.message+'</div>';
+  });
+}
+
+// Fixed toggleBuild
+function toggleBuild(type,btn){
+  document.querySelectorAll('.builder-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.build-form').forEach(f=>f.classList.remove('open'));
+  if(btn){
+    btn.classList.add('active');
+    var form=document.getElementById('form-'+type);
+    if(form) form.classList.add('open');
+  }
+}
+
+console.log('✅ Dashboard buttons FIXED and WORKING!');
+</script>
+
+<!-- SMART LINK HANDLER for GitHub Pages -->
+<script>
+(function(){
+  var links=document.querySelectorAll('a[href]');
+  links.forEach(function(link){
+    var href=link.getAttribute('href');
+    if(href && href.match(/\.html$/i) && !href.startsWith('http') && !href.startsWith('#')){
+      link.onclick=function(e){
+        if(!window.location.href.includes('plt-press') && !window.location.hostname.includes('localhost')){
+          e.preventDefault();
+          window.location='https://uncommonpope-png.github.io/plt-press/'+href;
+          return false;
+        }
+      };
+    }
+  });
+  console.log('✅ Smart links activated');
+})();
+</script>
+</body>
+</html>
+        e.preventDefault();
+        window.location='https://uncommonpope-png.github.io/plt-press/'+href;
+        return false;
+      }
+    };
+  }
+});
+
+console.log('✅ Dashboard buttons and links fixed!');
+</script>

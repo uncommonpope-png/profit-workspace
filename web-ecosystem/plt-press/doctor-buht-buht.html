@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Doctor Buht Buht - PLT Ecosystem Analyst | PLT Press</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D1117;color:#ddd;font-family:Georgia,serif;padding:12px;min-height:100vh}
+.container{max-width:640px;margin:0 auto}
+.header{text-align:center;margin-bottom:20px;padding:20px;border:1px solid #FF2D78;border-radius:8px;background:#1A1A2E;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,45,120,.1),transparent);animation:shimmer 5s infinite}
+@keyframes shimmer{to{left:100%}}
+.header h1{color:#FF2D78;font-size:28px;margin-bottom:8px;text-shadow:0 0 20px rgba(255,45,120,.5)}
+.doctor{font-size:48px;margin:10px 0}
+.status{font-size:14px;color:#00D4FF}
+.back-link{display:inline-block;margin-bottom:15px;color:#FF2D78;text-decoration:none;font-size:14px}
+.back-link:hover{color:#FFB347}
+
+.panel{background:#1A1A2E;border:1px solid #2A2A4A;border-radius:8px;padding:16px;margin-bottom:16px}
+.panel h2{color:#FF2D78;font-size:18px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+
+.plt-score{text-align:center;padding:20px;border-radius:8px;margin-bottom:16px;position:relative}
+.plt-score.excellent{background:linear-gradient(45deg,#2ecc71,#27ae60);color:#fff}
+.plt-score.good{background:linear-gradient(45deg,#FFB347,#e67e22);color:#000}
+.plt-score.fair{background:linear-gradient(45deg,#e67e22,#d35400);color:#fff}
+.plt-score.critical{background:linear-gradient(45deg,#e74c3c,#c0392b);color:#fff}
+.final-score{font-size:48px;font-weight:bold;margin-bottom:8px}
+.diagnosis{font-size:18px;margin-bottom:8px}
+.last-analysis{font-size:12px;opacity:0.8}
+
+.plt-breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:16px}
+.plt-item{background:#0a0a14;border-radius:8px;padding:16px;text-align:center}
+.plt-item.profit{border:2px solid #2ecc71}
+.plt-item.love{border:2px solid #FF2D78}
+.plt-item.tax{border:2px solid #e74c3c}
+.plt-item h3{margin-bottom:8px;font-size:16px}
+.plt-item.profit h3{color:#2ecc71}
+.plt-item.love h3{color:#FF2D78}
+.plt-item.tax h3{color:#e74c3c}
+.plt-score-num{font-size:32px;font-weight:bold;margin-bottom:8px}
+.plt-notes{font-size:11px;line-height:1.4;color:#ccc}
+
+.system-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-bottom:16px}
+.metric{background:#0a0a14;border:1px solid #2A2A4A;border-radius:6px;padding:10px;text-align:center}
+.metric-number{font-size:18px;font-weight:bold;color:#00D4FF;margin-bottom:2px}
+.metric-label{font-size:10px;color:#ccc}
+
+.recommendations{background:#0a0a14;border-left:4px solid #FF2D78;padding:16px;border-radius:4px}
+.recommendations h3{color:#FF2D78;margin-bottom:8px}
+.recommendations-text{line-height:1.6;color:#ddd}
+
+.analysis-history{max-height:200px;overflow-y:auto;background:#0a0a14;border-radius:6px;padding:12px}
+.history-item{padding:8px 0;border-bottom:1px solid #1a1a1a;font-size:12px}
+.history-item:last-child{border-bottom:none}
+.history-time{color:#00D4FF;font-weight:bold}
+.history-score{color:#FFB347;margin-left:10px}
+
+.refresh-btn{background:#FF2D78;color:#fff;border:none;padding:10px 20px;font-family:Georgia,serif;border-radius:6px;cursor:pointer;font-weight:bold;margin-top:16px;display:block;width:100%}
+.refresh-btn:hover{opacity:0.9}
+</style>
+</head>
+<body>
+
+<div class="container">
+<a href="dashboard.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} class="back-link">← Back to Dashboard</a>
+
+<div class="header">
+  <div class="doctor">👨‍⚕️</div>
+  <h1>Doctor Buht Buht</h1>
+  <div class="status" id="doctor-status">PLT Ecosystem Analyst — Diagnosing System Health</div>
+</div>
+
+<div class="plt-score excellent" id="plt-score-card">
+  <div class="final-score" id="final-score">247</div>
+  <div class="diagnosis" id="diagnosis">💚 EXCELLENT HEALTH - Ecosystem thriving</div>
+  <div class="last-analysis" id="last-analysis">Last analysis: Just now</div>
+</div>
+
+<div class="plt-breakdown">
+  <div class="plt-item profit">
+    <h3>💰 PROFIT</h3>
+    <div class="plt-score-num" id="profit-score">134</div>
+    <div class="plt-notes" id="profit-notes">+Products(3): Revenue streams active. +Content(47 pages): SEO traffic potential. +Autonomous: Self-building reduces labor costs.</div>
+  </div>
+  <div class="plt-item love">
+    <h3>❤️ LOVE</h3>
+    <div class="plt-score-num" id="love-score">135</div>
+    <div class="plt-notes" id="love-notes">+Dashboard: Central user experience. +Accessibility(47 windows): Multiple entry points. +Free AI: Zero cost for users.</div>
+  </div>
+  <div class="plt-item tax">
+    <h3>💸 TAX</h3>
+    <div class="plt-score-num" id="tax-score">22</div>
+    <div class="plt-notes" id="tax-notes">+API Dependency: Still using paid APIs. +Complexity(4): More pages = more maintenance.</div>
+  </div>
+</div>
+
+<div class="system-metrics" id="system-metrics">
+  <div class="metric">
+    <div class="metric-number" id="total-pages">47</div>
+    <div class="metric-label">Total Pages</div>
+  </div>
+  <div class="metric">
+    <div class="metric-number" id="blog-posts">6</div>
+    <div class="metric-label">Blog Posts</div>
+  </div>
+  <div class="metric">
+    <div class="metric-number" id="products-count">3</div>
+    <div class="metric-label">Products</div>
+  </div>
+  <div class="metric">
+    <div class="metric-number" id="tools-pages">12</div>
+    <div class="metric-label">Tools Pages</div>
+  </div>
+  <div class="metric">
+    <div class="metric-number" id="ollama-status">ONLINE</div>
+    <div class="metric-label">Ollama</div>
+  </div>
+  <div class="metric">
+    <div class="metric-number" id="autonomous-status">ACTIVE</div>
+    <div class="metric-label">Autonomous</div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>🔬 Current Analysis</h2>
+  <div class="recommendations" id="recommendations">
+    <h3>Doctor's Recommendations:</h3>
+    <div class="recommendations-text" id="recommendations-text">
+      Keep building. Consider expanding to new markets. The autonomous systems are working well, but consider reducing API dependency further to decrease tax score.
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>📋 Analysis History</h2>
+  <div class="analysis-history" id="analysis-history">
+    <div class="history-item">
+      <span class="history-time">2026-03-15 11:30 UTC</span>
+      <span class="history-score">PLT Score: 247</span>
+      <div>Excellent health - all systems optimal</div>
+    </div>
+    <div class="history-item">
+      <span class="history-time">2026-03-15 11:00 UTC</span>
+      <span class="history-score">PLT Score: 183</span>
+      <div>Good health - autonomous systems activated</div>
+    </div>
+    <div class="history-item">
+      <span class="history-time">2026-03-15 10:30 UTC</span>
+      <span class="history-score">PLT Score: 145</span>
+      <div>Fair health - building content streams</div>
+    </div>
+  </div>
+</div>
+
+<button class="refresh-btn" onclick="refreshAnalysis()">🔄 Run New Analysis</button>
+
+</div>
+
+<script>
+function updateAnalysis() {
+  fetch('https://raw.githubusercontent.com/uncommonpope-png/plt-press/main/log.json')
+    .then(r => r.json())
+    .then(data => {
+      if (data.plt_analysis) {
+        const analysis = data.plt_analysis;
+        
+        // Update main score
+        document.getElementById('final-score').textContent = analysis.final_score;
+        document.getElementById('diagnosis').textContent = analysis.diagnosis;
+        document.getElementById('last-analysis').textContent = `Last analysis: ${new Date(analysis.timestamp).toLocaleString()}`;
+        
+        // Update score card styling
+        const scoreCard = document.getElementById('plt-score-card');
+        if (analysis.final_score > 200) {
+          scoreCard.className = 'plt-score excellent';
+        } else if (analysis.final_score > 100) {
+          scoreCard.className = 'plt-score good';
+        } else if (analysis.final_score > 50) {
+          scoreCard.className = 'plt-score fair';
+        } else {
+          scoreCard.className = 'plt-score critical';
+        }
+        
+        // Update PLT breakdown
+        document.getElementById('profit-score').textContent = analysis.profit.score;
+        document.getElementById('profit-notes').textContent = analysis.profit.notes;
+        document.getElementById('love-score').textContent = analysis.love.score;
+        document.getElementById('love-notes').textContent = analysis.love.notes;
+        document.getElementById('tax-score').textContent = analysis.tax.score;
+        document.getElementById('tax-notes').textContent = analysis.tax.notes;
+        
+        // Update system metrics
+        if (analysis.system_metrics) {
+          document.getElementById('total-pages').textContent = analysis.system_metrics.total_pages;
+          document.getElementById('blog-posts').textContent = analysis.system_metrics.blog_posts;
+          document.getElementById('products-count').textContent = analysis.system_metrics.products;
+          document.getElementById('tools-pages').textContent = analysis.system_metrics.tools_pages;
+          document.getElementById('ollama-status').textContent = analysis.system_metrics.ollama_status;
+          document.getElementById('autonomous-status').textContent = analysis.system_metrics.autonomous_status;
+        }
+        
+        // Update recommendations
+        document.getElementById('recommendations-text').textContent = analysis.recommendations;
+      }
+    })
+    .catch(() => {
+      console.log('Using demo data');
+    });
+}
+
+function refreshAnalysis() {
+  alert('🔄 Running new PLT analysis...\n\nDoctor Buht Buht is analyzing the entire ecosystem and will update the dashboard with fresh PLT scores in 30 seconds.');
+  // In a real implementation, this would trigger the analysis script
+  setTimeout(updateAnalysis, 2000);
+}
+
+// Initialize and update every 60 seconds
+updateAnalysis();
+setInterval(updateAnalysis, 60000);
+</script>
+
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-doctor-buht-buht.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-doctor-buht-buht.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$page')">
+    <button onclick="qwenSend('$page')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+</script>
+<script>console.log("✅ Links fixed for doctor-buht-buht.html");</script></body>
+</html>

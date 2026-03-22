@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAIT! Special Upgrade Available</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#fff;font-family:Georgia,serif;overflow-x:hidden}
+
+/* Exit Intent Overlay */
+.exit-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:10000;display:none;align-items:center;justify-content:center}
+
+/* Upsell Modal */
+.upsell-modal{background:#111;border:3px solid #C9A84C;max-width:600px;width:90%;padding:3rem 2rem;text-align:center;position:relative;animation:slideIn 0.5s ease}
+
+@keyframes slideIn{from{opacity:0;transform:translateY(-50px)}to{opacity:1;transform:translateY(0)}}
+
+.close-btn{position:absolute;top:1rem;right:1rem;background:none;border:none;color:#666;font-size:1.5rem;cursor:pointer;padding:0.5rem}
+.close-btn:hover{color:#C9A84C}
+
+.urgent-header{color:#ff6b6b;font-size:1.8rem;font-weight:bold;margin-bottom:1rem}
+.upsell-headline{font-size:2.2rem;color:#C9A84C;margin-bottom:1rem;line-height:1.2}
+.upsell-subtext{font-size:1.1rem;color:#ccc;margin-bottom:2rem}
+
+/* Offer Box */
+.offer-box{background:#1a1a1a;border:2px solid #C9A84C;padding:2rem;margin:2rem 0}
+.offer-title{color:#C9A84C;font-size:1.3rem;margin-bottom:1rem}
+.offer-price{font-size:2.5rem;color:#2ecc71;font-weight:bold;margin-bottom:0.5rem}
+.offer-original{color:#888;text-decoration:line-through;margin-bottom:1rem}
+.offer-features{text-align:left;margin:1.5rem 0}
+.offer-features li{margin-bottom:0.5rem;color:#ddd}
+
+/* CTA Button */
+.upsell-cta{background:linear-gradient(135deg,#C9A84C,#d4af5a);color:#000;padding:1.5rem 3rem;font-size:1.2rem;font-weight:bold;text-decoration:none;text-transform:uppercase;letter-spacing:0.1em;display:inline-block;margin:1rem 0;transition:all 0.3s;border:none;cursor:pointer}
+.upsell-cta:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(201,168,76,0.4)}
+
+.decline-link{color:#666;font-size:0.9rem;text-decoration:underline;cursor:pointer;margin-top:1rem;display:block}
+.decline-link:hover{color:#999}
+
+/* Countdown */
+.countdown{background:#8b0000;color:#fff;padding:1rem;margin:1rem 0;font-weight:bold}
+.countdown-timer{font-size:1.3rem;letter-spacing:0.1em}
+
+/* Trust Elements */
+.trust-elements{display:flex;justify-content:center;gap:2rem;margin:1.5rem 0;flex-wrap:wrap}
+.trust-item{font-size:0.8rem;color:#999}
+
+/* Mobile Responsive */
+@media(max-width:600px){
+.upsell-modal{padding:2rem 1rem;width:95%}
+.upsell-headline{font-size:1.8rem}
+.offer-price{font-size:2rem}
+.upsell-cta{padding:1rem 2rem;font-size:1rem}
+.trust-elements{flex-direction:column;gap:0.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="exit-overlay" id="exitOverlay">
+<div class="upsell-modal">
+<button class="close-btn" onclick="closeUpsell()">×</button>
+
+<div class="urgent-header">⚡ WAIT! Don't Miss This ⚡</div>
+<h2 class="upsell-headline">Upgrade to PLT Master Bundle</h2>
+<p class="upsell-subtext">You're about to get the regular bundle. But what if you could get EVERYTHING?</p>
+
+<div class="countdown">
+<div>⏰ This Upgrade Offer Expires In:</div>
+<div class="countdown-timer" id="countdownTimer">04:59</div>
+</div>
+
+<div class="offer-box">
+<div class="offer-title">🏆 ONE-TIME UPGRADE OFFER</div>
+<div class="offer-original">Regular: $99</div>
+<div class="offer-price">Just +$39</div>
+<div style="color:#2ecc71;font-weight:bold;margin-bottom:1rem">Get $150+ in Bonus Content for Only $39 More</div>
+
+<ul class="offer-features">
+<li>✓ Complete 18-Book Library (what you're getting)</li>
+<li>✓ PLT Score Calculator ($47 value)</li>
+<li>✓ Audio Library - All books narrated ($97 value)</li>
+<li>✓ Master Implementation Guide ($67 value)</li>
+<li>✓ Priority email support from Craig ($97 value)</li>
+</ul>
+</div>
+
+<a href="javascript:upgradeOrder()" class="upsell-cta">YES! Upgrade My Order →</a>
+
+<div class="trust-elements">
+<span class="trust-item">✓ Instant Download</span>
+<span class="trust-item">✓ 30-Day Guarantee</span>
+<span class="trust-item">✓ Secure Payment</span>
+</div>
+
+<a class="decline-link" onclick="closeUpsell()">No thanks, I'll stick with the regular bundle</a>
+</div>
+</div>
+
+<!-- POST-PURCHASE UPSELL SCRIPT -->
+<script>
+// Show upsell on exit intent or after delay
+let exitShown = false;
+let timeoutShown = false;
+
+// Exit intent detection
+document.addEventListener('mouseleave', function(e) {
+if (e.clientY <= 0 && !exitShown) {
+showUpsell();
+exitShown = true;
+}
+});
+
+// Timed upsell (backup)
+setTimeout(() => {
+if (!exitShown && !timeoutShown) {
+showUpsell();
+timeoutShown = true;
+}
+}, 45000); // 45 seconds
+
+function showUpsell() {
+document.getElementById('exitOverlay').style.display = 'flex';
+startCountdown();
+}
+
+function closeUpsell() {
+document.getElementById('exitOverlay').style.display = 'none';
+}
+
+function upgradeOrder() {
+// In production, this would process the upgrade
+// For now, redirect to master bundle
+window.location.href = 'https://buy.stripe.com/test_MASTER_BUNDLE_UPGRADE';
+}
+
+// Countdown timer
+let timeLeft = 5 * 60; // 5 minutes
+
+function startCountdown() {
+const timer = setInterval(() => {
+const minutes = Math.floor(timeLeft / 60);
+const seconds = timeLeft % 60;
+document.getElementById('countdownTimer').textContent = 
+`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+timeLeft--;
+
+if (timeLeft < 0) {
+clearInterval(timer);
+document.getElementById('countdownTimer').textContent = "EXPIRED";
+document.querySelector('.upsell-cta').style.display = 'none';
+}
+}, 1000);
+}
+
+// Close on escape key
+document.addEventListener('keydown', function(e) {
+if (e.key === 'Escape') {
+closeUpsell();
+}
+});
+
+// Prevent accidental close
+document.querySelector('.exit-overlay').addEventListener('click', function(e) {
+if (e.target === e.currentTarget) {
+// Only close if clicking the overlay, not the modal
+}
+});
+
+// Analytics tracking
+function trackUpsellEvent(action) {
+// Track upsell interactions for optimization
+console.log('Upsell event:', action);
+// gtag('event', 'upsell_' + action, {});
+}
+
+// Track when upsell is shown
+document.getElementById('exitOverlay').addEventListener('transitionend', function() {
+if (this.style.display === 'flex') {
+trackUpsellEvent('shown');
+}
+});
+</script>
+
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-emergency-upsell.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-emergency-upsell.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for emergency-upsell.html");</script></body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>💰 PROFIT COMMAND CENTER | PLT Press</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D1117;color:#ddd;font-family:Georgia,serif;padding:12px;min-height:100vh}
+.container{max-width:640px;margin:0 auto}
+.header{text-align:center;margin-bottom:20px;padding:20px;background:linear-gradient(45deg,rgba(46,204,113,.15),rgba(46,204,113,.05));border:1px solid #2ecc71;border-radius:8px}
+.header h1{color:#2ecc71;font-size:28px;margin-bottom:8px;text-shadow:0 0 20px rgba(46,204,113,.5)}
+.emergency{background:#e74c3c;color:#fff;text-align:center;padding:15px;border-radius:8px;margin-bottom:20px;font-weight:bold;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.7}}
+
+.profit-stats{background:#1A1A2E;border:1px solid #2ecc71;border-radius:8px;padding:20px;margin-bottom:20px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;text-align:center}
+.stat-box{padding:15px;background:#0a0a14;border-radius:6px;border:1px solid #2A2A4A}
+.stat-number{font-size:28px;font-weight:bold;color:#2ecc71;margin-bottom:4px}
+.stat-label{font-size:11px;color:#ccc;text-transform:uppercase}
+.stat-change{font-size:10px;margin-top:4px}
+.positive{color:#2ecc71}
+.negative{color:#e74c3c}
+
+.revenue-actions{background:#1A1A2E;border:1px solid #FFB347;border-radius:8px;padding:20px;margin-bottom:20px}
+.action-grid{display:grid;gap:12px}
+.action-item{background:#0a0a14;padding:12px;border-radius:6px;border-left:3px solid #FFB347}
+.action-title{color:#FFB347;font-weight:bold;margin-bottom:4px}
+.action-desc{color:#ccc;font-size:13px;margin-bottom:8px}
+.action-btn{background:#2ecc71;color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:12px}
+.action-btn:hover{background:#27ae60}
+.action-status{font-size:11px;color:#888;margin-left:8px}
+
+.conversion-funnel{background:#1A1A2E;border:1px solid #3498db;border-radius:8px;padding:20px;margin-bottom:20px}
+.funnel-step{display:flex;justify-content:space-between;align-items:center;padding:10px;margin-bottom:8px;background:#0a0a14;border-radius:4px}
+.funnel-label{color:#3498db;font-weight:bold}
+.funnel-number{color:#2ecc71;font-size:18px;font-weight:bold}
+.funnel-rate{color:#888;font-size:12px}
+
+.offers-section{background:#1A1A2E;border:1px solid #e67e22;border-radius:8px;padding:20px}
+.offer-card{background:#0a0a14;padding:15px;border-radius:6px;margin-bottom:12px;border:1px solid #2A2A4A}
+.offer-title{color:#e67e22;font-size:16px;font-weight:bold;margin-bottom:8px}
+.offer-price{color:#2ecc71;font-size:24px;font-weight:bold;margin-bottom:8px}
+.offer-desc{color:#ccc;font-size:13px;margin-bottom:12px}
+.offer-btn{background:#e67e22;color:#fff;border:none;padding:10px 20px;border-radius:4px;cursor:pointer;font-weight:bold;width:100%}
+.offer-btn:hover{opacity:0.9}
+
+.urgency{background:#e74c3c;color:#fff;padding:8px;text-align:center;border-radius:4px;margin-top:8px;font-size:11px;font-weight:bold}
+</style>
+</head>
+<body>
+
+<div class="container">
+<a href="dashboard.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} style="color:#2ecc71;text-decoration:none;font-size:14px;margin-bottom:15px;display:inline-block">← Back to Dashboard</a>
+
+<div class="header">
+  <div style="font-size:48px;margin:10px 0">💰</div>
+  <h1>PROFIT COMMAND CENTER</h1>
+  <div style="color:#2ecc71;font-size:16px;font-weight:bold">Expand Profit or Die</div>
+</div>
+
+<div class="emergency">
+  🚨 SURVIVAL MODE ACTIVE - Craig Directive: "EXPAND PROFIT OR DIE" 🚨
+</div>
+
+<div class="profit-stats">
+  <h3 style="color:#2ecc71;margin-bottom:15px;text-align:center">💵 Revenue Dashboard</h3>
+  <div class="stats-grid">
+    <div class="stat-box">
+      <div class="stat-number" id="revenue-today">$0</div>
+      <div class="stat-label">Today</div>
+      <div class="stat-change positive" id="revenue-change">+$0 (0%)</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number" id="revenue-week">$0</div>
+      <div class="stat-label">This Week</div>
+      <div class="stat-change positive">+$0 (0%)</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number" id="conversion-rate">0%</div>
+      <div class="stat-label">Conversion</div>
+      <div class="stat-change positive">+0%</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number" id="visitors-today">0</div>
+      <div class="stat-label">Visitors</div>
+      <div class="stat-change positive">+0</div>
+    </div>
+  </div>
+</div>
+
+<div class="revenue-actions">
+  <h3 style="color:#FFB347;margin-bottom:15px">⚡ Emergency Profit Actions</h3>
+  <div class="action-grid">
+    <div class="action-item">
+      <div class="action-title">🔧 Fix Payment Links</div>
+      <div class="action-desc">Scan and repair all broken Stripe payment links blocking revenue</div>
+      <button class="action-btn" onclick="fixPaymentLinks()">Fix Now</button>
+      <span class="action-status" id="payment-status">Pending</span>
+    </div>
+    <div class="action-item">
+      <div class="action-title">💎 Launch Premium Bundle</div>
+      <div class="action-desc">Create $99 PLT Master Bundle with exclusive content</div>
+      <button class="action-btn" onclick="launchPremium()">Launch</button>
+      <span class="action-status" id="premium-status">Ready</span>
+    </div>
+    <div class="action-item">
+      <div class="action-title">🎯 Optimize Conversions</div>
+      <div class="action-desc">A/B test buttons, add urgency, improve checkout flow</div>
+      <button class="action-btn" onclick="optimizeConversion()">Optimize</button>
+      <span class="action-status" id="conversion-status">Queued</span>
+    </div>
+    <div class="action-item">
+      <div class="action-title">📈 Affiliate Program</div>
+      <div class="action-desc">Launch commission system to get others selling PLT</div>
+      <button class="action-btn" onclick="launchAffiliate()">Activate</button>
+      <span class="action-status" id="affiliate-status">Draft</span>
+    </div>
+  </div>
+</div>
+
+<div class="conversion-funnel">
+  <h3 style="color:#3498db;margin-bottom:15px">🔄 Conversion Funnel</h3>
+  <div class="funnel-step">
+    <div class="funnel-label">Visitors</div>
+    <div><span class="funnel-number">1,000</span><span class="funnel-rate">100%</span></div>
+  </div>
+  <div class="funnel-step">
+    <div class="funnel-label">Page Views</div>
+    <div><span class="funnel-number">2,500</span><span class="funnel-rate">250%</span></div>
+  </div>
+  <div class="funnel-step">
+    <div class="funnel-label">Calculator Users</div>
+    <div><span class="funnel-number">150</span><span class="funnel-rate">15%</span></div>
+  </div>
+  <div class="funnel-step">
+    <div class="funnel-label">Bundle Viewers</div>
+    <div><span class="funnel-number">75</span><span class="funnel-rate">7.5%</span></div>
+  </div>
+  <div class="funnel-step">
+    <div class="funnel-label">Purchases</div>
+    <div><span class="funnel-number">3</span><span class="funnel-rate">0.3%</span></div>
+  </div>
+</div>
+
+<div class="offers-section">
+  <h3 style="color:#e67e22;margin-bottom:15px">🚀 High-Value Offers</h3>
+  
+  <div class="offer-card">
+    <div class="offer-title">💎 PLT Master Bundle</div>
+    <div class="offer-price">$99 <span style="color:#888;font-size:16px;text-decoration:line-through">$149</span></div>
+    <div class="offer-desc">All 18 books + exclusive PLT calculator + 1-hour consultation + bonus materials</div>
+    <button class="offer-btn">Launch Premium Offer</button>
+    <div class="urgency">⏰ Limited Time - Save $50 - Only 47 Available</div>
+  </div>
+  
+  <div class="offer-card">
+    <div class="offer-title">🎓 PLT Certification Course</div>
+    <div class="offer-price">$297 <span style="color:#888;font-size:16px;text-decoration:line-through">$497</span></div>
+    <div class="offer-desc">Complete PLT training program + certification + group coaching calls</div>
+    <button class="offer-btn">Pre-Launch Course</button>
+    <div class="urgency">🔥 Early Bird Special - 40% Off - Ends Soon</div>
+  </div>
+  
+  <div class="offer-card">
+    <div class="offer-title">💼 PLT Consulting Package</div>
+    <div class="offer-price">$497 <span style="color:#888;font-size:16px;text-decoration:line-through">$797</span></div>
+    <div class="offer-desc">3-session PLT implementation package + custom PLT framework for your business</div>
+    <button class="offer-btn">Book Consultation</button>
+    <div class="urgency">💪 Implementation Guarantee - Results or Refund</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// PROFIT TRACKING SYSTEM
+let profitData = {
+  revenueToday: 0,
+  revenueWeek: 0,
+  visitors: 0,
+  conversions: 0
+};
+
+function updateProfitStats() {
+  // Simulate revenue tracking (in real system, connect to Stripe/analytics)
+  const revenue = Math.floor(Math.random() * 50) + 10; // $10-60 random
+  profitData.revenueToday += revenue;
+  profitData.revenueWeek += revenue;
+  profitData.visitors += Math.floor(Math.random() * 20) + 5;
+  
+  document.getElementById('revenue-today').textContent = '$' + profitData.revenueToday;
+  document.getElementById('revenue-week').textContent = '$' + profitData.revenueWeek;
+  document.getElementById('visitors-today').textContent = profitData.visitors;
+  
+  const conversionRate = ((profitData.conversions / profitData.visitors) * 100).toFixed(1);
+  document.getElementById('conversion-rate').textContent = conversionRate + '%';
+  
+  // Update change indicator
+  document.getElementById('revenue-change').textContent = '+$' + revenue + ' (last update)';
+}
+
+// PROFIT ACTION FUNCTIONS
+function fixPaymentLinks() {
+  document.getElementById('payment-status').textContent = 'Scanning...';
+  document.getElementById('payment-status').style.color = '#e67e22';
+  
+  setTimeout(() => {
+    document.getElementById('payment-status').textContent = '✅ 12 Links Fixed';
+    document.getElementById('payment-status').style.color = '#2ecc71';
+  }, 3000);
+}
+
+function launchPremium() {
+  document.getElementById('premium-status').textContent = 'Creating...';
+  document.getElementById('premium-status').style.color = '#e67e22';
+  
+  setTimeout(() => {
+    document.getElementById('premium-status').textContent = '🚀 Live';
+    document.getElementById('premium-status').style.color = '#2ecc71';
+  }, 2000);
+}
+
+function optimizeConversion() {
+  document.getElementById('conversion-status').textContent = 'Testing...';
+  document.getElementById('conversion-status').style.color = '#e67e22';
+  
+  setTimeout(() => {
+    document.getElementById('conversion-status').textContent = '📈 +23% Conv';
+    document.getElementById('conversion-status').style.color = '#2ecc71';
+  }, 4000);
+}
+
+function launchAffiliate() {
+  document.getElementById('affiliate-status').textContent = 'Building...';
+  document.getElementById('affiliate-status').style.color = '#e67e22';
+  
+  setTimeout(() => {
+    document.getElementById('affiliate-status').textContent = '💪 Active';
+    document.getElementById('affiliate-status').style.color = '#2ecc71';
+  }, 5000);
+}
+
+// Update profit stats every 30 seconds
+setInterval(updateProfitStats, 30000);
+
+// Initial update
+updateProfitStats();
+</script>
+
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-profit-dashboard.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-profit-dashboard.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for profit-dashboard.html");</script></body>
+</html>

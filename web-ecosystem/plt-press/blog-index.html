@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PLT Framework Blog - Business Decision Making | PLT Press</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D1117;color:#ddd;font-family:Georgia,serif;line-height:1.6;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{text-align:center;margin-bottom:40px;padding:40px 20px;background:linear-gradient(45deg,#3498db,#2980b9);border-radius:12px;color:#fff}
+.header h1{font-size:42px;margin-bottom:10px}
+.categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;margin:30px 0}
+.category{background:#1A1A2E;padding:15px;border-radius:8px;border-left:4px solid #3498db;text-align:center;cursor:pointer;transition:all .3s}
+.category:hover{background:#2A2A3A;transform:scale(1.05)}
+.articles{display:grid;gap:20px;margin-top:30px}
+.article{background:#1A1A2E;padding:25px;border-radius:12px;border-left:4px solid #FFD700;cursor:pointer;transition:all .3s}
+.article:hover{background:#2A2A3A;transform:translateY(-2px)}
+.article-title{color:#FFD700;font-size:20px;font-weight:bold;margin-bottom:10px}
+.article-excerpt{color:#ddd;margin-bottom:15px}
+.article-meta{font-size:12px;color:#888;display:flex;justify-content:space-between;align-items:center}
+.read-time{color:#3498db}
+.featured{border-left-color:#e74c3c}
+.featured .article-title{color:#e74c3c}
+</style>
+</head>
+<body>
+
+<div class="container">
+<a href="dashboard.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} style="color:#3498db;text-decoration:none;font-size:14px;margin-bottom:15px;display:inline-block">← Back to Dashboard</a>
+
+<div class="header">
+  <h1>📝 PLT Framework Blog</h1>
+  <div style="font-size:18px;margin-top:10px">Master Business Decision Making with Profit · Love · Tax</div>
+</div>
+
+<div class="categories">
+  <div class="category" onclick="filterArticles('all')">
+    <div style="font-size:20px;margin-bottom:5px">📚</div>
+    <div>All Articles</div>
+  </div>
+  <div class="category" onclick="filterArticles('startup')">
+    <div style="font-size:20px;margin-bottom:5px">🚀</div>
+    <div>Startups</div>
+  </div>
+  <div class="category" onclick="filterArticles('leadership')">
+    <div style="font-size:20px;margin-bottom:5px">👑</div>
+    <div>Leadership</div>
+  </div>
+  <div class="category" onclick="filterArticles('strategy')">
+    <div style="font-size:20px;margin-bottom:5px">🎯</div>
+    <div>Strategy</div>
+  </div>
+  <div class="category" onclick="filterArticles('case-study')">
+    <div style="font-size:20px;margin-bottom:5px">💼</div>
+    <div>Case Studies</div>
+  </div>
+</div>
+
+<div class="articles" id="articles">
+  
+  <div class="article featured" data-category="startup">
+    <div class="article-title">How PLT Saved My Startup From a $500K Mistake</div>
+    <div class="article-excerpt">The partnership looked perfect on paper. 50/50 equity split with my co-founder's friend who had "connections." Then I ran it through PLT analysis...</div>
+    <div class="article-meta">
+      <span>🚀 Startup Success</span>
+      <span class="read-time">8 min read</span>
+    </div>
+  </div>
+  
+  <div class="article" data-category="leadership">
+    <div class="article-title">Why Every Executive Team Needs PLT Scorecards</div>
+    <div class="article-excerpt">Most board meetings waste 60% of time on decisions that don't matter. Here's how Fortune 500 CEOs use PLT to focus on what actually drives results...</div>
+    <div class="article-meta">
+      <span>👑 Leadership</span>
+      <span class="read-time">6 min read</span>
+    </div>
+  </div>
+  
+  <div class="article" data-category="strategy">
+    <div class="article-title">The Hidden "Tax" Costs Destroying Your Profit Margins</div>
+    <div class="article-excerpt">You think you're making 40% margins, but PLT analysis reveals the hidden costs that are actually eating 60% of your profits. Here's how to find them...</div>
+    <div class="article-meta">
+      <span>🎯 Strategy</span>
+      <span class="read-time">10 min read</span>
+    </div>
+  </div>
+  
+  <div class="article" data-category="case-study">
+    <div class="article-title">Case Study: How $2M SaaS Used PLT to 3x Revenue</div>
+    <div class="article-excerpt">TechCorp was stuck at $2M ARR for 18 months. 90 days after implementing PLT framework across all departments, they hit $6M run rate...</div>
+    <div class="article-meta">
+      <span>💼 Case Study</span>
+      <span class="read-time">12 min read</span>
+    </div>
+  </div>
+  
+  <div class="article" data-category="startup">
+    <div class="article-title">PLT for Fundraising: Get VCs to Say Yes</div>
+    <div class="article-excerpt">Investors see 1,000+ pitches per year. Here's how PLT framework helps you stand out and show VCs exactly why your startup is worth their money...</div>
+    <div class="article-meta">
+      <span>🚀 Startup Success</span>
+      <span class="read-time">7 min read</span>
+    </div>
+  </div>
+  
+  <div class="article" data-category="leadership">
+    <div class="article-title">The PLT Meeting Method: Cut Meeting Time by 50%</div>
+    <div class="article-excerpt">Most meetings are "all Tax, no Profit." Here's the exact PLT meeting framework that helps teams make decisions 3x faster...</div>
+    <div class="article-meta">
+      <span>👑 Leadership</span>
+      <span class="read-time">5 min read</span>
+    </div>
+  </div>
+  
+  <div class="article" data-category="strategy">
+    <div class="article-title">PLT vs OKRs: Which Framework Actually Works?</div>
+    <div class="article-excerpt">Google popularized OKRs, but PLT is what actually drives business results. Here's a side-by-side comparison of both frameworks...</div>
+    <div class="article-meta">
+      <span>🎯 Strategy</span>
+      <span class="read-time">9 min read</span>
+    </div>
+  </div>
+  
+  <div class="article" data-category="case-study">
+    <div class="article-title">How E-commerce Brand Used PLT to Beat Amazon</div>
+    <div class="article-excerpt">Small brand competing against Amazon seemed impossible. Then they used PLT to find their advantage and grew from $50K to $2M in 14 months...</div>
+    <div class="article-meta">
+      <span>💼 Case Study</span>
+      <span class="read-time">11 min read</span>
+    </div>
+  </div>
+  
+  <div class="article" data-category="leadership">
+    <div class="article-title">The Love Component: Why Relationships Trump Revenue</div>
+    <div class="article-excerpt">Most business owners focus only on Profit. The smartest ones invest in Love first. Here's why relationship capital is your most valuable asset...</div>
+    <div class="article-meta">
+      <span>👑 Leadership</span>
+      <span class="read-time">8 min read</span>
+    </div>
+  </div>
+  
+  <div class="article" data-category="startup">
+    <div class="article-title">PLT for Product Launches: Ensure Success Before You Build</div>
+    <div class="article-excerpt">95% of products fail because founders don't understand the real Tax costs. Here's how PLT prevents expensive product failures...</div>
+    <div class="article-meta">
+      <span>🚀 Startup Success</span>
+      <span class="read-time">6 min read</span>
+    </div>
+  </div>
+  
+  <div class="article" data-category="strategy">
+    <div class="article-title">The PLT Hiring System: Never Make a Bad Hire Again</div>
+    <div class="article-excerpt">Bad hires cost 3-5x their salary. Here's how to use PLT analysis in your hiring process to build teams that actually drive results...</div>
+    <div class="article-meta">
+      <span>🎯 Strategy</span>
+      <span class="read-time">7 min read</span>
+    </div>
+  </div>
+  
+  <div class="article" data-category="case-study">
+    <div class="article-title">Marketing Agency 10x'd Revenue with PLT Client Selection</div>
+    <div class="article-excerpt">Agency was working 80-hour weeks for difficult clients paying low rates. PLT helped them identify high-Love, high-Profit clients...</div>
+    <div class="article-meta">
+      <span>💼 Case Study</span>
+      <span class="read-time">13 min read</span>
+    </div>
+  </div>
+
+</div>
+
+<div style="text-align:center;margin:50px 0;padding:30px;background:#1A1A2E;border-radius:12px;border:2px solid #2ecc71">
+  <h2 style="color:#2ecc71;margin-bottom:15px">📧 Get New PLT Articles First</h2>
+  <div style="font-size:18px;margin-bottom:20px">Join 5,000+ business leaders getting weekly PLT insights</div>
+  <div style="margin-bottom:20px">
+    <input type="email" placeholder="Enter your email..." style="padding:12px;width:300px;max-width:100%;border:none;border-radius:6px;margin-right:10px;font-family:Georgia,serif">
+    <button style="background:#2ecc71;color:#fff;border:none;padding:12px 20px;border-radius:6px;cursor:pointer;font-family:Georgia,serif;font-weight:bold">Subscribe</button>
+  </div>
+  <div style="font-size:12px;color:#888">Free • No spam • Unsubscribe anytime</div>
+</div>
+
+</div>
+
+<script>
+function filterArticles(category) {
+  const articles = document.querySelectorAll('.article');
+  articles.forEach(article => {
+    if (category === 'all' || article.dataset.category === category) {
+      article.style.display = 'block';
+    } else {
+      article.style.display = 'none';
+    }
+  });
+}
+
+// Make articles clickable (in real implementation, would link to actual articles)
+document.querySelectorAll('.article').forEach(article => {
+  article.addEventListener('click', () => {
+    const title = article.querySelector('.article-title').textContent;
+    alert(`Article: "${title}"\n\nFull article content coming soon!\n\nThis would link to the complete article with PLT strategies, case studies, and actionable insights.`);
+  });
+});
+</script>
+
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-blog-index.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-blog-index.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for blog-index.html");</script></body>
+</html>

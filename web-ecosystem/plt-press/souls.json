@@ -1,0 +1,202 @@
+[
+  {
+    "num": 1,
+    "name": "OpenAI API (GPT)",
+    "emoji": "🧠",
+    "role": "Content Writer & Ad Copywriter",
+    "status": "active",
+    "api_url": "https://api.openai.com/v1/chat/completions",
+    "free_tier": "Free $5 credit on signup; GPT-3.5-turbo extremely cheap (~$0.002/1K tokens)",
+    "best_use": "Writing book descriptions, blog posts, email sequences, ad copy, and sales pages for PLT Press"
+  },
+  {
+    "num": 2,
+    "name": "Google Gemini API",
+    "emoji": "💎",
+    "role": "Research Analyst & Summarizer",
+    "status": "active",
+    "api_url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent",
+    "free_tier": "Free tier: 60 requests/min, 1.5M tokens/day on Gemini 2.0 Flash",
+    "best_use": "Market research, competitor analysis, summarizing long documents, and content ideation"
+  },
+  {
+    "num": 3,
+    "name": "Hugging Face Inference API",
+    "emoji": "🤗",
+    "role": "Multi-Tool AI Swiss Army Knife",
+    "status": "active",
+    "api_url": "https://api-inference.huggingface.co/models/{model_id}",
+    "free_tier": "Free tier with rate limits; access to 200K+ models including text, image, audio",
+    "best_use": "Sentiment analysis on reviews, text classification, and testing niche AI models for publishing workflows"
+  },
+  {
+    "num": 4,
+    "name": "Stability AI (Stable Diffusion)",
+    "emoji": "🎨",
+    "role": "Image Generator & Cover Designer",
+    "status": "active",
+    "api_url": "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image",
+    "free_tier": "25 free credits on signup; community models free via Hugging Face",
+    "best_use": "Generating book covers, social media graphics, blog post images, and ad creatives"
+  },
+  {
+    "num": 5,
+    "name": "Groq API",
+    "emoji": "⚡",
+    "role": "Speed Writer & Real-Time Processor",
+    "status": "active",
+    "api_url": "https://api.groq.com/openai/v1/chat/completions",
+    "free_tier": "Free tier: 30 req/min on Llama 3 70B, 30K tokens/min",
+    "best_use": "Rapid content drafting, real-time chatbot responses, and bulk text processing at speed"
+  },
+  {
+    "num": 6,
+    "name": "Anthropic Claude API",
+    "emoji": "📚",
+    "role": "Long-Form Editor & Strategy Advisor",
+    "status": "active",
+    "api_url": "https://api.anthropic.com/v1/messages",
+    "free_tier": "Free credits on signup; Claude 3 Haiku very affordable for bulk tasks",
+    "best_use": "Editing manuscripts, writing long-form content, strategic business planning, and detailed analysis"
+  },
+  {
+    "num": 7,
+    "name": "DeepL API",
+    "emoji": "🌍",
+    "role": "Translator & Localization Agent",
+    "status": "active",
+    "api_url": "https://api-free.deepl.com/v2/translate",
+    "free_tier": "Free tier: 500,000 characters/month",
+    "best_use": "Translating book listings, marketing copy, and product descriptions for international markets"
+  },
+  {
+    "num": 8,
+    "name": "ElevenLabs API",
+    "emoji": "🎙️",
+    "role": "Voice Synthesizer & Audiobook Creator",
+    "status": "active",
+    "api_url": "https://api.elevenlabs.io/v1/text-to-speech/{voice_id}",
+    "free_tier": "Free tier: 10,000 characters/month with 3 custom voices",
+    "best_use": "Creating audiobook samples, voice-overs for book trailers, and podcast content"
+  },
+  {
+    "num": 9,
+    "name": "Mistral AI API",
+    "emoji": "🌊",
+    "role": "Code Generator & Automation Builder",
+    "status": "active",
+    "api_url": "https://api.mistral.ai/v1/chat/completions",
+    "free_tier": "Free tier available with rate limits on Mistral Small/Medium",
+    "best_use": "Generating automation scripts, building publishing tools, and creating website features"
+  },
+  {
+    "num": 10,
+    "name": "OpenRouter",
+    "emoji": "🔀",
+    "role": "AI Model Router & Cost Optimizer",
+    "status": "active",
+    "api_url": "https://openrouter.ai/api/v1/chat/completions",
+    "free_tier": "Free models available (Llama, Mistral, Gemma); pay-per-use on premium models",
+    "best_use": "Routing different tasks to the cheapest/best model — writing to one, coding to another, research to a third"
+  },
+  {
+    "num": 11,
+    "name": "Brave Search API",
+    "emoji": "🔍",
+    "role": "SEO Researcher & Market Intelligence",
+    "status": "active",
+    "api_url": "https://api.search.brave.com/res/v1/web/search",
+    "free_tier": "Free tier: 2,000 queries/month",
+    "best_use": "SEO keyword research, competitor monitoring, trending topic discovery, and backlink opportunities"
+  },
+  {
+    "num": 12,
+    "name": "Whisper (OpenAI) via Hugging Face",
+    "emoji": "👂",
+    "role": "Transcription Agent",
+    "status": "active",
+    "api_url": "https://api-inference.huggingface.co/models/openai/whisper-large-v3",
+    "free_tier": "Free via Hugging Face Inference API; self-host for unlimited",
+    "best_use": "Transcribing podcast interviews, video content for blog repurposing, and meeting notes"
+  },
+  {
+    "num": 13,
+    "name": "Cloudflare Workers AI",
+    "emoji": "☁️",
+    "role": "Edge AI Processor & Chatbot Host",
+    "status": "active",
+    "api_url": "https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/{model}",
+    "free_tier": "Free tier: 10,000 neurons/day (~100+ requests); text, image, speech models",
+    "best_use": "Hosting a PLT Press chatbot, running AI at the edge for fast customer interactions"
+  },
+  {
+    "num": 14,
+    "name": "Replicate API",
+    "emoji": "🔄",
+    "role": "Video & Image Creator",
+    "status": "active",
+    "api_url": "https://api.replicate.com/v1/predictions",
+    "free_tier": "Free credits on signup; community models free to run",
+    "best_use": "Creating book trailer videos, animated social posts, and AI-generated marketing visuals"
+  },
+  {
+    "num": 15,
+    "name": "Resend API",
+    "emoji": "📧",
+    "role": "Email Outreach & Newsletter Agent",
+    "status": "active",
+    "api_url": "https://api.resend.com/emails",
+    "free_tier": "Free tier: 3,000 emails/month, 100 emails/day",
+    "best_use": "Sending book launch emails, newsletter campaigns, and automated reader follow-ups"
+  },
+  {
+    "num": 16,
+    "name": "Notion API",
+    "emoji": "📋",
+    "role": "Project Manager & Content Scheduler",
+    "status": "active",
+    "api_url": "https://api.notion.com/v1/pages",
+    "free_tier": "Free for personal use; API included with all plans",
+    "best_use": "Managing editorial calendars, tracking book projects, scheduling social media content"
+  },
+  {
+    "num": 17,
+    "name": "Together AI API",
+    "emoji": "🤝",
+    "role": "Bulk Content Processor",
+    "status": "active",
+    "api_url": "https://api.together.xyz/v1/chat/completions",
+    "free_tier": "Free $5 credit on signup; open-source models at low cost",
+    "best_use": "Bulk-processing book metadata, generating SEO descriptions, and batch content creation"
+  },
+  {
+    "num": 18,
+    "name": "PDF.co API",
+    "emoji": "📄",
+    "role": "PDF Generator & Document Processor",
+    "status": "active",
+    "api_url": "https://api.pdf.co/v1/pdf/convert/from/html",
+    "free_tier": "Free tier: 100 credits/month",
+    "best_use": "Generating invoices, media kits, book previews, and formatted PDF downloads for readers"
+  },
+  {
+    "num": 19,
+    "name": "Google Sheets API",
+    "emoji": "📊",
+    "role": "Data Analyst & Spreadsheet Automator",
+    "status": "active",
+    "api_url": "https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/values/{range}",
+    "free_tier": "Free with Google account; generous quotas (300 req/min)",
+    "best_use": "Tracking sales data, managing book inventory, automating royalty calculations and financial reports"
+  },
+  {
+    "num": 20,
+    "name": "Perplexity API",
+    "emoji": "🔮",
+    "role": "Lead Gen Researcher & Trend Spotter",
+    "status": "active",
+    "api_url": "https://api.perplexity.ai/chat/completions",
+    "free_tier": "Free credits on signup; Sonar models competitively priced",
+    "best_use": "Finding podcast guest opportunities, identifying book reviewers, trending topic research, and lead generation"
+  }
+]

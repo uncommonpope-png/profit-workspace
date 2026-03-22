@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PLT Calculator - Score Any Business Decision</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Free PLT Calculator - Score any business decision on Profit, Love, Tax. Get clarity in 30 seconds.">
+    <style>
+        body { 
+            background: #0D1117; color: #FFB347; font-family: Georgia, serif; 
+            margin: 0; padding: 20px; max-width: 600px; margin: 0 auto; 
+        }
+        .header { text-align: center; margin-bottom: 30px; }
+        .title { font-size: 28px; color: #FFB347; font-weight: bold; margin-bottom: 10px; }
+        .subtitle { font-size: 16px; color: #888; }
+        .calculator { 
+            background: #1A1A2E; border: 1px solid #2A2A4A; 
+            border-radius: 12px; padding: 25px; margin: 20px 0; 
+        }
+        .input-group { margin: 20px 0; }
+        .label { 
+            font-size: 18px; font-weight: bold; 
+            margin-bottom: 8px; display: block; 
+        }
+        .profit { color: #2ecc71; }
+        .love { color: #FF2D78; }
+        .tax { color: #e74c3c; }
+        .description { font-size: 14px; color: #888; margin-bottom: 10px; }
+        .slider { 
+            width: 100%; height: 8px; border-radius: 5px; 
+            background: #333; outline: none; margin: 10px 0; 
+        }
+        .value { 
+            font-size: 24px; font-weight: bold; 
+            text-align: center; margin: 10px 0; 
+        }
+        .result { 
+            background: #0D1117; border: 2px solid #FFB347; 
+            border-radius: 8px; padding: 20px; text-align: center; 
+            margin: 20px 0; 
+        }
+        .score { 
+            font-size: 36px; font-weight: bold; 
+            color: #FFB347; margin-bottom: 10px; 
+        }
+        .interpretation { font-size: 16px; line-height: 1.5; }
+        .excellent { color: #2ecc71; }
+        .good { color: #3498db; }
+        .fair { color: #f39c12; }
+        .poor { color: #e74c3c; }
+        .email-capture { 
+            background: #2A2A4A; border-radius: 8px; 
+            padding: 20px; margin: 20px 0; text-align: center; 
+        }
+        .email-input { 
+            width: 70%; padding: 12px; border: 1px solid #FFB347; 
+            background: #000; color: #FFB347; border-radius: 4px; 
+            margin: 10px; font-size: 16px; 
+        }
+        .btn { 
+            background: #FFB347; color: #000; border: none; 
+            padding: 12px 24px; border-radius: 4px; cursor: pointer; 
+            font-weight: bold; font-size: 16px; margin: 10px; 
+        }
+        .btn:hover { background: #FF9A1A; }
+        .share { margin: 20px 0; text-align: center; }
+        .share-btn { 
+            background: #FF2D78; color: #fff; border: none; 
+            padding: 10px 20px; border-radius: 4px; cursor: pointer; 
+            margin: 5px; text-decoration: none; display: inline-block; 
+        }
+        .framework-link { 
+            text-align: center; margin: 20px 0; 
+        }
+        .framework-link a { 
+            color: #00D4FF; text-decoration: none; 
+            font-size: 16px; border-bottom: 1px solid #00D4FF; 
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">🧮 PLT Calculator</div>
+        <div class="subtitle">Score any business decision in 30 seconds</div>
+    </div>
+
+    <div class="calculator">
+        <div class="input-group">
+            <label class="label profit">💰 Profit (What you gain)</label>
+            <div class="description">Money, leverage, position, assets, future value</div>
+            <input type="range" min="1" max="10" value="5" class="slider" id="profit" oninput="calculate()">
+            <div class="value profit" id="profit-value">5</div>
+        </div>
+
+        <div class="input-group">
+            <label class="label love">❤️ Love (Relationships built)</label>
+            <div class="description">Trust, alliances, network, community, reputation</div>
+            <input type="range" min="1" max="10" value="5" class="slider" id="love" oninput="calculate()">
+            <div class="value love" id="love-value">5</div>
+        </div>
+
+        <div class="input-group">
+            <label class="label tax">📉 Tax (Real costs)</label>
+            <div class="description">Time, energy, money, stress, opportunity cost</div>
+            <input type="range" min="1" max="10" value="5" class="slider" id="tax" oninput="calculate()">
+            <div class="value tax" id="tax-value">5</div>
+        </div>
+    </div>
+
+    <div class="result">
+        <div class="score" id="plt-score">5</div>
+        <div class="interpretation" id="interpretation">
+            <strong>PLT Score:</strong> 5 + 5 - 5 = 5<br>
+            <span class="fair">Fair opportunity - consider optimizing</span>
+        </div>
+    </div>
+
+    <div class="email-capture">
+        <h3>Get Your Complete PLT Results</h3>
+        <p>Enter your email for detailed analysis + PLT framework guide:</p>
+        <input type="email" class="email-input" id="email" placeholder="your.email@example.com">
+        <button class="btn" onclick="captureEmail()">Get Free Analysis</button>
+        <div id="email-status"></div>
+    </div>
+
+    <div class="share">
+        <p><strong>Share this calculator:</strong></p>
+        <a href="#" class="share-btn" onclick="shareTwitter()">Twitter</a>
+        <a href="#" class="share-btn" onclick="shareLinkedIn()">LinkedIn</a>
+        <a href="#" class="share-btn" onclick="copyLink()">Copy Link</a>
+    </div>
+
+    <div class="result">
+        <div class="score" id="plt-score">5</div>
+        <div class="interpretation" id="interpretation">
+            <strong>PLT Score:</strong> 5 + 5 - 5 = 5<br>
+            <span class="fair">Fair opportunity - consider optimizing</span>
+        </div>
+        <div id="ai-analysis" style="margin-top: 15px; padding: 15px; background: rgba(0,212,255,0.1); border-radius: 8px; display: none;">
+            <h4 style="color: #00D4FF; margin: 0 0 10px 0;">🤖 Smart Analysis</h4>
+            <div id="ai-content">Analyzing your decision...</div>
+        </div>
+        <button class="btn" onclick="getSmartAnalysis()" id="ai-btn" style="margin-top: 10px;">Get Smart Analysis</button>
+    </div>
+
+    <div class="framework-link">
+        <a href="bundle.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/bundle.html';return false;}>📚 Get Complete PLT Framework - 18 Books for $49</a>
+    </div>
+
+    <script src="simple-ai.js"></script>
+    <script>
+        function calculate() {
+            const profit = parseInt(document.getElementById('profit').value);
+            const love = parseInt(document.getElementById('love').value);
+            const tax = parseInt(document.getElementById('tax').value);
+            const score = profit + love - tax;
+
+            document.getElementById('profit-value').textContent = profit;
+            document.getElementById('love-value').textContent = love;
+            document.getElementById('tax-value').textContent = tax;
+            document.getElementById('plt-score').textContent = score;
+
+            let interpretation = `<strong>PLT Score:</strong> ${profit} + ${love} - ${tax} = ${score}<br>`;
+            let className = '';
+
+            if (score >= 10) {
+                interpretation += '<span class="excellent">Excellent opportunity - prioritize immediately!</span>';
+                className = 'excellent';
+            } else if (score >= 6) {
+                interpretation += '<span class="good">Good opportunity - likely worth pursuing</span>';
+                className = 'good';
+            } else if (score >= 2) {
+                interpretation += '<span class="fair">Fair opportunity - consider optimizing or alternatives</span>';
+                className = 'fair';
+            } else {
+                interpretation += '<span class="poor">Poor opportunity - likely decline or renegotiate</span>';
+                className = 'poor';
+            }
+
+            document.getElementById('interpretation').innerHTML = interpretation;
+            document.getElementById('plt-score').className = `score ${className}`;
+
+            // Track usage
+            trackCalculation(profit, love, tax, score);
+        }
+
+        function captureEmail() {
+            const email = document.getElementById('email').value.trim();
+            if (!email) {
+                document.getElementById('email-status').innerHTML = '<span style="color: #e74c3c;">Please enter your email</span>';
+                return;
+            }
+
+            if (!email.includes('@')) {
+                document.getElementById('email-status').innerHTML = '<span style="color: #e74c3c;">Please enter a valid email</span>';
+                return;
+            }
+
+            // Send to backend
+            fetch('https://pltcommands.onrender.com/execute', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    text: `EMAIL_SIGNUP:${email}:calculator:${getCurrentPLTScore()}`
+                })
+            }).catch(() => {});
+
+            document.getElementById('email-status').innerHTML = '<span style="color: #2ecc71;">✅ Analysis sent! Check your email.</span>';
+            document.getElementById('email').value = '';
+
+            // Track conversion
+            trackEmailSignup(email);
+        }
+
+        function getCurrentPLTScore() {
+            const profit = parseInt(document.getElementById('profit').value);
+            const love = parseInt(document.getElementById('love').value);
+            const tax = parseInt(document.getElementById('tax').value);
+            return `${profit}+${love}-${tax}=${profit + love - tax}`;
+        }
+
+        function shareTwitter() {
+            const score = getCurrentPLTScore();
+            const text = `Just scored a business decision: PLT = ${score} using this free calculator`;
+            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`;
+            window.open(url, '_blank');
+            trackShare('twitter');
+        }
+
+        function shareLinkedIn() {
+            const url = `https://linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`;
+            window.open(url, '_blank');
+            trackShare('linkedin');
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('Link copied to clipboard!');
+                trackShare('copy');
+            });
+        }
+
+        function trackCalculation(profit, love, tax, score) {
+            // Send usage data
+            fetch('https://pltcommands.onrender.com/execute', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    text: `CALC_USE:${profit}:${love}:${tax}:${score}:${new Date().toISOString()}`
+                })
+            }).catch(() => {});
+        }
+
+        function trackEmailSignup(email) {
+            // Track conversion
+            fetch('https://pltcommands.onrender.com/execute', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    text: `CONVERSION:email_signup:${email}:calculator`
+                })
+            }).catch(() => {});
+        }
+
+        function trackShare(platform) {
+            // Track viral sharing
+            fetch('https://pltcommands.onrender.com/execute', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    text: `SHARE:${platform}:calculator:${getCurrentPLTScore()}`
+                })
+            }).catch(() => {});
+        }
+
+        // Initialize
+        calculate();
+
+        function getSmartAnalysis() {
+            const profit = parseInt(document.getElementById('profit').value);
+            const love = parseInt(document.getElementById('love').value);
+            const tax = parseInt(document.getElementById('tax').value);
+            
+            document.getElementById('ai-btn').textContent = 'Analyzing...';
+            document.getElementById('ai-analysis').style.display = 'block';
+            
+            // Use smart analysis function
+            const analysis = analyzeDecision(profit, love, tax);
+            
+            setTimeout(() => {
+                document.getElementById('ai-content').textContent = analysis;
+                document.getElementById('ai-btn').textContent = 'Get New Analysis';
+            }, 800); // Brief delay for effect
+        }
+
+        // Track page view
+        fetch('https://pltcommands.onrender.com/execute', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                text: `PAGEVIEW:calculator:${new Date().toISOString()}`
+            })
+        }).catch(() => {});
+    </script>
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-plt-calculator.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-plt-calculator.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for plt-calculator.html");</script></body>
+</html>

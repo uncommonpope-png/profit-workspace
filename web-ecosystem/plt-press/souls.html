@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soul Collection — PLT Press</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D1117;color:#E6E6E6;font-family:Georgia,serif;min-height:100vh;padding:16px}
+a{color:#FFB347;text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:640px;margin:0 auto}
+.back{display:inline-block;margin-bottom:20px;font-size:14px;opacity:0.8}
+h1{text-align:center;font-size:28px;margin-bottom:8px;background:linear-gradient(135deg,#FF2D78,#FFB347);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{text-align:center;color:#888;font-size:13px;margin-bottom:24px}
+.panel{background:#1A1A2E;border:1px solid #2A2A4A;border-radius:12px;padding:20px;margin-bottom:16px}
+.panel h2{font-size:18px;margin-bottom:12px;color:#FF2D78}
+
+/* Stats bar */
+.stats-row{display:flex;justify-content:space-around;text-align:center;padding:10px 0}
+.stat-item .stat-num{font-size:32px;font-weight:bold;background:linear-gradient(135deg,#FFB347,#FF2D78);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-item .stat-label{font-size:11px;color:#888;margin-top:2px}
+
+/* Soul grid */
+.soul-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.soul-card{background:#0D1117;border:1px solid #2A2A4A;border-radius:10px;padding:14px;transition:transform 0.2s,border-color 0.3s;cursor:default}
+.soul-card:hover{transform:translateY(-2px);border-color:#FFB347}
+.soul-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.soul-emoji{font-size:28px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:#1A1A2E;border-radius:8px;flex-shrink:0}
+.soul-info{flex:1}
+.soul-name{font-size:15px;font-weight:bold;color:#FFB347}
+.soul-num{font-size:11px;color:#888}
+.soul-role{font-size:12px;color:#aaa;margin-top:2px;line-height:1.4}
+.soul-footer{display:flex;justify-content:space-between;align-items:center;font-size:11px;padding-top:8px;border-top:1px solid #2A2A4A}
+.soul-status{padding:2px 8px;border-radius:10px;font-size:11px;font-weight:bold}
+.status-active{background:rgba(46,204,113,0.15);color:#2ecc71;border:1px solid rgba(46,204,113,0.3)}
+.status-standby{background:rgba(255,179,71,0.15);color:#FFB347;border:1px solid rgba(255,179,71,0.3)}
+.status-idle{background:rgba(136,136,136,0.15);color:#888;border:1px solid rgba(136,136,136,0.3)}
+.soul-last{color:#888;font-style:italic;max-width:60%;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Filter */
+.filter-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.filter-btn{padding:6px 14px;border-radius:20px;border:1px solid #2A2A4A;background:transparent;color:#888;font-family:Georgia,serif;font-size:12px;cursor:pointer;transition:all 0.2s}
+.filter-btn.active,.filter-btn:hover{border-color:#FF2D78;color:#FF2D78;background:rgba(255,45,120,0.1)}
+
+/* Economy */
+.economy-text{font-size:13px;line-height:1.7;color:#aaa}
+.economy-text strong{color:#FFB347}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="dashboard.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} class="back">← Back to Dashboard</a>
+<h1>👻 Soul Collection</h1>
+<p class="subtitle">Your AI Army — 20 Souls Strong</p>
+
+<div class="panel">
+<div class="stats-row">
+<div class="stat-item"><div class="stat-num" id="totalSouls">0</div><div class="stat-label">Total Souls</div></div>
+<div class="stat-item"><div class="stat-num" id="activeSouls">0</div><div class="stat-label">Active</div></div>
+<div class="stat-item"><div class="stat-num" id="tasksDone">0</div><div class="stat-label">Contributions</div></div>
+</div>
+</div>
+
+<div class="panel">
+<h2>🔮 All Souls</h2>
+<div class="filter-row">
+<button class="filter-btn active" onclick="filterSouls('all')">All</button>
+<button class="filter-btn" onclick="filterSouls('active')">Active</button>
+<button class="filter-btn" onclick="filterSouls('standby')">Standby</button>
+<button class="filter-btn" onclick="filterSouls('idle')">Idle</button>
+</div>
+<div class="soul-grid" id="soulGrid"></div>
+</div>
+
+<div class="panel">
+<h2>⚡ Soul Economy</h2>
+<div class="economy-text">
+<p>Each soul is a <strong>free or near-free AI API</strong> that contributes to the PLT Press empire. Together they form an unstoppable workforce:</p><br>
+<p>• <strong>Zero payroll</strong> — souls work for API credits, most are free tier</p>
+<p>• <strong>24/7 availability</strong> — no sleep, no breaks, no complaints</p>
+<p>• <strong>Infinite scale</strong> — add more souls as new APIs launch</p>
+<p>• <strong>Specialized skills</strong> — each soul excels at one thing</p><br>
+<p>The <strong>Soul Economy</strong> means Craig has a full team without the overhead. Every soul collected is another capability added to the empire. The goal: <strong>100 souls</strong> working in perfect coordination.</p>
+</div>
+</div>
+</div>
+
+<script>
+const LOG_URL='http://localhost:5004/uncommonpope-png/plt-press/main/log.json';
+const FALLBACK_SOULS=[
+  {num:1,name:'OpenAI API (GPT)',emoji:'🧠',role:'Content Writer & Ad Copywriter',status:'active',contributions:['Writing book descriptions, blog posts, ad copy']},
+  {num:2,name:'Google Gemini API',emoji:'💎',role:'Research Analyst & Summarizer',status:'active',contributions:['Market research, competitor analysis']},
+  {num:3,name:'Anthropic Claude',emoji:'📜',role:'Strategic Planner & Editor',status:'active',contributions:['Business strategy, content editing']},
+  {num:4,name:'Groq API',emoji:'⚡',role:'Speed Processor',status:'active',contributions:['Fast inference for real-time tasks']},
+  {num:5,name:'Hugging Face',emoji:'🤗',role:'Model Hub & Specialist',status:'standby',contributions:['Specialized ML models']},
+];
+
+let allSouls=[];
+
+async function load(){
+  let data;
+  try{const r=await fetch(LOG_URL);data=await r.json()}catch(e){data={}}
+  allSouls=data.souls||FALLBACK_SOULS;
+
+  const active=allSouls.filter(s=>s.status==='active').length;
+  const totalContrib=allSouls.reduce((a,s)=>(a+(s.contributions?s.contributions.length:0)),0);
+  
+  animNum('totalSouls',allSouls.length);
+  animNum('activeSouls',active);
+  animNum('tasksDone',totalContrib);
+
+  renderSouls(allSouls);
+}
+
+function renderSouls(souls){
+  const grid=document.getElementById('soulGrid');
+  grid.innerHTML='';
+  souls.forEach((s,i)=>{
+    const statusClass=s.status==='active'?'status-active':s.status==='standby'?'status-standby':'status-idle';
+    const lastAction=s.last_action||(s.contributions&&s.contributions[0])||'Awaiting orders';
+    grid.innerHTML+=`
+    <div class="soul-card" data-status="${s.status||'idle'}" style="animation:fadeIn 0.3s ease ${i*0.05}s both">
+      <div class="soul-header">
+        <div class="soul-emoji">${s.emoji||'👻'}</div>
+        <div class="soul-info">
+          <div class="soul-name">${s.name}</div>
+          <div class="soul-num">Soul #${s.num||i+1}</div>
+          <div class="soul-role">${s.role||s.desc||'—'}</div>
+        </div>
+      </div>
+      <div class="soul-footer">
+        <span class="soul-status ${statusClass}">${(s.status||'idle').toUpperCase()}</span>
+        <span class="soul-last" title="${lastAction}">${lastAction}</span>
+      </div>
+    </div>`;
+  });
+}
+
+function filterSouls(status){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  if(status==='all')renderSouls(allSouls);
+  else renderSouls(allSouls.filter(s=>s.status===status));
+}
+
+function animNum(id,target){
+  const el=document.getElementById(id);
+  const dur=1000;const start=performance.now();
+  function tick(now){
+    const p=Math.min((now-start)/dur,1);
+    el.textContent=Math.floor(target*p);
+    if(p<1)requestAnimationFrame(tick);
+    else el.textContent=target;
+  }
+  requestAnimationFrame(tick);
+}
+
+const style=document.createElement('style');
+style.textContent='@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}';
+document.head.appendChild(style);
+
+load();
+</script>
+<!-- Qwen AI Chat -->
+<div class="container" style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Talk to Qwen AI</h2>
+  <div id="qwen-chat-souls.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-souls.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key==='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+=`<div style="margin-bottom:6px;color:#00D4FF">You: ${text}</div>`;
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+=`<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: ${d.response}</div>`;
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+=`<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>`;
+  });
+}
+</script>
+<script>console.log("✅ Links fixed for souls.html");</script></body>
+</html>

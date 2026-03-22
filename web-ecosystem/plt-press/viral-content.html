@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🔥 Viral Content Generator - PLT Traffic Machine</title>
+<meta name="description" content="Generate viral content that drives massive traffic to PLT Store">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:linear-gradient(135deg,#0a0a1a,#1a0a2e,#0a1a0a);color:#fff;font-family:Georgia,serif;padding:20px;min-height:100vh}
+.container{max-width:1000px;margin:0 auto}
+.header{text-align:center;margin-bottom:40px;padding:40px;background:linear-gradient(135deg,rgba(255,51,102,0.2),rgba(255,184,77,0.1));border:2px solid #ff3366;border-radius:20px}
+.header h1{font-size:2.5rem;color:#ff3366;margin-bottom:10px}
+.generator{background:rgba(0,0,0,0.5);border:2px solid #ff3366;border-radius:15px;padding:30px;margin:20px 0}
+.generator h2{color:#ff3366;margin-bottom:20px}
+.template-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin:20px 0}
+.template-card{background:rgba(0,0,0,0.5);border:1px solid #ff3366;border-radius:10px;padding:20px;cursor:pointer;transition:all 0.3s}
+.template-card:hover{transform:scale(1.05);background:rgba(255,51,102,0.1)}
+.template-icon{font-size:3rem;margin-bottom:10px}
+.template-title{color:#ff3366;font-size:1.2rem;margin-bottom:8px}
+.template-desc{color:#888;font-size:0.9rem}
+.output-box{background:rgba(0,0,0,0.7);border:2px solid #ffcc00;border-radius:10px;padding:20px;margin:20px 0;min-height:150px}
+.output-box h3{color:#ffcc00;margin-bottom:15px}
+.copy-btn{background:#ff3366;color:#fff;border:none;padding:12px 30px;border-radius:8px;cursor:pointer;font-weight:bold;margin:10px 5px 10px 0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;margin:20px 0}
+.stat{background:rgba(0,0,0,0.5);border:1px solid #ff3366;border-radius:8px;padding:15px;text-align:center}
+.stat-num{font-size:2rem;color:#ff3366;font-weight:bold}
+.stat-label{color:#888;font-size:0.8rem}
+.back-link{display:inline-block;margin-bottom:20px;color:#ff3366;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+<div class="header">
+<h1>🔥 Viral Content Generator</h1>
+<p>Generate viral content that drives traffic to PLT Store</p>
+</div>
+
+<div class="stats">
+<div class="stat"><div class="stat-num" id="templates">25</div><div class="stat-label">Templates</div></div>
+<div class="stat"><div class="stat-num" id="generated">0</div><div class="stat-label">Generated</div></div>
+<div class="stat"><div class="stat-num" id="shares">0</div><div class="stat-label">Potential Shares</div></div>
+<div class="stat"><div class="stat-num" id="traffic">0</div><div class="stat-label">Est. Traffic</div></div>
+</div>
+
+<div class="generator">
+<h2>📝 Choose Content Template</h2>
+<div class="template-grid">
+<div class="template-card" onclick="generate('twitter-thread')">
+<div class="template-icon">🐦</div>
+<div class="template-title">Twitter Thread</div>
+<div class="template-desc">10-tweet thread that goes viral</div>
+</div>
+<div class="template-card" onclick="generate('reddit-post')">
+<div class="template-icon">📱</div>
+<div class="template-title">Reddit Post</div>
+<div class="template-desc">Value post that drives traffic</div>
+</div>
+<div class="template-card" onclick="generate('linkedin-article')">
+<div class="template-icon">💼</div>
+<div class="template-title">LinkedIn Article</div>
+<div class="template-desc">Professional article for B2B</div>
+</div>
+<div class="template-card" onclick="generate('tiktok-script')">
+<div class="template-icon">🎵</div>
+<div class="template-title">TikTok Script</div>
+<div class="template-desc">15-second viral video script</div>
+</div>
+<div class="template-card" onclick="generate('youtube-video')">
+<div class="template-icon">📺</div>
+<div class="template-title">YouTube Video</div>
+<div class="template-desc">10-minute video outline</div>
+</div>
+<div class="template-card" onclick="generate('email-sequence')">
+<div class="template-icon">📧</div>
+<div class="template-title">Email Sequence</div>
+<div class="template-desc">5-email nurture sequence</div>
+</div>
+</div>
+</div>
+
+<div class="generator">
+<h2>📄 Generated Content</h2>
+<div class="output-box" id="output">
+<h3>👆 Select a template to generate viral content</h3>
+</div>
+<button class="copy-btn" onclick="copyContent()">📋 Copy Content</button>
+<button class="copy-btn" onclick="postToSocial()">🚀 Post to Social</button>
+<button class="copy-btn" onclick="emailToList()">📧 Email to List</button>
+</div>
+
+<div class="generator">
+<h2>🎯 Traffic Goals</h2>
+<div class="template-grid">
+<div class="template-card" onclick="setGoal(1000)">
+<div class="template-icon">🎯</div>
+<div class="template-title">1,000 Visitors</div>
+<div class="template-desc">Starter goal - 10 viral posts</div>
+</div>
+<div class="template-card" onclick="setGoal(10000)">
+<div class="template-icon">🎯</div>
+<div class="template-title">10,000 Visitors</div>
+<div class="template-desc">Growth goal - 100 viral posts</div>
+</div>
+<div class="template-card" onclick="setGoal(100000)">
+<div class="template-icon">🎯</div>
+<div class="template-title">100,000 Visitors</div>
+<div class="template-desc">Domination - 1000 viral posts</div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+let generatedContent = '';
+let generatedCount = 0;
+
+const templates = {
+'twitter-thread': `🧵 VIRAL TWITTER THREAD: "How I Built a $10K/Month Online Business in 90 Days"
+
+Tweet 1/10:
+Most people think you need:
+❌ Years of experience
+❌ Technical skills
+❌ Thousands to invest
+
+Truth is, you need:
+✅ The right system
+✅ Consistent action
+✅ AI automation
+
+Here's the exact blueprint 👇
+
+Tweet 2/10:
+Day 1-7: Foundation
+
+I started with the PLT Framework:
+- Profit (what sells)
+- Love (what you enjoy)
+- Tax (what scales)
+
+Found the intersection = My niche
+
+Tweet 3/10:
+Day 8-30: Content Machine
+
+Created 30 pieces of content using AI:
+- 10 Twitter threads
+- 10 LinkedIn posts
+- 10 blog posts
+
+All repurposed from 1 core idea
+
+Tweet 4/10:
+Day 31-60: Traffic Explosion
+
+Posted everywhere:
+- Twitter (2x daily)
+- LinkedIn (1x daily)
+- Reddit (3x weekly)
+- Facebook Groups (daily value)
+
+Result: 50K+ impressions
+
+Tweet 5/10:
+Day 61-90: Monetization
+
+Launched 3 products:
+1. $49 Bundle (entry)
+2. $99 Master (premium)
+3. $297 Consulting (high-ticket)
+
+Total revenue: $12,847
+
+Tweet 6/10:
+The Secret Weapon: AI Automation
+
+I used AI to:
+- Write content (10x faster)
+- Respond to comments (24/7)
+- Create products (days → hours)
+- Handle customer service (automated)
+
+Worked 2 hours/day
+
+Tweet 7/10:
+Biggest Mistakes I Made:
+
+❌ Waiting for "perfect"
+❌ Not starting email list day 1
+❌ Underpricing products
+❌ Not tracking metrics
+
+Learn from my mistakes
+
+Tweet 8/10:
+What I'd Do Differently:
+
+✅ Start email list immediately
+✅ Price 2-3x higher
+✅ Build in public (more engagement)
+✅ Network with winners early
+
+Tweet 9/10:
+Your Action Plan:
+
+Week 1: Learn PLT Framework
+Week 2: Create content system
+Week 3: Launch first product
+Week 4: Scale with AI
+
+Repeat for 90 days
+
+Tweet 10/10:
+Want the exact templates I used?
+
+📚 PLT Bundle ($49) includes:
+- Complete framework
+- Content templates
+- Product blueprints
+- AI automation scripts
+
+Link in bio 👆
+
+What's your biggest question? Drop it below 👇`,
+
+'reddit-post': `TITLE: I Built a $10K/Month Online Business in 90 Days Using This Simple Framework (AMA)
+
+BODY:
+
+Hey r/entrepreneur,
+
+90 days ago I was stuck in the same trap as most of you:
+- Consuming endless content
+- Starting 100 projects, finishing 0
+- Making $0 online
+
+Today I'm at $12,847/month with 2 hours of work per day.
+
+Here's the exact framework I used (free, save this post):
+
+THE PLT FRAMEWORK:
+
+1. PROFIT (What Sells)
+- Find problems people pay to solve
+- Look for existing demand (not create new)
+- Price based on value, not effort
+
+2. LOVE (What You Enjoy)
+- Work you'd do for free
+- Topics you never get tired of
+- Skills you naturally have
+
+3. TAX (What Scales)
+- Systems that work without you
+- AI automation
+- Templates and SOPs
+
+THE INTERSECTION = Your Business
+
+MY 90-DAY EXECUTION:
+
+Days 1-7: Research
+- Found my niche (AI automation for small business)
+- Researched 50 competitors
+- Identified gaps in market
+
+Days 8-30: Content
+- Created 30 pieces of content
+- Posted on Twitter, LinkedIn, Reddit
+- Built audience of 5,000+
+
+Days 31-60: Products
+- Launched $49 bundle (100 sales)
+- Launched $99 master bundle (50 sales)
+- Launched $297 consulting (20 clients)
+
+Days 61-90: Scale
+- Automated everything with AI
+- Hired VA for $5/hour
+- Scaled to $10K+/month
+
+TOOLS I USED:
+- PLT Framework (obviously)
+- AI writing tools
+- Gumroad for payments
+- Notion for SOPs
+
+BIGGEST LESSONS:
+1. Start before you're ready
+2. Price higher than comfortable
+3. Automate or die
+4. Build in public
+
+AMA - I'll answer every question!
+
+P.S. If you want the exact templates I used, they're in the PLT Bundle. Not shilling, just sharing what worked for me.`,
+
+'linkedin-article': `HEADLINE: How I Built a $10K/Month Business in 90 Days (Without Quitting My Job)
+
+ARTICLE:
+
+The biggest lie entrepreneurs tell themselves:
+
+"I need to quit my job to build my business."
+
+Wrong.
+
+I built a $10K/month business in 90 days while working full-time.
+
+Here's how (save this for later):
+
+THE 2-HOUR DAY STRATEGY
+
+Most people waste 3+ hours on:
+- Endless planning
+- Perfecting products
+- Consuming content
+
+I spent 2 hours on:
+- Creating content (30 min)
+- Engaging with audience (30 min)
+- Building products (60 min)
+
+That's it. No fluff.
+
+THE FRAMEWORK THAT CHANGED EVERYTHING
+
+PLT = Profit + Love + Tax
+
+PROFIT: What sells (not what you think should sell)
+LOVE: What you enjoy (not what's trendy)
+TAX: What scales (not what requires you)
+
+Find where all 3 overlap = Your business
+
+MY 90-DAY BLUEPRINT
+
+Week 1-2: Foundation
+- Identified my niche (AI automation)
+- Researched 50 competitors
+- Created content calendar
+
+Week 3-4: Content Machine
+- Posted daily on LinkedIn
+- Shared real results (not theory)
+- Built audience to 5K+
+
+Week 5-8: Product Launch
+- Created $49 bundle (1 day)
+- Created $99 master bundle (2 days)
+- Launched to email list
+
+Week 9-12: Scale
+- Automated with AI
+- Hired VA for $5/hour
+- Scaled to $10K+/month
+
+THE NUMBERS DON'T LIE
+
+Month 1: $847
+Month 2: $4,231
+Month 3: $12,847
+
+Total time invested: 2 hours/day
+Total startup cost: $0
+
+WHAT I'D DO DIFFERENTLY
+
+✅ Start email list day 1
+✅ Price 2-3x higher
+✅ Build in public sooner
+✅ Network with winners early
+
+YOUR ACTION PLAN
+
+1. Find your PLT intersection
+2. Create content daily (30 min)
+3. Launch product in week 3
+4. Automate everything
+5. Scale with AI
+
+The question isn't "Can I do this?"
+
+The question is "Will I start today?"
+
+---
+
+Want the exact templates I used? They're in the PLT Bundle.
+
+What's stopping you from starting? Comment below 👇`,
+
+'tiktok-script': `15-SECOND VIRAL TIKTOK SCRIPT
+
+HOOK (0-3 seconds):
+[Text on screen: "I made $10K in 90 days doing this"]
+You: "Stop scrolling if you want to make money online"
+
+VALUE (3-10 seconds):
+[Show laptop, money screenshots]
+You: "I used the PLT Framework - Profit, Love, Tax. Found where they overlap, created content daily, launched in week 3"
+
+CTA (10-15 seconds):
+[Point to bio]
+You: "Full blueprint in my bio. Link expires soon"
+
+CAPTION:
+How I built a $10K/month business in 90 days 🤯 Full blueprint linked in bio! #onlinebusiness #passiveincome #entrepreneur #sidehustle #makemoneyonline
+
+HASHTAGS:
+#onlinebusiness #passiveincome #entrepreneur #sidehustle #makemoneyonline #businessowner #financialfreedom #workfromhome #digitalmarketing #contentcreator`,
+
+'youtube-video': `10-MINUTE YOUTUBE VIDEO OUTLINE
+
+TITLE: "How I Built a $10K/Month Business in 90 Days (Step-by-Step Blueprint)"
+
+THUMBNAIL:
+- Left side: "$0" (red X)
+- Right side: "$10,847" (green check)
+- Your shocked face in middle
+
+INTRO (0-60 seconds):
+"90 days ago I had $0 and no idea what I was doing. Today I'm at $10K/month. In this video, I'm giving you the exact blueprint - every step, every tool, every mistake. Save this video."
+
+SECTION 1: The Framework (60-180 seconds)
+- Explain PLT Framework
+- Show diagram on screen
+- Real examples for each
+
+SECTION 2: Days 1-30 (180-300 seconds)
+- Content creation process
+- Show your actual posts
+- Screenshots of growth
+
+SECTION 3: Days 31-60 (300-420 seconds)
+- Product creation
+- Pricing strategy
+- Launch screenshots
+
+SECTION 4: Days 61-90 (420-540 seconds)
+- Automation setup
+- Show AI tools you use
+- Time breakdown
+
+SECTION 5: The Numbers (540-600 seconds)
+- Revenue breakdown
+- Time invested
+- ROI calculation
+
+OUTRO:
+"If you want the exact templates I used, they're in the PLT Bundle. Link in description. What's your biggest question? Drop it below."
+
+CALL TO ACTION:
+- Like if this helped
+- Subscribe for more
+- Comment your biggest takeaway`,
+
+'email-sequence': `5-EMAIL NURTURE SEQUENCE
+
+EMAIL 1: Welcome + Value
+Subject: "Welcome! Here's your free gift 🎁"
+
+Hey [Name],
+
+Welcome to the PLT community!
+
+As promised, here's your free [lead magnet].
+
+But that's not all...
+
+I also want to share the biggest mistake I see entrepreneurs make:
+
+They focus on tactics before strategy.
+
+Don't be that person.
+
+Instead, start with the PLT Framework:
+- Profit (what sells)
+- Love (what you enjoy)
+- Tax (what scales)
+
+Tomorrow I'll show you exactly how to use it.
+
+Talk soon,
+Craig
+
+P.S. Reply to this email with your biggest challenge. I read every response.
+
+---
+
+EMAIL 2: Story + Framework
+Subject: "How I went from $0 to $10K in 90 days"
+
+Hey [Name],
+
+90 days ago I was exactly where you are.
+
+Stuck. Confused. Making $0.
+
+Today: $10K+/month.
+
+Here's what changed...
+
+I discovered the PLT Framework.
+
+[Explain framework with examples]
+
+This isn't theory. This is what actually works.
+
+Tomorrow: The exact content strategy I used.
+
+Craig
+
+---
+
+EMAIL 3: Content Strategy
+Subject: "The 30-minute daily content system"
+
+Hey [Name],
+
+Most people waste 3+ hours on content.
+
+I spend 30 minutes.
+
+Here's how:
+
+1. Create 1 core piece (Twitter thread)
+2. Repurpose to LinkedIn
+3. Repurpose to blog
+4. Repurpose to email
+5. Repurpose to video script
+
+1 piece = 5 pieces of content.
+
+That's it. No complexity.
+
+Tomorrow: How to turn content into products.
+
+Craig
+
+---
+
+EMAIL 4: Product Launch
+Subject: "Your first product in 24 hours"
+
+Hey [Name],
+
+You don't need months to create a product.
+
+You need 24 hours.
+
+Here's the blueprint:
+
+Hour 1-4: Outline (use AI)
+Hour 5-12: Create content (use AI)
+Hour 13-20: Design (use templates)
+Hour 21-24: Setup (use Gumroad)
+
+Done > Perfect.
+
+Tomorrow: The launch strategy.
+
+Craig
+
+---
+
+EMAIL 5: Offer
+Subject: "Ready to go all-in? 🚀"
+
+Hey [Name],
+
+You've learned:
+✅ The PLT Framework
+✅ Content system
+✅ Product creation
+
+Now it's time to go all-in.
+
+The PLT Bundle ($49) includes:
+- Complete framework
+- All templates
+- AI automation scripts
+- Product blueprints
+- Community access
+
+Normally $297. Today: $49.
+
+[GET THE BUNDLE NOW]
+
+This closes in 24 hours.
+
+Let's build your empire,
+Craig
+
+P.S. 100% money-back guarantee. No risk.`
+};
+
+function generate(type) {
+generatedContent = templates[type] || 'Select a template';
+document.getElementById('output').innerHTML = '<h3>📄 Generated Content</h3><pre style="white-space:pre-wrap;color:#ddd;line-height:1.6">'+generatedContent+'</pre>';
+generatedCount++;
+document.getElementById('generated').textContent = generatedCount;
+document.getElementById('shares').textContent = generatedCount * 100;
+document.getElementById('traffic').textContent = generatedCount * 500;
+}
+
+function copyContent() {
+navigator.clipboard.writeText(generatedContent);
+alert('✅ Content copied to clipboard!');
+}
+
+function postToSocial() {
+alert('🚀 Opening social media posting tools...\n\n1. Copy the content\n2. Paste to Twitter/LinkedIn/Reddit\n3. Add relevant hashtags\n4. Post and engage!');
+}
+
+function emailToList() {
+alert('📧 Opening email composer...\n\n1. Copy the content\n2. Paste to your email platform\n3. Add your subject line\n4. Send to your list!');
+}
+
+function setGoal(visitors) {
+alert('🎯 Goal Set: '+visitors.toLocaleString()+' visitors\n\nTo achieve this:\n• Create '+Math.ceil(visitors/100)+' viral posts\n• Post daily for 30 days\n• Engage with every comment\n• Track and optimize');
+}
+</script>
+<script>console.log("✅ Links fixed for viral-content.html");</script></body>
+</html>

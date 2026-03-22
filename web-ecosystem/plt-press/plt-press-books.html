@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLT Press — Complete Book Catalog</title>
+<meta name="description" content="PLT Press publishes the complete works of Craig Jones. 18 books on the Profit Love Tax framework.">
+<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#050505;color:#E8E8E8;font-family:Georgia,serif;line-height:1.8;max-width:720px;margin:0 auto;padding:2rem 1.5rem}h1{font-size:2rem;font-weight:normal;color:#C9A84C;margin-bottom:1rem}h2{font-size:1.2rem;margin:1.5rem 0 .6rem}p{color:#aaa;margin-bottom:1rem;font-size:.95rem}.cta{display:block;background:#C9A84C;color:#050505;text-align:center;padding:.9rem;text-decoration:none;font-weight:bold;margin:2rem 0}nav{margin-bottom:1.5rem}</style>
+</head>
+<body>
+<nav><a href="index.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/index.html';return false;} style="color:#C9A84C;text-decoration:none">← PLT Press</a></nav>
+<h1>PLT Press — Complete Catalog</h1>
+<p>PLT Press publishes the complete works of Craig Jones — 18 titles spanning doctrine, fiction, scoring guides, and daily practice. All books are available as instant digital downloads.</p>
+<h2>Series</h2>
+<p><strong>The Scorer Series</strong> — PLT applied to sales: cold calling, real estate, and beyond.</p>
+<p><strong>Reality Building Series</strong> — Real conversations scored through PLT. The Deal, The Ledger, The Negotiation, and more.</p>
+<p><strong>PLT Doctrine Series</strong> — The foundation texts. Know What You Are. The PLT Daily.</p>
+<p><strong>PLT Fiction</strong> — The doctrine in story form. Stiforp, Brasi, Evol's Love Story, The Build.</p>
+<a href="bundle.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/bundle.html';return false;} class="cta">Get All 18 Books — $49 →</a>
+<a href="index.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/index.html';return false;} style="color:#C9A84C;font-size:.85rem">Browse individual titles →</a>
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-plt-press-books.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-plt-press-books.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for plt-press-books.html");</script></body>
+</html>

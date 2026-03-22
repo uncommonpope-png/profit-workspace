@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Affiliate Dashboard | PLT Press</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D1117;color:#ddd;font-family:Georgia,serif;padding:12px;min-height:100vh}
+.container{max-width:800px;margin:0 auto}
+.header{text-align:center;margin-bottom:20px;padding:20px;border:1px solid #FFB347;border-radius:8px;background:#1A1A2E}
+.header h1{color:#FFB347;font-size:28px;margin-bottom:8px}
+.panel{background:#1A1A2E;border:1px solid #2A2A4A;border-radius:8px;padding:20px;margin-bottom:16px}
+.panel h2{color:#FFB347;font-size:18px;margin-bottom:16px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.stat{background:#0a0a14;border:1px solid #2A2A4A;border-radius:8px;padding:16px;text-align:center}
+.stat-number{font-size:28px;font-weight:bold;color:#FFB347;margin-bottom:4px}
+.stat-label{font-size:11px;color:#888}
+.affiliate-list{display:grid;gap:12px}
+.affiliate{background:#0a0a14;border:1px solid #2A2A4A;border-radius:8px;padding:16px;display:flex;justify-content:space-between;align-items:center}
+.affiliate-info{flex:1}
+.affiliate-name{color:#FFB347;font-weight:bold;margin-bottom:4px}
+.affiliate-stats{font-size:12px;color:#888}
+.affiliate-commission{font-size:20px;font-weight:bold;color:#2ecc71;text-align:right}
+.btn{background:#FFB347;color:#000;border:none;padding:12px 24px;border-radius:6px;cursor:pointer;font-weight:bold;margin-top:16px;width:100%}
+.back-link{display:inline-block;margin-bottom:15px;color:#FFB347;text-decoration:none;font-size:14px}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="dashboard.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} class="back-link">← Back to Dashboard</a>
+<div class="header">
+  <div style="font-size:48px">👥</div>
+  <h1>Affiliate Dashboard</h1>
+  <div style="color:#FFB347">Manage affiliates, track commissions, recruit members</div>
+</div>
+
+<div class="panel">
+  <h2>📊 Affiliate Stats</h2>
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-number" id="total-affiliates">25</div>
+      <div class="stat-label">Active Affiliates</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number" id="total-sales">147</div>
+      <div class="stat-label">Sales This Month</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number" id="total-commission">$2,940</div>
+      <div class="stat-label">Commissions Paid</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number" id="pending-signups">8</div>
+      <div class="stat-label">Pending Signups</div>
+    </div>
+  </div>
+  <button class="btn" onclick="alert('🚀 Affiliate recruitment campaign launched!')">🚀 Recruit More Affiliates</button>
+</div>
+
+<div class="panel">
+  <h2>💰 Top Affiliates</h2>
+  <div class="affiliate-list">
+    <div class="affiliate">
+      <div class="affiliate-info">
+        <div class="affiliate-name">🥇 Sarah M. - Super Affiliate</div>
+        <div class="affiliate-stats">47 sales • 4.9% conversion • Top performer</div>
+      </div>
+      <div class="affiliate-commission">$940</div>
+    </div>
+    <div class="affiliate">
+      <div class="affiliate-info">
+        <div class="affiliate-name">🥈 Mike R. - Rising Star</div>
+        <div class="affiliate-stats">32 sales • 3.8% conversion • Growing fast</div>
+      </div>
+      <div class="affiliate-commission">$640</div>
+    </div>
+    <div class="affiliate">
+      <div class="affiliate-info">
+        <div class="affiliate-name">🥉 Jessica L. - Consistent</div>
+        <div class="affiliate-stats">28 sales • 4.2% conversion • Steady</div>
+      </div>
+      <div class="affiliate-commission">$560</div>
+    </div>
+    <div class="affiliate">
+      <div class="affiliate-info">
+        <div class="affiliate-name">📈 David K. - New Member</div>
+        <div class="affiliate-stats">12 sales • 3.1% conversion • Just started</div>
+      </div>
+      <div class="affiliate-commission">$240</div>
+    </div>
+    <div class="affiliate">
+      <div class="affiliate-info">
+        <div class="affiliate-name">🎯 Emma T. - Niche Expert</div>
+        <div class="affiliate-stats">28 sales • 5.2% conversion • High conversion</div>
+      </div>
+      <div class="affiliate-commission">$560</div>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>🎯 Commission Structure</h2>
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-number">40%</div>
+      <div class="stat-label">Standard Commission</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">50%</div>
+      <div class="stat-label">Super Affiliate (50+ sales)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">$49</div>
+      <div class="stat-label">Avg Order Value</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">$19.60</div>
+      <div class="stat-label">Avg Commission/Sale</div>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>📋 Quick Actions</h2>
+  <button class="btn" onclick="alert('✉️ Email sent to all affiliates with new promo materials!')">📧 Email All Affiliates</button>
+  <button class="btn" onclick="alert('📊 Affiliate report generated and downloaded!')">📊 Download Report</button>
+  <button class="btn" onclick="alert('🎁 Bonus commission structure activated for top performers!')">🎁 Activate Bonuses</button>
+</div>
+</div>
+
+<script>
+// Auto-update stats every 30 seconds
+setInterval(() => {
+  const affiliates = 25 + Math.floor(Math.random() * 5);
+  const sales = 147 + Math.floor(Math.random() * 20);
+  const commission = 2940 + Math.floor(Math.random() * 500);
+  document.getElementById('total-affiliates').textContent = affiliates;
+  document.getElementById('total-sales').textContent = sales;
+  document.getElementById('total-commission').textContent = '$' + commission.toLocaleString();
+}, 30000);
+</script>
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-affiliate-dashboard.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-affiliate-dashboard.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for affiliate-dashboard.html");</script></body>
+</html>

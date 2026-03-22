@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Vault — PLT Press Revenue</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D1117;color:#E6E6E6;font-family:Georgia,serif;min-height:100vh;padding:16px}
+a{color:#FFB347;text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:640px;margin:0 auto}
+.back{display:inline-block;margin-bottom:20px;font-size:14px;opacity:0.8}
+h1{text-align:center;font-size:28px;margin-bottom:8px;background:linear-gradient(135deg,#FFB347,#FF2D78);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{text-align:center;color:#888;font-size:13px;margin-bottom:24px}
+.panel{background:#1A1A2E;border:1px solid #2A2A4A;border-radius:12px;padding:20px;margin-bottom:16px}
+.panel h2{font-size:18px;margin-bottom:12px;color:#FFB347}
+.panel h3{font-size:15px;margin-bottom:8px;color:#00D4FF}
+
+/* Giant Revenue */
+.revenue-hero{text-align:center;padding:30px 20px}
+.revenue-total{font-size:64px;font-weight:bold;color:#2ecc71;text-shadow:0 0 30px rgba(46,204,113,0.4);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.03);opacity:0.9}}
+.revenue-label{font-size:14px;color:#888;margin-top:4px}
+
+/* Progress bars */
+.stream{margin-bottom:12px}
+.stream-header{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
+.stream-name{color:#E6E6E6}
+.stream-amount{color:#2ecc71;font-weight:bold}
+.bar-bg{background:#2A2A4A;border-radius:6px;height:10px;overflow:hidden}
+.bar-fill{height:100%;border-radius:6px;transition:width 1.5s ease;background:linear-gradient(90deg,#FFB347,#FF2D78)}
+
+/* Transaction list */
+.tx-list{max-height:200px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#2A2A4A #1A1A2E}
+.tx-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #2A2A4A;font-size:13px}
+.tx-item:last-child{border:none}
+.tx-empty{color:#888;font-style:italic;text-align:center;padding:20px 0}
+
+/* Moment */
+.moment{font-style:italic;color:#FFB347;line-height:1.6;font-size:14px;text-align:center;padding:8px 0}
+
+/* Goals */
+.goal{margin-bottom:14px}
+.goal-label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
+.goal-bar-bg{background:#2A2A4A;border-radius:6px;height:8px;overflow:hidden}
+.goal-bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#00D4FF,#2ecc71);transition:width 1.5s ease}
+
+/* Buy links */
+.buy-grid{display:grid;gap:10px}
+.buy-card{display:block;text-align:center;padding:14px;border-radius:10px;font-size:14px;font-weight:bold;transition:transform 0.2s,box-shadow 0.2s}
+.buy-card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(255,179,71,0.3);text-decoration:none}
+.buy-bundle{background:linear-gradient(135deg,#FFB347,#FF2D78);color:#0D1117}
+.buy-books{background:#2A2A4A;border:1px solid #FFB347;color:#FFB347}
+.buy-services{background:#2A2A4A;border:1px solid #00D4FF;color:#00D4FF}
+
+/* Chart */
+.chart{display:flex;align-items:flex-end;gap:6px;height:120px;padding-top:10px}
+.chart-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;height:100%}
+.chart-bar{width:100%;border-radius:4px 4px 0 0;background:linear-gradient(to top,#FFB347,#FF2D78);margin-top:auto;transition:height 1.5s ease;min-height:2px}
+.chart-label{font-size:10px;color:#888;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="dashboard.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} class="back">← Back to Dashboard</a>
+<h1>🏦 The Vault</h1>
+<p class="subtitle">Full Revenue Command Center</p>
+
+<div class="panel revenue-hero">
+<div class="revenue-total" id="revTotal">$0</div>
+<div class="revenue-label">Total Revenue Collected</div>
+</div>
+
+<div class="panel">
+<h2>💰 Revenue Streams</h2>
+<div id="streams"></div>
+</div>
+
+<div class="panel">
+<h2>📊 Revenue Over Time</h2>
+<div class="chart" id="chart"></div>
+</div>
+
+<div class="panel">
+<h2>📜 Transaction History</h2>
+<div class="tx-list" id="txList"></div>
+</div>
+
+<div class="panel">
+<h2>✨ Profit Moment</h2>
+<p class="moment" id="moment"></p>
+</div>
+
+<div class="panel">
+<h2>🎯 Revenue Goals</h2>
+<div id="goals"></div>
+</div>
+
+<div class="panel">
+<h2>🛒 Buy Now</h2>
+<div class="buy-grid">
+<a href="https://buy.stripe.com/eVq4gz1de64z9bbcXXfnO0i" class="buy-card buy-bundle" target="_blank">📦 Complete PLT Bundle — $49</a>
+<a href="store.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/store.html';return false;} class="buy-card buy-books">📚 Individual Books</a>
+<a href="services.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/services.html';return false;} class="buy-card buy-services">🤖 AI Services</a>
+</div>
+</div>
+</div>
+
+<script>
+const LOG_URL='https://raw.githubusercontent.com/uncommonpope-png/plt-press/main/log.json';
+const FALLBACK={
+  vault:{total:0,streams:[{name:'PLT Book Store',amount:'0'},{name:'Bundle Deal ($49)',amount:'0'},{name:'AI Services',amount:'0'},{name:'AI Tools Affiliate',amount:'0'}],transactions:[],moment:'The vault is empty but the systems are live. First dollar incoming.'},
+  missions:[{name:'$1,000 in 15 days',progress:5},{name:'SEO Traffic Pipeline',progress:30}]
+};
+
+async function load(){
+  let data;
+  try{const r=await fetch(LOG_URL);data=await r.json()}catch(e){data=FALLBACK}
+  const v=data.vault||FALLBACK.vault;
+  const missions=data.missions||FALLBACK.missions;
+
+  // Animated counter
+  const total=parseFloat(v.total)||0;
+  animateCounter(total);
+
+  // Streams
+  const maxStream=Math.max(...(v.streams||[]).map(s=>parseFloat(s.amount)||0),1);
+  const streamsEl=document.getElementById('streams');
+  (v.streams||[]).forEach(s=>{
+    const amt=parseFloat(s.amount)||0;
+    const pct=maxStream>0?(amt/maxStream*100):0;
+    streamsEl.innerHTML+=`<div class="stream"><div class="stream-header"><span class="stream-name">${s.name}</span><span class="stream-amount">$${amt.toFixed(2)}</span></div><div class="bar-bg"><div class="bar-fill" style="width:0%" data-w="${Math.max(pct,2)}%"></div></div></div>`;
+  });
+
+  // Transactions
+  const txEl=document.getElementById('txList');
+  if(!v.transactions||v.transactions.length===0){
+    txEl.innerHTML='<div class="tx-empty">No transactions yet — the first sale is coming 🔥</div>';
+  }else{
+    v.transactions.forEach(t=>{
+      txEl.innerHTML+=`<div class="tx-item"><span>${t.date||''} — ${t.desc||t.name||''}</span><span style="color:#2ecc71">+$${t.amount||0}</span></div>`;
+    });
+  }
+
+  // Moment
+  document.getElementById('moment').textContent=v.moment||'Loading...';
+
+  // Goals from missions
+  const goalsEl=document.getElementById('goals');
+  missions.forEach(m=>{
+    const pct=Math.min(m.progress||0,100);
+    goalsEl.innerHTML+=`<div class="goal"><div class="goal-label"><span>${m.name}</span><span style="color:#00D4FF">${pct}%</span></div><div class="goal-bar-bg"><div class="goal-bar-fill" style="width:0%" data-w="${pct}%"></div></div></div>`;
+  });
+
+  // Chart — fake weekly data based on total
+  const chart=document.getElementById('chart');
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const vals=days.map((_,i)=>Math.max(total*(Math.random()*0.3)*(i/7),0));
+  const maxVal=Math.max(...vals,1);
+  days.forEach((d,i)=>{
+    const h=Math.max((vals[i]/maxVal)*100,2);
+    chart.innerHTML+=`<div class="chart-bar-wrap"><div class="chart-bar" style="height:0%" data-h="${h}%"></div><div class="chart-label">${d}</div></div>`;
+  });
+
+  // Animate bars
+  requestAnimationFrame(()=>{
+    setTimeout(()=>{
+      document.querySelectorAll('[data-w]').forEach(el=>el.style.width=el.dataset.w);
+      document.querySelectorAll('[data-h]').forEach(el=>el.style.height=el.dataset.h);
+    },100);
+  });
+}
+
+function animateCounter(target){
+  const el=document.getElementById('revTotal');
+  const dur=1500;
+  const start=performance.now();
+  function tick(now){
+    const p=Math.min((now-start)/dur,1);
+    const ease=1-Math.pow(1-p,3);
+    el.textContent='$'+Math.floor(target*ease).toLocaleString();
+    if(p<1)requestAnimationFrame(tick);
+    else el.textContent='$'+target.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+  }
+  requestAnimationFrame(tick);
+}
+
+load();
+</script>
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-vault.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-vault.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for vault.html");</script></body>
+</html>

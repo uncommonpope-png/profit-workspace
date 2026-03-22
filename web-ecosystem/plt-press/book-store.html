@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>📚 PLT Book Store - Complete Library</title>
+<meta name="description" content="Browse all PLT Press books, bundles, and courses. Start building your empire today.">
+<meta name="keywords" content="PLT books, business books, passive income, online business, AI automation">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:linear-gradient(135deg,#0a0a1a 0%,#1a1a3e 50%,#0a1a0a 100%);color:#fff;font-family:Georgia,serif;padding:20px;min-height:100vh}
+.container{max-width:1200px;margin:0 auto}
+.header{text-align:center;margin-bottom:40px;padding:40px;background:linear-gradient(135deg,rgba(0,217,255,0.2),rgba(0,255,136,0.1));border:2px solid #00ff88;border-radius:20px;box-shadow:0 0 40px rgba(0,255,136,0.3)}
+.header h1{font-size:3rem;margin-bottom:10px;color:#00ff88;text-shadow:0 0 20px rgba(0,255,136,0.5)}
+.header p{color:#888;font-size:1.2rem}
+.search-box{width:100%;max-width:600px;margin:20px auto;padding:15px;background:rgba(0,0,0,0.5);border:2px solid #00ff88;border-radius:10px;color:#fff;font-size:1.1rem;outline:none}
+.filter-bar{display:flex;gap:10px;justify-content:center;margin:20px 0;flex-wrap:wrap}
+.filter-btn{background:rgba(0,255,136,0.1);border:2px solid #00ff88;color:#00ff88;padding:10px 20px;border-radius:25px;cursor:pointer;font-size:1rem;transition:all 0.3s}
+.filter-btn:hover,.filter-btn.active{background:#00ff88;color:#000}
+.books-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:25px;margin:40px 0}
+.book-card{background:rgba(0,0,0,0.5);border:2px solid #00ff88;border-radius:15px;padding:25px;transition:all 0.3s;position:relative;overflow:hidden}
+.book-card:hover{transform:translateY(-10px);box-shadow:0 20px 40px rgba(0,255,136,0.3)}
+.book-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(0,255,136,0.1),transparent);opacity:0;transition:opacity 0.3s}
+.book-card:hover::before{opacity:1}
+.book-icon{font-size:4rem;margin-bottom:15px}
+.book-title{color:#00ff88;font-size:1.5rem;margin-bottom:10px}
+.book-desc{color:#888;font-size:0.95rem;margin-bottom:15px;line-height:1.6}
+.book-price{font-size:2rem;color:#00ff88;font-weight:bold;margin-bottom:15px}
+.book-btn{background:linear-gradient(135deg,#00ff88,#00cc6a);color:#000;border:none;padding:15px 30px;border-radius:10px;cursor:pointer;font-weight:bold;font-size:1.1rem;width:100%;transition:all 0.3s}
+.book-btn:hover{transform:scale(1.05);box-shadow:0 10px 30px rgba(0,255,136,0.4)}
+.back-link{display:inline-block;margin-bottom:20px;color:#00ff88;text-decoration:none;font-size:1.1rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin:30px 0}
+.stat-card{background:rgba(0,0,0,0.5);border:2px solid #00ff88;border-radius:15px;padding:20px;text-align:center}
+.stat-number{font-size:2.5rem;color:#00ff88;font-weight:bold}
+.stat-label{color:#888;font-size:0.9rem;margin-top:5px}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+
+<div class="header">
+<h1>📚 PLT Book Store</h1>
+<p>Complete Library - Build Your Empire</p>
+<input type="text" class="search-box" id="search" placeholder="🔍 Search books, bundles, courses..." onkeyup="filterBooks()">
+</div>
+
+<div class="stats">
+<div class="stat-card">
+<div class="stat-number" id="total-books">0</div>
+<div class="stat-label">Books Available</div>
+</div>
+<div class="stat-card">
+<div class="stat-number" id="total-value">$0</div>
+<div class="stat-label">Total Value</div>
+</div>
+<div class="stat-card">
+<div class="stat-number" id="bundles">0</div>
+<div class="stat-label">Bundles</div>
+</div>
+<div class="stat-card">
+<div class="stat-number" id="courses">0</div>
+<div class="stat-label">Courses</div>
+</div>
+</div>
+
+<div class="filter-bar">
+<button class="filter-btn active" onclick="filterCategory('all')">📚 All</button>
+<button class="filter-btn" onclick="filterCategory('bundle')">💎 Bundles</button>
+<button class="filter-btn" onclick="filterCategory('book')">📖 Books</button>
+<button class="filter-btn" onclick="filterCategory('course')">🎓 Courses</button>
+<button class="filter-btn" onclick="filterCategory('service')">🛠️ Services</button>
+</div>
+
+<div class="books-grid" id="books-grid"></div>
+</div>
+
+<script>
+const books = [
+{icon:'💎',title:'PLT Bundle',category:'bundle',price:49,desc:'Complete PLT framework with all essential books and templates. Start building your empire today.'},
+{icon:'💎',title:'PLT Master Bundle',category:'bundle',price:99,desc:'Everything in PLT Bundle plus advanced strategies, case studies, and exclusive content.'},
+{icon:'📖',title:'The Negotiation',category:'book',price:17,desc:'Master the art of negotiation. Win every deal, close every sale, get what you deserve.'},
+{icon:'📖',title:'The Scorer',category:'book',price:17,desc:'Cold calling mastery. Score more meetings, close more deals, dominate your market.'},
+{icon:'📖',title:'AI Automation',category:'book',price:27,desc:'Automate your business with AI. 10x your output, 100x your impact.'},
+{icon:'📖',title:'SEO Domination',category:'book',price:27,desc:'Rank #1 on Google. Drive unlimited free traffic to your offers.'},
+{icon:'📖',title:'Email Empire',category:'book',price:27,desc:'Build an email list that prints money. Templates, sequences, strategies included.'},
+{icon:'📖',title:'Affiliate Army',category:'book',price:27,desc:'Recruit 100+ affiliates. Passive income on autopilot.'},
+{icon:'🎓',title:'PLT Certification',category:'course',price:297,desc:'Become a certified PLT consultant. Teach others, charge premium rates.'},
+{icon:'🎓',title:'Course Creation Blueprint',category:'course',price:397,desc:'Build and sell your own online courses. Step-by-step system included.'},
+{icon:'🛠️',title:'AI Setup Service',category:'service',price:150,desc:'Done-for-you AI automation setup. We build, you profit.'},
+{icon:'🛠️',title:'SEO Content Package',category:'service',price:200,desc:'500+ words of SEO-optimized content. Rank higher, get more traffic.'},
+{icon:'🛠️',title:'Consulting Call',category:'service',price:97,desc:'1-on-1 strategy session. Get your specific questions answered.'},
+{icon:'🛠️',title:'Automation Setup',category:'service',price:300,desc:'Complete business automation. Save 20+ hours per week.'}
+];
+
+function renderBooks(filter='all',search='') {
+const grid = document.getElementById('books-grid');
+grid.innerHTML = '';
+let filtered = books.filter(b => {
+const matchCategory = filter === 'all' || b.category === filter;
+const matchSearch = search === '' || b.title.toLowerCase().includes(search.toLowerCase()) || b.desc.toLowerCase().includes(search.toLowerCase());
+return matchCategory && matchSearch;
+});
+filtered.forEach(book => {
+const card = document.createElement('div');
+card.className = 'book-card';
+card.innerHTML = `
+<div class="book-icon">${book.icon}</div>
+<div class="book-title">${book.title}</div>
+<div class="book-desc">${book.desc}</div>
+<div class="book-price">$${book.price}</div>
+<button class="book-btn" onclick="alert('🚀 Purchase initiated for ${book.title}!\\n\\nPrice: $${book.price}\\n\\nRedirecting to checkout...')">🛒 Buy Now - $${book.price}</button>
+`;
+grid.appendChild(card);
+});
+// Update stats
+document.getElementById('total-books').textContent = filtered.length;
+document.getElementById('total-value').textContent = '$' + filtered.reduce((sum,b) => sum + b.price, 0);
+document.getElementById('bundles').textContent = books.filter(b => b.category === 'bundle').length;
+document.getElementById('courses').textContent = books.filter(b => b.category === 'course').length;
+}
+
+function filterBooks() {
+const search = document.getElementById('search').value;
+const activeFilter = document.querySelector('.filter-btn.active').textContent.toLowerCase();
+let category = 'all';
+if(activeFilter.includes('bundle')) category = 'bundle';
+else if(activeFilter.includes('book')) category = 'book';
+else if(activeFilter.includes('course')) category = 'course';
+else if(activeFilter.includes('service')) category = 'service';
+renderBooks(category, search);
+}
+
+function filterCategory(cat) {
+document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+event.target.classList.add('active');
+renderBooks(cat, document.getElementById('search').value);
+}
+
+// Initialize
+renderBooks();
+</script>
+<script>console.log("✅ Links fixed for book-store.html");</script></body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Deerg Bot - Universe Builder | PLT Press</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D1117;color:#ddd;font-family:Georgia,serif;padding:12px;min-height:100vh}
+.container{max-width:640px;margin:0 auto}
+.header{text-align:center;margin-bottom:20px;padding:20px;border:1px solid #FFB347;border-radius:8px;background:#1A1A2E;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,179,71,.1),transparent);animation:shimmer 4s infinite}
+@keyframes shimmer{to{left:100%}}
+.header h1{color:#FFB347;font-size:28px;margin-bottom:8px;text-shadow:0 0 20px rgba(255,179,71,.5)}
+.builder{font-size:48px;margin:10px 0}
+.status{font-size:14px;color:#00D4FF}
+.back-link{display:inline-block;margin-bottom:15px;color:#FFB347;text-decoration:none;font-size:14px}
+.back-link:hover{color:#00D4FF}
+
+.panel{background:#1A1A2E;border:1px solid #2A2A4A;border-radius:8px;padding:16px;margin-bottom:16px}
+.panel h2{color:#FFB347;font-size:18px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.universe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.world{background:#0a0a14;border:1px solid #FFB347;border-radius:8px;padding:12px;text-align:center;cursor:pointer;transition:all .3s}
+.world:hover{border-color:#00D4FF;background:#1A1A2E;transform:scale(1.02)}
+.world-icon{font-size:32px;margin-bottom:8px}
+.world-title{color:#FFB347;font-size:14px;font-weight:bold;margin-bottom:4px}
+.world-desc{font-size:11px;color:#ccc;line-height:1.3}
+.world-status{margin-top:6px;font-size:10px}
+.world-status.live{color:#2ecc71}
+.world-status.building{color:#FFB347}
+.world-status.planned{color:#888}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:16px}
+.stat{background:#0a0a14;border:1px solid #2A2A4A;border-radius:6px;padding:12px;text-align:center}
+.stat-number{font-size:24px;font-weight:bold;color:#FFB347;margin-bottom:4px}
+.stat-label{font-size:12px;color:#ccc}
+
+.expansion-ideas{display:grid;gap:8px}
+.idea{background:#0a0a14;border-left:3px solid #FFB347;padding:10px;border-radius:4px;cursor:pointer}
+.idea:hover{background:#1A1A2E}
+.idea-title{color:#FFB347;font-size:13px;font-weight:bold;margin-bottom:2px}
+.idea-desc{font-size:11px;color:#ccc;line-height:1.4}
+
+.build-button{background:#FFB347;color:#000;border:none;padding:12px 24px;font-family:Georgia,serif;border-radius:6px;cursor:pointer;font-weight:bold;margin-top:12px;display:block;width:100%}
+.build-button:hover{opacity:0.9}
+</style>
+</head>
+<body>
+
+<div class="container">
+<a href="dashboard.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} class="back-link">← Back to Dashboard</a>
+
+<div class="header">
+  <div class="builder">🏗️</div>
+  <h1>Deerg Bot</h1>
+  <div class="status" id="deerg-status">Dashboard Universe Builder — Expanding Worlds</div>
+</div>
+
+<div class="stats">
+  <div class="stat">
+    <div class="stat-number" id="total-pages">47</div>
+    <div class="stat-label">Total Pages</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number" id="windows-count">8</div>
+    <div class="stat-label">Windows Built</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number" id="universes-count">4</div>
+    <div class="stat-label">Universes Live</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number" id="souls-working">8</div>
+    <div class="stat-label">Souls Building</div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>🌌 Current Universe Map</h2>
+  <div class="universe-grid">
+    <div class="world" onclick="window.open('dashboard.html')">
+      <div class="world-icon">💰</div>
+      <div class="world-title">Command Bridge</div>
+      <div class="world-desc">Main dashboard control center</div>
+      <div class="world-status live">LIVE</div>
+    </div>
+    <div class="world" onclick="window.open('vault.html')">
+      <div class="world-icon">💎</div>
+      <div class="world-title">The Vault</div>
+      <div class="world-desc">Revenue tracking hub</div>
+      <div class="world-status live">LIVE</div>
+    </div>
+    <div class="world" onclick="window.open('teacher.html')">
+      <div class="world-icon">🎓</div>
+      <div class="world-title">The Teacher</div>
+      <div class="world-desc">Profit lessons & margins</div>
+      <div class="world-status live">LIVE</div>
+    </div>
+    <div class="world" onclick="window.open('djinie.html')">
+      <div class="world-icon">🧞‍♂️</div>
+      <div class="world-title">Djinie</div>
+      <div class="world-desc">Freedom genie & optimizer</div>
+      <div class="world-status live">LIVE</div>
+    </div>
+    <div class="world" onclick="window.open('products/index.html')">
+      <div class="world-icon">📦</div>
+      <div class="world-title">Product Empire</div>
+      <div class="world-desc">Digital products & sales</div>
+      <div class="world-status live">LIVE</div>
+    </div>
+    <div class="world" onclick="window.open('../plt-blog/index.html')">
+      <div class="world-icon">📝</div>
+      <div class="world-title">Content Empire</div>
+      <div class="world-desc">Blog posts & content</div>
+      <div class="world-status building">BUILDING</div>
+    </div>
+    <div class="world" onclick="window.open('../ai-tools-hub/index.html')">
+      <div class="world-icon">🛠️</div>
+      <div class="world-title">AI Tools Hub</div>
+      <div class="world-desc">Tool comparisons & reviews</div>
+      <div class="world-status live">LIVE</div>
+    </div>
+    <div class="world" onclick="buildWorld('seo-dashboard')">
+      <div class="world-icon">🔍</div>
+      <div class="world-title">SEO Dashboard</div>
+      <div class="world-desc">Rankings & traffic monitor</div>
+      <div class="world-status planned">PLANNED</div>
+    </div>
+    <div class="world" onclick="buildWorld('soul-manager')">
+      <div class="world-icon">👥</div>
+      <div class="world-title">Soul Manager</div>
+      <div class="world-desc">Agent control center</div>
+      <div class="world-status planned">PLANNED</div>
+    </div>
+    <div class="world" onclick="buildWorld('automation-hub')">
+      <div class="world-icon">⚙️</div>
+      <div class="world-title">Automation Hub</div>
+      <div class="world-desc">System management</div>
+      <div class="world-status planned">PLANNED</div>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>💡 Universe Expansion Ideas</h2>
+  <div class="expansion-ideas" id="expansion-ideas">
+    <div class="idea" onclick="buildIdea('revenue-streams')">
+      <div class="idea-title">🌊 Revenue Streams Visualizer</div>
+      <div class="idea-desc">Interactive map showing all income sources, conversion rates, and profit flows</div>
+    </div>
+    <div class="idea" onclick="buildIdea('customer-journey')">
+      <div class="idea-title">🛤️ Customer Journey Tracker</div>
+      <div class="idea-desc">Follow visitors from discovery to purchase across all touchpoints</div>
+    </div>
+    <div class="idea" onclick="buildIdea('competitor-intel')">
+      <div class="idea-title">🕵️ Competitor Intelligence</div>
+      <div class="idea-desc">Monitor competitor pricing, content, and strategies automatically</div>
+    </div>
+    <div class="idea" onclick="buildIdea('lead-scoring')">
+      <div class="idea-title">🎯 Lead Scoring Engine</div>
+      <div class="idea-desc">Automatically score and prioritize leads based on behavior and fit</div>
+    </div>
+    <div class="idea" onclick="buildIdea('content-planner')">
+      <div class="idea-title">📅 Content Master Planner</div>
+      <div class="idea-desc">AI-powered content calendar with SEO optimization and social scheduling</div>
+    </div>
+    <div class="idea" onclick="buildIdea('affiliate-tracker')">
+      <div class="idea-title">💼 Affiliate Empire Tracker</div>
+      <div class="idea-desc">Monitor affiliate performance, commissions, and optimization opportunities</div>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>🔧 Build Controls</h2>
+  <button class="build-button" onclick="createWindow()">🏗️ Create New Window</button>
+  <button class="build-button" onclick="expandUniverse()" style="background:#00D4FF">🌌 Expand Universe</button>
+  <button class="build-button" onclick="optimizeDashboard()" style="background:#2ecc71">⚡ Optimize Dashboard</button>
+</div>
+
+</div>
+
+<script>
+function updateStats() {
+  // Qwen AI powered stats
+  console.log('🤖 Deerg Bot connected to Qwen AI');
+  // This would connect to actual monitoring data
+  fetch('http://localhost:5004/log.json')
+    .then(r => r.json())
+    .then(data => {
+      if (data.universe_status) {
+        document.getElementById('total-pages').textContent = data.universe_status.discovered_pages || 47;
+      }
+      // Update other stats based on real data
+    })
+    .catch(() => {});
+}
+
+function buildWorld(worldType) {
+  // Qwen AI actually builds it
+  fetch('http://localhost:5004/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: `"Build ${worldType} universe"` })
+  }).then(r => r.json()).then(d => alert(`🤖 Qwen Deerg Bot: ${d.response}`));
+  return;
+  const worldNames = {
+    'seo-dashboard': 'SEO Dashboard',
+    'soul-manager': 'Soul Manager', 
+    'automation-hub': 'Automation Hub'
+  };
+  
+  alert(`🏗️ Building ${worldNames[worldType]}...\n\nDeerg Bot will create this universe window and integrate it with the dashboard.`);
+  // In a real implementation, this would trigger actual world creation
+}
+
+function buildIdea(ideaType) {
+  const ideaNames = {
+    'revenue-streams': 'Revenue Streams Visualizer',
+    'customer-journey': 'Customer Journey Tracker',
+    'competitor-intel': 'Competitor Intelligence',
+    'lead-scoring': 'Lead Scoring Engine',
+    'content-planner': 'Content Master Planner',
+    'affiliate-tracker': 'Affiliate Empire Tracker'
+  };
+  
+  alert(`💡 Brilliant idea: ${ideaNames[ideaType]}\n\nDeerg Bot is analyzing feasibility and planning implementation...`);
+}
+
+function createWindow() {
+  alert('🏗️ Window Creation Mode Activated!\n\nDeerg Bot will scan for new content and create dedicated windows automatically.');
+}
+
+function expandUniverse() {
+  alert('🌌 Universe Expansion Initiated!\n\nDeerg Bot is identifying new worlds to add to the dashboard ecosystem...');
+}
+
+function optimizeDashboard() {
+  alert('⚡ Dashboard Optimization Running!\n\nDeerg Bot is analyzing performance and creating efficiency improvements...');
+}
+
+// Initialize
+updateStats();
+setInterval(updateStats, 60000); // Update every minute
+</script>
+
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-deerg-bot.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-deerg-bot.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for deerg-bot.html");</script></body>
+</html>

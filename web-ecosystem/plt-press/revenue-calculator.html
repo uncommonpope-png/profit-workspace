@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Revenue Calculator | PLT Press</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D1117;color:#ddd;font-family:Georgia,serif;padding:12px;min-height:100vh}
+.container{max-width:800px;margin:0 auto}
+.header{text-align:center;margin-bottom:20px;padding:20px;border:1px solid #2ecc71;border-radius:8px;background:#1A1A2E}
+.header h1{color:#2ecc71;font-size:28px;margin-bottom:8px}
+.panel{background:#1A1A2E;border:1px solid #2A2A4A;border-radius:8px;padding:20px;margin-bottom:16px}
+.panel h2{color:#2ecc71;font-size:18px;margin-bottom:16px}
+.input-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}
+.input-group{display:flex;flex-direction:column}
+.input-group label{color:#888;font-size:12px;margin-bottom:4px}
+.input-group input{background:#0a0a14;border:1px solid #2A2A4A;color:#fff;padding:10px;border-radius:6px;outline:none}
+.result-box{background:linear-gradient(145deg,rgba(46,204,113,0.1),rgba(46,204,113,0.05));border:2px solid #2ecc71;border-radius:12px;padding:20px;text-align:center;margin-top:20px}
+.result-number{font-size:48px;font-weight:bold;color:#2ecc71;margin-bottom:8px}
+.result-label{color:#888;font-size:14px}
+.btn{background:#2ecc71;color:#000;border:none;padding:12px 24px;border-radius:6px;cursor:pointer;font-weight:bold;width:100%;margin-top:16px}
+.streams{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:20px}
+.stream{background:#0a0a14;border:1px solid #2A2A4A;border-radius:8px;padding:12px;text-align:center}
+.stream-name{color:#2ecc71;font-size:12px;margin-bottom:4px}
+.stream-amount{font-size:20px;font-weight:bold;color:#fff}
+.back-link{display:inline-block;margin-bottom:15px;color:#2ecc71;text-decoration:none;font-size:14px}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="dashboard.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} class="back-link">← Back to Dashboard</a>
+<div class="header">
+  <div style="font-size:48px">💰</div>
+  <h1>Revenue Calculator</h1>
+  <div style="color:#2ecc71">Calculate your revenue potential across all streams</div>
+</div>
+
+<div class="panel">
+  <h2>📊 Revenue Streams</h2>
+  <div class="input-grid">
+    <div class="input-group">
+      <label>PLT Bundle Sales/Mo</label>
+      <input type="number" id="bundle" value="20" onchange="calculate()">
+    </div>
+    <div class="input-group">
+      <label>Master Bundle Sales/Mo</label>
+      <input type="number" id="master" value="8" onchange="calculate()">
+    </div>
+    <div class="input-group">
+      <label>Individual Books Sales/Mo</label>
+      <input type="number" id="books" value="15" onchange="calculate()">
+    </div>
+    <div class="input-group">
+      <label>AI Setup Clients/Mo</label>
+      <input type="number" id="ai" value="5" onchange="calculate()">
+    </div>
+    <div class="input-group">
+      <label>Consulting Calls/Mo</label>
+      <input type="number" id="consulting" value="10" onchange="calculate()">
+    </div>
+    <div class="input-group">
+      <label>Affiliate Commission/Mo</label>
+      <input type="number" id="affiliate" value="25" onchange="calculate()">
+    </div>
+  </div>
+  
+  <div class="result-box">
+    <div class="result-number" id="total">$0</div>
+    <div class="result-label">Monthly Revenue Potential</div>
+    <div style="margin-top:12px;color:#888;font-size:12px" id="annual">Annual: $0</div>
+  </div>
+  
+  <div class="streams" id="streams"></div>
+</div>
+
+<div class="panel">
+  <h2>🎯 Growth Targets</h2>
+  <div class="input-grid">
+    <div class="input-group">
+      <label>Target Monthly Revenue</label>
+      <input type="number" id="target" value="10000" onchange="calculateGap()">
+    </div>
+    <div class="input-group">
+      <label>Current Monthly Revenue</label>
+      <input type="number" id="current" value="0" readonly>
+    </div>
+  </div>
+  <div class="result-box" style="border-color:#FFB347;background:linear-gradient(145deg,rgba(255,179,71,0.1),rgba(255,179,71,0.05))">
+    <div class="result-number" id="gap" style="color:#FFB347">$0</div>
+    <div class="result-label" style="color:#FFB347">Gap to $10K/Month</div>
+  </div>
+</div>
+</div>
+
+<script>
+const prices = {
+  bundle: 49,
+  master: 99,
+  books: 17,
+  ai: 150,
+  consulting: 97,
+  affiliate: 20
+};
+
+function calculate() {
+  const bundle = parseFloat(document.getElementById('bundle').value) || 0;
+  const master = parseFloat(document.getElementById('master').value) || 0;
+  const books = parseFloat(document.getElementById('books').value) || 0;
+  const ai = parseFloat(document.getElementById('ai').value) || 0;
+  const consulting = parseFloat(document.getElementById('consulting').value) || 0;
+  const affiliate = parseFloat(document.getElementById('affiliate').value) || 0;
+  
+  const total = (bundle * prices.bundle) + (master * prices.master) + (books * prices.books) + 
+                (ai * prices.ai) + (consulting * prices.consulting) + (affiliate * prices.affiliate);
+  
+  document.getElementById('total').textContent = '$' + total.toLocaleString();
+  document.getElementById('annual').textContent = 'Annual: $' + (total * 12).toLocaleString();
+  document.getElementById('current').value = total;
+  
+  // Show streams
+  const streamsHtml = `
+    <div class="stream"><div class="stream-name">PLT Bundle</div><div class="stream-amount">$${(bundle * prices.bundle).toLocaleString()}</div></div>
+    <div class="stream"><div class="stream-name">Master Bundle</div><div class="stream-amount">$${(master * prices.master).toLocaleString()}</div></div>
+    <div class="stream"><div class="stream-name">Books</div><div class="stream-amount">$${(books * prices.books).toLocaleString()}</div></div>
+    <div class="stream"><div class="stream-name">AI Setup</div><div class="stream-amount">$${(ai * prices.ai).toLocaleString()}</div></div>
+    <div class="stream"><div class="stream-name">Consulting</div><div class="stream-amount">$${(consulting * prices.consulting).toLocaleString()}</div></div>
+    <div class="stream"><div class="stream-name">Affiliate</div><div class="stream-amount">$${(affiliate * prices.affiliate).toLocaleString()}</div></div>
+  `;
+  document.getElementById('streams').innerHTML = streamsHtml;
+  
+  calculateGap();
+}
+
+function calculateGap() {
+  const target = parseFloat(document.getElementById('target').value) || 10000;
+  const current = parseFloat(document.getElementById('current').value) || 0;
+  const gap = target - current;
+  document.getElementById('gap').textContent = '$' + gap.toLocaleString();
+}
+
+// Initialize
+calculate();
+</script>
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-revenue-calculator.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-revenue-calculator.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for revenue-calculator.html");</script></body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🧪 Button Test | PLT Press</title>
+<style>
+body{background:#0D1117;color:#ddd;font-family:Georgia,serif;max-width:640px;margin:0 auto;padding:20px}
+.panel{background:#1A1A2E;border:1px solid #2A2A4A;border-radius:8px;padding:16px;margin-bottom:16px}
+h1{color:#FFB347;text-align:center}
+h2{color:#00D4FF;font-size:16px;margin-bottom:12px}
+button{background:#1A1A2E;color:#FFB347;border:1px solid #FFB347;padding:10px 20px;border-radius:6px;cursor:pointer;margin:5px;font-family:Georgia,serif}
+button:hover{background:#FFB347;color:#000}
+.result{margin-top:10px;padding:10px;background:rgba(0,212,255,0.1);border-radius:6px;min-height:20px}
+.ok{color:#2ecc71}
+.err{color:#e74c3c}
+.loading{color:#FFB347}
+input,textarea{width:100%;background:#0a0a14;border:1px solid #2A2A4A;color:#fff;padding:10px;border-radius:6px;margin:5px 0}
+</style>
+</head>
+<body>
+<h1>🧪 Dashboard Button Test</h1>
+
+<div class="panel">
+  <h2>1. Backend API Test</h2>
+  <button onclick="testBackend()">Test /api/status</button>
+  <button onclick="testData()">Test /log.json</button>
+  <div id="backend-result" class="result">Click a button to test</div>
+</div>
+
+<div class="panel">
+  <h2>2. Chat Command Test</h2>
+  <input type="text" id="test-input" placeholder="Enter test message...">
+  <button onclick="testChat()">Send Chat</button>
+  <div id="chat-result" class="result">Waiting for input...</div>
+</div>
+
+<div class="panel">
+  <h2>3. Build Request Test</h2>
+  <input type="text" id="build-title" placeholder="Book title...">
+  <button onclick="testBuild()">Test Build API</button>
+  <div id="build-result" class="result">Waiting for build request...</div>
+</div>
+
+<div class="panel">
+  <h2>4. Navigation Links Test</h2>
+  <div>
+    <a href="dashboard.html" style="color:#00D4FF;display:block;margin:8px 0">→ Dashboard</a>
+    <a href="book-store.html" style="color:#00D4FF;display:block;margin:8px 0">→ Book Store</a>
+    <a href="bundle.html" style="color:#00D4FF;display:block;margin:8px 0">→ $49 Bundle</a>
+    <a href="bot-commander.html" style="color:#00D4FF;display:block;margin:8px 0">→ Bot Commander</a>
+  </div>
+  <div id="link-result" class="result">Links should work locally AND on GitHub Pages</div>
+</div>
+
+<div class="panel">
+  <h2>5. System Status</h2>
+  <div id="status-result" class="result">Checking...</div>
+</div>
+
+<script>
+async function testBackend(){
+  var res=document.getElementById('backend-result');
+  res.innerHTML='<span class="loading">⏳ Checking backend...</span>';
+  try{
+    var r=await fetch('http://localhost:5004/api/status');
+    var d=await r.json();
+    res.innerHTML='<span class="ok">✓ Backend: '+d.status+' (timestamp: '+d.timestamp+')</span>';
+  }catch(e){
+    res.innerHTML='<span class="err">✗ Error: '+e.message+'</span>';
+  }
+}
+
+async function testData(){
+  var res=document.getElementById('backend-result');
+  res.innerHTML='<span class="loading">⏳ Fetching data...</span>';
+  try{
+    var r=await fetch('http://localhost:5004/log.json');
+    var d=await r.json();
+    res.innerHTML='<span class="ok">✓ Data loaded<br>Views: '+d.counters.page_views+'<br>Revenue: $'+(d.counters.revenue_cents/100).toFixed(2)+'</span>';
+  }catch(e){
+    res.innerHTML='<span class="err">✗ Error: '+e.message+'</span>';
+  }
+}
+
+async function testChat(){
+  var res=document.getElementById('chat-result');
+  var input=document.getElementById('test-input');
+  var txt=input.value.trim();
+  if(!txt){res.innerHTML='<span class="err">✗ Enter a message first</span>';return;}
+  
+  res.innerHTML='<span class="loading">⏳ Sending...</span>';
+  try{
+    var r=await fetch('http://localhost:5004/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message:txt})
+    });
+    var d=await r.json();
+    res.innerHTML='<span class="ok">✓ Response:<br>'+d.response.replace(/\n/g,'<br>')+'</span>';
+  }catch(e){
+    res.innerHTML='<span class="err">✗ Error: '+e.message+'</span>';
+  }
+}
+
+async function testBuild(){
+  var res=document.getElementById('build-result');
+  var title=document.getElementById('build-title').value.trim();
+  if(!title){res.innerHTML='<span class="err">✗ Enter a title first</span>';return;}
+  
+  res.innerHTML='<span class="loading">⏳ Building...</span>';
+  try{
+    var r=await fetch('http://localhost:5004/api/build',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({type:'book',data:{title:title}})
+    });
+    var d=await r.json();
+    res.innerHTML='<span class="ok">✓ '+d.result+'</span>';
+  }catch(e){
+    res.innerHTML='<span class="err">✗ Error: '+e.message+'</span>';
+  }
+}
+
+// Auto-check status
+async function checkStatus(){
+  var res=document.getElementById('status-result');
+  try{
+    var r=await fetch('http://localhost:5004/api/status');
+    var d=await r.json();
+    res.innerHTML='<span class="ok">✓ Backend: '+d.status+'<br>✓ Timestamp: '+d.timestamp+'</span>';
+  }catch(e){
+    res.innerHTML='<span class="err">✗ Backend offline: '+e.message+'</span>';
+  }
+}
+checkStatus();
+</script>
+
+<!-- Smart Link Handler -->
+<script>
+(function(){
+  var links=document.querySelectorAll('a[href]');
+  links.forEach(function(link){
+    var href=link.getAttribute('href');
+    if(href && href.match(/\.html$/i) && !href.startsWith('http') && !href.startsWith('#')){
+      link.onclick=function(e){
+        if(!window.location.href.includes('plt-press') && !window.location.hostname.includes('localhost')){
+          e.preventDefault();
+          window.location='https://uncommonpope-png.github.io/plt-press/'+href;
+          return false;
+        }
+      };
+    }
+  });
+})();
+</script>
+</body>
+</html>

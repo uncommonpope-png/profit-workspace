@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soul Activity Feed — PLT Press</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D1117;color:#E6E6E6;font-family:Georgia,serif;min-height:100vh;padding:16px}
+a{color:#FFB347;text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:640px;margin:0 auto}
+.back{display:inline-block;margin-bottom:20px;font-size:14px;opacity:0.8}
+h1{text-align:center;font-size:28px;margin-bottom:8px;background:linear-gradient(135deg,#00D4FF,#FFB347);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{text-align:center;color:#888;font-size:13px;margin-bottom:24px}
+.panel{background:#1A1A2E;border:1px solid #2A2A4A;border-radius:12px;padding:20px;margin-bottom:16px}
+.panel h2{font-size:18px;margin-bottom:12px;color:#00D4FF}
+
+/* Ticker banner */
+.ticker-banner{background:linear-gradient(90deg,#1A1A2E,#0D1117,#1A1A2E);border:1px solid #2A2A4A;border-radius:12px;overflow:hidden;margin-bottom:16px;padding:0;height:48px;position:relative}
+.ticker-track{display:flex;align-items:center;height:100%;white-space:nowrap;animation:scroll 30s linear infinite;position:absolute}
+.ticker-track:hover{animation-play-state:paused}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{display:inline-flex;align-items:center;gap:6px;padding:0 24px;font-size:13px;height:100%}
+.ticker-emoji{font-size:18px}
+.ticker-soul{color:#FFB347;font-weight:bold}
+.ticker-action{color:#E6E6E6}
+.ticker-dot{color:#2A2A4A;font-size:8px}
+.ticker-status{font-size:10px;padding:2px 6px;border-radius:8px}
+.ts-active{background:rgba(46,204,113,0.2);color:#2ecc71}
+.ts-complete{background:rgba(0,212,255,0.2);color:#00D4FF}
+
+/* Stats row */
+.stats-row{display:flex;justify-content:space-around;text-align:center;padding:10px 0}
+.stat-item .stat-num{font-size:28px;font-weight:bold;color:#FFB347}
+.stat-item .stat-label{font-size:11px;color:#888;margin-top:2px}
+
+/* Filter */
+.filter-row{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.filter-btn{padding:5px 12px;border-radius:16px;border:1px solid #2A2A4A;background:transparent;color:#888;font-family:Georgia,serif;font-size:11px;cursor:pointer;transition:all 0.2s}
+.filter-btn.active,.filter-btn:hover{border-color:#00D4FF;color:#00D4FF;background:rgba(0,212,255,0.1)}
+
+/* Timeline */
+.timeline{position:relative;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,#00D4FF,#FFB347,#FF2D78,#2ecc71)}
+.tl-item{position:relative;padding:12px 0;border-bottom:1px solid rgba(42,42,74,0.5);animation:fadeIn 0.3s ease both}
+.tl-item:last-child{border:none}
+.tl-item::before{content:'';position:absolute;left:-22px;top:16px;width:10px;height:10px;border-radius:50%;border:2px solid #0D1117}
+.tl-item.active::before{background:#2ecc71}
+.tl-item.complete::before{background:#00D4FF}
+.tl-item.pending::before{background:#FFB347}
+.tl-header{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.tl-emoji{font-size:18px}
+.tl-soul{font-size:13px;font-weight:bold;color:#FFB347}
+.tl-status{font-size:10px;padding:1px 6px;border-radius:8px}
+.tl-action{font-size:13px;color:#aaa;line-height:1.4}
+.tl-time{font-size:11px;color:#666;margin-top:2px}
+
+/* Full activity log */
+.activity-log{max-height:300px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#2A2A4A #1A1A2E}
+.log-item{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #2A2A4A;font-size:12px}
+.log-item:last-child{border:none}
+.log-time{color:#00D4FF;white-space:nowrap;flex-shrink:0;font-weight:bold}
+.log-msg{color:#aaa;line-height:1.4}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="dashboard.html" onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} onclick="if(!window.location.href.includes('plt-press')){window.location='https://uncommonpope-png.github.io/plt-press/dashboard.html';return false;} class="back">← Back to Dashboard</a>
+<h1>📡 Soul Activity Feed</h1>
+<p class="subtitle">Real-Time Agent Operations — ESPN Style</p>
+
+<div class="ticker-banner">
+<div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<div class="panel">
+<div class="stats-row">
+<div class="stat-item"><div class="stat-num" id="statTotal">0</div><div class="stat-label">Total Actions</div></div>
+<div class="stat-item"><div class="stat-num" id="statActive">0</div><div class="stat-label">Active Now</div></div>
+<div class="stat-item"><div class="stat-num" id="statComplete">0</div><div class="stat-label">Completed</div></div>
+</div>
+</div>
+
+<div class="panel">
+<h2>🔮 Soul Actions Timeline</h2>
+<div class="filter-row" id="filterRow">
+<button class="filter-btn active" onclick="filterTL('all')">All Souls</button>
+</div>
+<div class="timeline" id="timeline"></div>
+</div>
+
+<div class="panel">
+<h2>📋 Full Activity Log</h2>
+<div class="activity-log" id="actLog"></div>
+</div>
+</div>
+
+<script>
+const LOG_URL='https://raw.githubusercontent.com/uncommonpope-png/plt-press/main/log.json';
+const FALLBACK={
+  ticker:[{soul:'Profit',emoji:'💰',action:'Building revenue engine',status:'active'},{soul:'SEO Engine',emoji:'🔍',action:'Indexing pages',status:'active'}],
+  activity:[{time:'—',msg:'System online'}]
+};
+
+let allTicker=[];
+
+async function load(){
+  let data;
+  try{const r=await fetch(LOG_URL);data=await r.json()}catch(e){data=FALLBACK}
+  const ticker=data.ticker||FALLBACK.ticker;
+  const activity=data.activity||FALLBACK.activity;
+  allTicker=ticker;
+
+  // Scrolling ticker
+  const track=document.getElementById('tickerTrack');
+  let html='';
+  const items=[...ticker,...ticker]; // duplicate for seamless scroll
+  items.forEach(t=>{
+    const cls=t.status==='active'?'ts-active':'ts-complete';
+    html+=`<span class="ticker-item"><span class="ticker-emoji">${t.emoji||'⚡'}</span><span class="ticker-soul">${t.soul}</span><span class="ticker-action">${t.action}</span><span class="ticker-status ${cls}">${(t.status||'').toUpperCase()}</span><span class="ticker-dot">●</span></span>`;
+  });
+  track.innerHTML=html;
+
+  // Stats
+  const activeCount=ticker.filter(t=>t.status==='active').length;
+  const completeCount=ticker.filter(t=>t.status==='complete').length;
+  animNum('statTotal',ticker.length);
+  animNum('statActive',activeCount);
+  animNum('statComplete',completeCount);
+
+  // Filter buttons
+  const souls=[...new Set(ticker.map(t=>t.soul))];
+  const filterRow=document.getElementById('filterRow');
+  souls.forEach(s=>{
+    filterRow.innerHTML+=`<button class="filter-btn" onclick="filterTL('${s.replace(/'/g,"\\'")}')">${s}</button>`;
+  });
+
+  // Timeline
+  renderTimeline(ticker);
+
+  // Activity log
+  const logEl=document.getElementById('actLog');
+  activity.forEach(a=>{
+    logEl.innerHTML+=`<div class="log-item"><span class="log-time">${a.time||'—'}</span><span class="log-msg">${a.msg||''}</span></div>`;
+  });
+}
+
+function renderTimeline(items){
+  const tl=document.getElementById('timeline');
+  tl.innerHTML='';
+  items.forEach((t,i)=>{
+    const cls=t.status||'active';
+    const statusCls=cls==='active'?'ts-active':'ts-complete';
+    tl.innerHTML+=`
+    <div class="tl-item ${cls}" style="animation-delay:${i*0.05}s">
+      <div class="tl-header">
+        <span class="tl-emoji">${t.emoji||'⚡'}</span>
+        <span class="tl-soul">${t.soul}</span>
+        <span class="tl-status ${statusCls}">${(t.status||'').toUpperCase()}</span>
+      </div>
+      <div class="tl-action">${t.action}</div>
+    </div>`;
+  });
+}
+
+function filterTL(soul){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  if(soul==='all')renderTimeline(allTicker);
+  else renderTimeline(allTicker.filter(t=>t.soul===soul));
+}
+
+function animNum(id,target){
+  const el=document.getElementById(id);
+  const dur=1000;const start=performance.now();
+  function tick(now){
+    const p=Math.min((now-start)/dur,1);
+    el.textContent=Math.floor(target*p);
+    if(p<1)requestAnimationFrame(tick);
+    else el.textContent=target;
+  }
+  requestAnimationFrame(tick);
+}
+
+load();
+</script>
+<!-- Qwen AI Chat -->
+<div style="margin-top:20px">
+<div class="panel" style="background:#1A1A2E;border:2px solid #00D4FF;border-radius:8px;padding:16px">
+  <h2 style="color:#00D4FF;margin-bottom:12px">🤖 Qwen AI - Talk to Page</h2>
+  <div id="qwen-chat-ticker.html" style="max-height:150px;overflow-y:auto;margin-bottom:12px;font-size:13px"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="qwen-input-ticker.html" placeholder="Ask Qwen..." style="flex:1;background:#0a0a14;border:1px solid #00D4FF;color:#fff;padding:10px;border-radius:6px;outline:none" onkeydown="if(event.key=='Enter')qwenSend('$file')">
+    <button onclick="qwenSend('$file')" style="background:#00D4FF;color:#000;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:bold">Send</button>
+  </div>
+</div>
+</div>
+<script>
+function qwenSend(page) {
+  const input=document.getElementById('qwen-input-'+page);
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  const chat=document.getElementById('qwen-chat-'+page);
+  chat.innerHTML+='<div style="margin-bottom:6px;color:#00D4FF">You: '+text+'</div>';
+  fetch('http://localhost:5004/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
+  }).then(r=>r.json()).then(d=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#2ecc71">🤖 Qwen: '+d.response+'</div>';
+    chat.scrollTop=chat.scrollHeight;
+  }).catch(e=>{
+    chat.innerHTML+='<div style="margin-bottom:6px;color:#ff6b6b">❌ Offline</div>';
+  });
+}
+setTimeout(() => qwenSend('$file'), 1000);
+</script>
+<script>console.log("✅ Links fixed for ticker.html");</script></body>
+</html>
