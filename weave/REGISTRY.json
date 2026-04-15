@@ -1,0 +1,1 @@
+{\n  "weaver_bridge": "http://localhost:5004",\n  "sanctum_server": "ws://127.0.0.1:9001",\n  "dashboard": "web-ecosystem/plt-press/dashboard.html",\n  "kernel": {\n    "repo": "uncommonpope-png/plt-press",\n    "path": "grand-soul-kernel-original"\n  }\n}
