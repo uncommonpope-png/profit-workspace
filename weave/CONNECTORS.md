@@ -11,11 +11,17 @@ This repo is the Weaver hub.
 - `weave/state/log.json` (written by kernel)
 - `weave/queues/commands.jsonl` (written by bridge)
 
-## Start order commands (examples):
+## Start order commands (manual)
 - python3 weave/bridge/server.py
 - cd weave/sanctum-server && cargo run --release
 - In external repo uncommonpope-png/plt-press: cd grand-soul-kernel-original && cargo run --release
 - Open web-ecosystem/plt-press/dashboard.html
 
-## Note:
-dashboard.html already targets localhost:5004
+## One command (Termux)
+- bash weave/run_all.sh
+
+## Stop all (Termux)
+- bash weave/stop_all.sh
+
+## Note
+Dashboard targets localhost:5004
